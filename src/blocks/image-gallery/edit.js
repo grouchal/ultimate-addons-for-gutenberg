@@ -66,6 +66,22 @@ class UAGBImageGallery extends Component {
 			isFocused: "false",
 		}
 		this.onSelectImages = this.onSelectImages.bind( this );
+		this.setAttributes = this.setAttributes.bind( this );
+	}
+
+	setAttributes( attributes ) {
+		if ( attributes.ids ) {
+			throw new Error( 'The "ids" attribute should not be changed directly. It is managed automatically when "images" attribute changes' );
+		}
+
+		if ( attributes.images ) {
+			attributes = {
+				...attributes,
+				ids: map( attributes.images, 'id' ),
+			};
+		}
+
+		this.props.setAttributes( attributes );
 	}
 
 	componentDidMount() {
@@ -79,34 +95,13 @@ class UAGBImageGallery extends Component {
 		document.head.appendChild( $style )
 	}
 
-	saveButton( value, index ) {
-		const { attributes, setAttributes } = this.props
-		const { buttons } = attributes
-
-		const newItems = buttons.map( ( item, thisIndex ) => {
-			if ( index === thisIndex ) {
-				item = { ...item, ...value }
-			}
-
-			return item
-		} )
-		setAttributes( {
-			buttons: newItems,
-		} )
-	}
-
 	onSelectImages( images ) {
-		const { attributes, setAttributes } = this.props
+		this.setAttributes( {
+			images: images.map( ( image ) => pickRelevantMediaFiles( image ) ),
+		} );
 
-		console.log(images)
-
-		const newImages = images.map( ( image ) => {
-			image = pickRelevantMediaFiles( image )
-			console.log(image)
-			return image
-		} )
-		setAttributes( {
-			images: newImages,
+		this.props.setAttributes( {
+			images: images.map( ( image ) => pickRelevantMediaFiles( image ) ),
 		} );
 	}
 

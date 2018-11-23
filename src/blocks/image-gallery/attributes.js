@@ -7,36 +7,6 @@ const attributes = {
 	images: {
 		type: 'array',
 		default: [],
-		source: 'query',
-		selector: '.wp-block-uagb-image-gallery div',
-		query: {
-			url: {
-				source: 'attribute',
-				selector: 'img',
-				attribute: 'src',
-			},
-			link: {
-				source: 'attribute',
-				selector: 'img',
-				attribute: 'data-link',
-			},
-			alt: {
-				source: 'attribute',
-				selector: 'img',
-				attribute: 'alt',
-				default: '',
-			},
-			id: {
-				source: 'attribute',
-				selector: 'img',
-				attribute: 'data-id',
-			},
-			caption: {
-				type: 'string',
-				source: 'html',
-				selector: 'figcaption',
-			},
-		},
 	},
 	ids: {
 		type: 'array',
