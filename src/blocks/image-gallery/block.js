@@ -50,11 +50,7 @@ registerBlockType( "uagb/image-gallery", {
 		const { attributes, className } = props
 
 		const {
-			block_id,
-			align,
-			items,
-			buttons,
-			btn_count,
+			block_id
 		} = props.attributes
 
 		return (

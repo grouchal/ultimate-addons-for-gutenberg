@@ -3,7 +3,10 @@
  */
 
 // Import classes
-import { filter, pick, map, get } from 'lodash';
+import filter from "lodash/filter"
+import pick from "lodash/pick"
+import map from "lodash/map"
+import get from "lodash/get"
 
 import classnames from "classnames"
 import times from "lodash/times"
@@ -17,20 +20,41 @@ const {
 } = wp.element
 
 const {
-	AlignmentToolbar,
 	BlockControls,
-	BlockAlignmentToolbar,
+	MediaUpload,
+	MediaPlaceholder,
 	InspectorControls,
-	RichText,
-	PanelColorSettings,
-	URLInput
+	mediaUpload,
 } = wp.editor
 
 const {
+	IconButton,
+	DropZone,
+	FormFileUpload,
 	PanelBody,
+	RangeControl,
 	SelectControl,
-	RangeControl
+	ToggleControl,
+	Toolbar,
+	withNotices,
 } = wp.components
+
+const MAX_COLUMNS = 8;
+const linkOptions = [
+	{ value: 'attachment', label: __( 'Attachment Page' ) },
+	{ value: 'media', label: __( 'Media File' ) },
+	{ value: 'none', label: __( 'None' ) },
+];
+
+export function defaultColumnsNumber( attributes ) {
+	return Math.min( 3, attributes.images.length );
+}
+
+export const pickRelevantMediaFiles = ( image ) => {
+	const imageProps = pick( image, [ 'alt', 'id', 'link', 'caption' ] );
+	imageProps.url = get( image, [ 'sizes', 'large', 'url' ] ) || get( image, [ 'media_details', 'sizes', 'large', 'source_url' ] ) || image.url;
+	return imageProps;
+};
 
 
 class UAGBImageGallery extends Component {
@@ -41,6 +65,7 @@ class UAGBImageGallery extends Component {
 			isHovered: "false",
 			isFocused: "false",
 		}
+		this.onSelectImages = this.onSelectImages.bind( this );
 	}
 
 	componentDidMount() {
@@ -50,16 +75,8 @@ class UAGBImageGallery extends Component {
 
 		// Pushing Style tag for this block css.
 		const $style = document.createElement( "style" )
-		$style.setAttribute( "id", "uagb-style-img-gallery-" + this.props.clientId )
+		$style.setAttribute( "id", "uagb-style-gallery-" + this.props.clientId )
 		document.head.appendChild( $style )
-	}
-
-	componentDidUpdate( prevProps ) {
-		if ( ! this.props.isSelected && prevProps.isSelected && this.state.isFocused ) {
-			this.setState( {
-				isFocused: "false",
-			} )
-		}
 	}
 
 	saveButton( value, index ) {
@@ -78,300 +95,109 @@ class UAGBImageGallery extends Component {
 		} )
 	}
 
+	onSelectImages( images ) {
+		const { attributes, setAttributes } = this.props
+
+		console.log(images)
+
+		const newImages = images.map( ( image ) => {
+			image = pickRelevantMediaFiles( image )
+			console.log(image)
+			return image
+		} )
+		setAttributes( {
+			images: newImages,
+		} );
+	}
+
 	render() {
 
-		const { attributes, setAttributes, isSelected } = this.props
+		const { attributes, setAttributes, isSelected, className, noticeOperations, noticeUI } = this.props
 
 		const {
+			images,
 			align,
-			className,
-			btn_count,
-			buttons,
-			gap,
-			stack
+			linkTo
 		} = attributes
 
-		const onMouseOut = () => {
-			if ( "false" !== this.state.isHovered ) {
-				this.setState( {
-					isHovered: "false",
-				} )
-			}
-		}
+		console.log(attributes)
 
-		const updateFocusState = ( index ) => {
-			this.setState( {
-				isFocused: index,
-			} )
-		}
-
-		const updateHoverState = ( index ) => {
-			this.setState( {
-				isHovered: index,
-			} )
-		}
-
-		const buttonControls = ( index ) => {
-			return (
-				<PanelBody key={index}
-					title={ __( "Button" ) + " " + ( index + 1 ) + " " + __( "Settings" ) }
-					initialOpen={ false }
-				>
-					<p className="components-base-control__label">{ __( "Link" ) }</p>
-					<URLInput
-						value={ buttons[ index ].link }
-						onChange={ value => {
-							this.saveButton( { link: value }, index )
-						} }
-					/>
-					<SelectControl
-						label={ __( "Link Target" ) }
-						value={ buttons[ index ].target }
-						options={ [
-							{ value: "_self", label: __( "Same Window" ) },
-							{ value: "_blank", label: __( "New Window" ) },
-						] }
-						onChange={ value => {
-							this.saveButton( { target: value }, index )
-						} }
-					/>
-					<RangeControl
-						beforeIcon="editor-textcolor"
-						afterIcon="editor-textcolor"
-						label={ __( "Button Text Size" ) }
-						value={ buttons[ index ].size }
-						onChange={ value => {
-							this.saveButton( { size: value }, index )
-						} }
-						min={ 10 }
-						max={ 100 }
-						initialPosition={16}
-					/>
-					<RangeControl
-						label={ __( "Top and Bottom Padding" ) }
-						value={ buttons[ index ].vPadding }
-						onChange={ value => {
-							this.saveButton( { vPadding: value }, index )
-						} }
-						min={ 0 }
-						max={ 100 }
-					/>
-					<RangeControl
-						label={ __( "Left and Right Padding" ) }
-						value={ buttons[ index ].hPadding }
-						onChange={ value => {
-							this.saveButton( { hPadding: value }, index )
-						} }
-						min={ 0 }
-						max={ 100 }
-					/>
-					<RangeControl
-						label={ __( "Border Thickness" ) }
-						value={ buttons[ index ].borderWidth }
-						onChange={ value => {
-							this.saveButton( { borderWidth: value }, index )
-						} }
-						min={ 0 }
-						max={ 20 }
-					/>
-					<SelectControl
-						label={ __( "Border Style" ) }
-						value={ buttons[ index ].borderStyle }
-						options={ [
-							{ value: "solid", label: __( "Solid" ) },
-							{ value: "dotted", label: __( "Dotted" ) },
-							{ value: "dashed", label: __( "Dashed" ) },
-							{ value: "double", label: __( "Double" ) },
-						] }
-						onChange={ value => {
-							this.saveButton( { borderStyle: value }, index )
-						} }
-					/>
-					<RangeControl
-						label={ __( "Border Radius" ) }
-						value={ buttons[ index ].borderRadius }
-						onChange={ value => {
-							this.saveButton( { borderRadius: value }, index )
-						} }
-						min={ 0 }
-						max={ 50 }
-					/>
-					<PanelColorSettings
-						title={ __( "Color Settings" ) }
-						colorSettings={ [
-							{
-								value: buttons[ index ].color,
-								onChange:( value ) => this.saveButton( { color: value }, index ),
-								label: __( "Color" ),
-							},
-							{
-								value: buttons[ index ].background,
-								onChange:( value ) => this.saveButton( { background: value }, index ),
-								label: __( "Background Color" ),
-							},
-							{
-								value: buttons[ index ].borderColor,
-								onChange: ( value ) => this.saveButton( { borderColor: value }, index ),
-								label: __( "Border Color" ),
-							},
-							{
-								value: buttons[ index ].hColor,
-								onChange:( value ) => this.saveButton( { hColor: value }, index ),
-								label: __( "Hover Color" ),
-							},
-							{
-								value: buttons[ index ].hBackground,
-								onChange:( value ) => this.saveButton( { hBackground: value }, index ),
-								label: __( "Background Hover Color" ),
-							},
-							{
-								value: buttons[ index ].borderHColor,
-								onChange: ( value ) => this.saveButton( { borderHColor: value }, index ),
-								label: __( "Border Hover Color" ),
-							},
-						] }
-					>
-					</PanelColorSettings>
-				</PanelBody>
-			)
-		}
-
-		var element = document.getElementById( "uagb-style-buttons-" + this.props.clientId )
+		var element = document.getElementById( "uagb-style-gallery-" + this.props.clientId )
 
 		if( null != element && "undefined" != typeof element ) {
-			element.innerHTML = styling( this.props )
+			//element.innerHTML = styling( this.props )
+		}
+
+		const editControl = (
+			<BlockControls>
+				{ !! images.length && (
+					<Toolbar>
+						<MediaUpload
+							onSelect={ this.onSelectImages }
+							allowedTypes={ [ "image" ] }
+							multiple
+							gallery
+							value={ images.map( ( img ) => img.id ) }
+							render={ ( { open } ) => (
+								<IconButton
+									className="components-toolbar__control"
+									label={ __( "Edit Gallery" ) }
+									icon="edit"
+									onClick={ open }
+								/>
+							) }
+						/>
+					</Toolbar>
+				) }
+			</BlockControls>
+		)
+
+		if ( images.length === 0 ) {
+			return (
+				<Fragment>
+					{ editControl }
+					<MediaPlaceholder
+						icon="format-gallery"
+						className={ className }
+						labels={ {
+							title: __( 'Gallery' ),
+							instructions: __( 'Drag images, upload new ones or select files from your library.' ),
+						} }
+						onSelect={ this.onSelectImages }
+						accept="image/*"
+						allowedTypes={ [ "image" ] }
+						multiple
+						notices={ noticeUI }
+						onError={ noticeOperations.createErrorNotice }
+					/>
+				</Fragment>
+			);
 		}
 
 		return (
 			<Fragment>
-				<BlockControls>
-					<BlockAlignmentToolbar
-						value={ align }
-						onChange={ ( value ) => {
-							setAttributes( { align: value } )
-						} }
-						controls={ [ "left", "center", "right", "full" ] }
-					/>
-				</BlockControls>
+				{ editControl }
 				<InspectorControls>
-					<PanelBody
-						title={ __( "Button Count" ) }
-						initialOpen={ true }
-					>
-						<RangeControl
-							label={ __( "Number of Buttons" ) }
-							value={ btn_count }
-							onChange={ newCount => {
-
-								let cloneButtons = [ ...buttons ]
-
-								if ( cloneButtons.length < newCount ) {
-
-									const incAmount = Math.abs( newCount - cloneButtons.length )
-
-									{ times( incAmount, n => {
-
-										cloneButtons.push( {
-											label: "Click Here " + "#" + ( cloneButtons.length + 1 ),
-											link: cloneButtons[ 0 ].link,
-											target: cloneButtons[ 0 ].target,
-											size: cloneButtons[ 0 ].size,
-											vPadding: cloneButtons[ 0 ].vPadding,
-											hPadding: cloneButtons[ 0 ].hPadding,
-											borderRadius: cloneButtons[ 0 ].borderRadius,
-											borderWidth: cloneButtons[ 0 ].borderWidth,
-											borderColor: cloneButtons[ 0 ].borderColor,
-											borderHColor: cloneButtons[ 0 ].borderHColor,
-											borderStyle: cloneButtons[ 0 ].borderStyle,
-											color: cloneButtons[ 0 ].color,
-											background: cloneButtons[ 0 ].background,
-											hColor: cloneButtons[ 0 ].hColor,
-											hBackground: cloneButtons[ 0 ].hBackground										} )
-									} ) }
-
-									setAttributes( { buttons: cloneButtons } )
-								}
-								setAttributes( { btn_count: newCount } )
-							} }
-							min={ 1 }
-							max={ 5 }
-						/>
-					</PanelBody>
-					{ times( btn_count, n => buttonControls( n ) ) }
-					<PanelBody
-						title={ __( "Spacing" ) }
-						initialOpen={ false }
-					>
-						<RangeControl
-							label={ __( "Gap between Buttons" ) }
-							value={ gap }
-							onChange={ ( value ) => setAttributes( { gap: value } ) }
-							min={ 0 }
-							max={ 50 }
-						/>
+					<PanelBody title={ __( 'Gallery Settings' ) }>
 						<SelectControl
-							label={ __( "Stack on" ) }
-							value={ stack }
-							options={ [
-								{ value: "none", label: __( "None" ) },
-								{ value: "desktop", label: __( "Desktop" ) },
-								{ value: "tablet", label: __( "Tablet" ) },
-								{ value: "mobile", label: __( "Mobile" ) },
-							] }
-							onChange={ ( value ) => setAttributes( { stack: value } ) }
+							label={ __( 'Link To' ) }
+							value={ linkTo }
+							onChange={ ( value ) => setAttributes( { linkTo: value } ) }
+							options={ linkOptions }
 						/>
-						<p className="uagb-note">{ __( "Note: Choose on what breakpoint the buttons will stack." ) }</p>
 					</PanelBody>
 				</InspectorControls>
+				{ noticeUI }
 				<div className={ classnames(
 					className,
-					"uagb-buttons__outer-wrap"
+					"uagb-gallery__outer-wrap"
 				) }
-				id={ `uagb-buttons-${ this.props.clientId }` }
+				id={ `uagb-gallery-${ this.props.clientId }` }
 				>
-					<div className="uagb-buttons__wrap">
-						{
-							buttons.map( ( button, index ) => {
-
-								if ( btn_count <= index ) {
-									return
-								}
-
-								return (
-									<div
-										className={ classnames(
-											`uagb-buttons-repeater-${index}`,
-											"uagb-button__wrapper",
-											( isSelected && ( ( false !== this.state.isFocused && index === this.state.isFocused ) ) ) ? "uagb-button__active" : ""
-										) }
-										key={ index }
-									>
-										<RichText
-											placeholder={ __( "Click Here" ) }
-											value={ button.label }
-											tagName='a'
-											onChange={ value => {
-												this.saveButton( { label: value }, index )
-											} }
-											onMouseOut={ onMouseOut }
-											onMouseOver={ () => {
-												updateHoverState( index )
-											} }
-											formattingControls={ [ "bold", "italic", "strikethrough" ] }
-											className='uagb-button__link'
-											rel ="noopener noreferrer"
-											unstableOnFocus={ () => { updateFocusState( index )
-											} }
-										/>
-									</div>
-								)
-							})
-						}
-					</div>
 				</div>
 			</Fragment>
-		)
+		);
 	}
 }
 
-export default UAGBImageGallery
+export default withNotices( UAGBImageGallery )

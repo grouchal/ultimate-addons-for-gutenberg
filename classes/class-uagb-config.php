@@ -130,6 +130,13 @@ if ( ! class_exists( 'UAGB_Config' ) ) {
 							'stack'       => 'none',
 						),
 					),
+					'uagb/image-gallery'        => array(
+						'slug'        => '',
+						'title'       => __( 'Image Gallery', 'ultimate-addons-for-gutenberg' ),
+						'description' => __( 'Lipsum', 'ultimate-addons-for-gutenberg' ),
+						'default'     => true,
+						'attributes'  => array(),
+					),
 					'uagb/info-box'         => array(
 						'slug'        => '',
 						'title'       => __( 'Info Box', 'ultimate-addons-for-gutenberg' ),

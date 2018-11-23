@@ -8,7 +8,7 @@ const attributes = {
 		type: 'array',
 		default: [],
 		source: 'query',
-		selector: 'ul.wp-block-gallery .blocks-gallery-item',
+		selector: '.wp-block-uagb-image-gallery div',
 		query: {
 			url: {
 				source: 'attribute',

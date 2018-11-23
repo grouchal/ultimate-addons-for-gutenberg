@@ -434,8 +434,7 @@
  * CSS for both Frontend+Backend.
  */
 .uagb-section__wrap {
-  position: relative;
-  overflow: hidden; }
+  position: relative; }
   .uagb-section__wrap .uagb-section__inner-wrap {
     margin-left: auto;
     margin-right: auto;
@@ -1129,196 +1128,6 @@ a.uagb-infobox-link-wrap {
   [dir="rtl"] .uagb-tm__arrow-outside.uagb-slick-carousel .slick-next {
     left: 15px;
     right: auto; } }
-/**
- * #.# Common SCSS
- *
- * Can include things like variables and mixins
- * that are used across the project.
-*/
-/**
- * #.# Styles
- *
- * CSS for both Frontend+Backend.
- */
-.uagb-team__outer-wrap .uagb-team__prefix {
-  font-size: 15px;
-  font-style: italic;
-  color: #888; }
-
-.uagb-team__outer-wrap .uagb-team__image-wrap img {
-  display: inline;
-  height: auto !important;
-  max-width: 100%;
-  width: inherit;
-  -webkit-box-sizing: content-box;
-  box-sizing: content-box;
-  border-radius: inherit; }
-
-.uagb-team__outer-wrap .uagb-team__image-wrap.uagb-team__image-crop-circle img {
-  border-radius: 100%; }
-
-.uagb-team__outer-wrap .uagb-team__image-wrap.uagb-team__image-crop-square img {
-  border-radius: 0; }
-
-.uagb-team__outer-wrap .uagb-team__social-icon-wrap ul {
-  list-style: none;
-  display: -ms-flexbox;
-  display: flex; }
-
-.uagb-team__outer-wrap .uagb-team__social-icon a span,
-.uagb-team__outer-wrap .uagb-team__social-icon a span:before {
-  color: inherit;
-  font-size: inherit;
-  height: inherit;
-  width: inherit; }
-
-.uagb-team__outer-wrap .uagb-team__social-icon a {
-  font-size: 20px;
-  width: 20px;
-  height: 20px;
-  color: #333; }
-
-.uagb-team__outer-wrap .uagb-team__social-icon {
-  margin-right: 20px;
-  margin-left: 0; }
-
-.uagb-team__outer-wrap .uagb-team__social-list {
-  margin: 0;
-  padding: 0; }
-
-.uagb-team__image-position-above.uagb-team__align-center {
-  text-align: center; }
-
-.uagb-team__image-position-above.uagb-team__align-left {
-  text-align: left; }
-
-.uagb-team__image-position-above.uagb-team__align-right {
-  text-align: right; }
-
-.uagb-team__image-position-left .uagb-team__wrap,
-.uagb-team__image-position-right .uagb-team__wrap {
-  -js-display: flex;
-  display: -ms-flexbox;
-  display: flex; }
-
-.uagb-team__image-position-left .uagb-team__content {
-  text-align: left; }
-
-.uagb-team__image-position-right .uagb-team__content {
-  text-align: right; }
-
-.uagb-team__image-position-left .uagb-team__social-icon-wrap ul {
-  -ms-flex-pack: start;
-      justify-content: flex-start;
-  margin: 0;
-  padding: 0; }
-
-.uagb-team__image-position-right .uagb-team__social-icon-wrap ul {
-  -ms-flex-pack: end;
-      justify-content: flex-end;
-  margin: 0;
-  padding: 0; }
-
-.uagb-team__image-position-left li {
-  margin-right: 5px; }
-
-.uagb-team__image-position-right li {
-  margin-left: 5px; }
-
-.uagb-team__image-position-above .uagb-team__social-icon-wrap {
-  display: inline-block; }
-
-.uagb-team__image-position-above.uagb-team__align-center .uagb-team__content {
-  text-align: center; }
-
-.uagb-team__image-position-above.uagb-team__align-left .uagb-team__content {
-  text-align: left; }
-
-.uagb-team__image-position-above.uagb-team__align-right .uagb-team__content {
-  text-align: right; }
-
-@media only screen and (max-width: 976px) {
-  .uagb-team__stack-tablet,
-  .uagb-team__stack-tablet .uagb-team__content {
-    text-align: center; }
-  .uagb-team__stack-tablet .uagb-team__wrap {
-    display: inline-block; }
-  .uagb-team__stack-tablet .uagb-team__image-wrap {
-    margin-left: auto !important;
-    margin-right: auto !important; }
-  .uagb-team__stack-tablet .uagb-team__social-icon-wrap ul {
-    -ms-flex-pack: center;
-        justify-content: center; } }
-
-@media screen and (max-width: 767px) {
-  .uagb-team__stack-mobile,
-  .uagb-team__stack-mobile .uagb-team__content {
-    text-align: center; }
-  .uagb-team__stack-mobile .uagb-team__wrap {
-    display: inline-block; }
-  .uagb-team__stack-mobile .uagb-team__image-wrap {
-    margin-left: auto !important;
-    margin-right: auto !important; }
-  .uagb-team__stack-mobile .uagb-team__social-icon-wrap ul {
-    -ms-flex-pack: center;
-        justify-content: center; } }
-/**
- * #.# Common SCSS
- *
- * Can include things like variables and mixins
- * that are used across the project.
-*/
-/**
- * #.# Styles
- *
- * CSS for both Frontend+Backend.
- */
-.uagb-social-share__outer-wrap .uagb-social-share__wrap {
-  -js-display: flex;
-  display: -ms-flexbox;
-  display: flex;
-  -ms-flex-align: center;
-  align-items: center;
-  -ms-flex-pack: center;
-  justify-content: center; }
-
-.uagb-social-share__outer-wrap a.uagb-button__link:focus {
-  -webkit-box-shadow: none;
-          box-shadow: none; }
-
-.uagb-social-share__outer-wrap .uagb-ss__wrapper {
-  padding: 0;
-  margin-left: 5px;
-  margin-right: 5px;
-  -webkit-transition: all 0.5s;
-  -o-transition: all 0.5s;
-  transition: all 0.5s;
-  display: -ms-inline-flexbox;
-  display: inline-flex;
-  width: 40px;
-  text-align: center; }
-
-.uagb-social-share__outer-wrap .uagb-ss__link,
-.uagb-social-share__outer-wrap .uagb-ss__source-wrap {
-  width: inherit; }
-
-.uagb-social-share__outer-wrap .uagb-ss__link {
-  color: #3a3a3a; }
-
-.uagb-social-share__outer-wrap .uagb-ss__source-icon,
-.uagb-social-share__outer-wrap .uagb-ss__source-icon:before {
-  font-size: 40px;
-  width: 40px;
-  height: 40px; }
-
-.uagb-social-share__outer-wrap .uagb-ss__source-image {
-  width: 40px; }
-
-.uagb-social-share__outer-wrap .uagb-ss__wrapper:first-child {
-  margin-left: 0; }
-
-.uagb-social-share__outer-wrap .uagb-ss__wrapper:last-child {
-  margin-right: 0; }
 /**
  * #.# Common SCSS
  *
@@ -2674,3 +2483,14 @@ h1.uagb-timeline__heading, h2.uagb-timeline__heading, h3.uagb-timeline__heading,
 
 .uagb-icon-list__outer-wrap .uagb-icon-list__wrapper:last-child {
   margin-right: 0; }
+/**
+ * #.# Common SCSS
+ *
+ * Can include things like variables and mixins
+ * that are used across the project.
+*/
+/**
+ * #.# Styles
+ *
+ * CSS for both Frontend+Backend.
+ */
