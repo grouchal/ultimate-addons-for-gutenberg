@@ -39,49 +39,46 @@ const {
 	withNotices,
 } = wp.components
 
-const MAX_COLUMNS = 8;
+const MAX_COLUMNS = 8
 const linkOptions = [
-	{ value: 'attachment', label: __( 'Attachment Page' ) },
-	{ value: 'media', label: __( 'Media File' ) },
-	{ value: 'none', label: __( 'None' ) },
-];
+	{ value: "attachment", label: __( "Attachment Page" ) },
+	{ value: "media", label: __( "Media File" ) },
+	{ value: "none", label: __( "None" ) },
+]
 
 export function defaultColumnsNumber( attributes ) {
-	return Math.min( 3, attributes.images.length );
+	return Math.min( 3, attributes.images.length )
 }
 
 export const pickRelevantMediaFiles = ( image ) => {
-	const imageProps = pick( image, [ 'alt', 'id', 'link', 'caption' ] );
-	imageProps.url = get( image, [ 'sizes', 'large', 'url' ] ) || get( image, [ 'media_details', 'sizes', 'large', 'source_url' ] ) || image.url;
-	return imageProps;
-};
+	const imageProps = pick( image, [ "alt", "id", "link", "caption" ] )
+	imageProps.url = get( image, [ "sizes", "large", "url" ] ) || get( image, [ "media_details", "sizes", "large", "source_url" ] ) || image.url
+	return imageProps
+}
 
 
 class UAGBImageGallery extends Component {
 
 	constructor() {
 		super( ...arguments )
-		this.state = {
-			isHovered: "false",
-			isFocused: "false",
-		}
-		this.onSelectImages = this.onSelectImages.bind( this );
-		this.setAttributes = this.setAttributes.bind( this );
+		this.onSelectImages = this.onSelectImages.bind( this )
+		this.setAttributes = this.setAttributes.bind( this )
 	}
 
 	setAttributes( attributes ) {
+
 		if ( attributes.ids ) {
-			throw new Error( 'The "ids" attribute should not be changed directly. It is managed automatically when "images" attribute changes' );
+			throw new Error( "The \"ids\" attribute should not be changed directly. It is managed automatically when \"images\" attribute changes" )
 		}
 
 		if ( attributes.images ) {
 			attributes = {
 				...attributes,
-				ids: map( attributes.images, 'id' ),
-			};
+				ids: map( attributes.images, "id" ),
+			}
 		}
 
-		this.props.setAttributes( attributes );
+		this.props.setAttributes( attributes )
 	}
 
 	componentDidMount() {
@@ -96,13 +93,14 @@ class UAGBImageGallery extends Component {
 	}
 
 	onSelectImages( images ) {
+
 		this.setAttributes( {
 			images: images.map( ( image ) => pickRelevantMediaFiles( image ) ),
-		} );
+		} )
 
 		this.props.setAttributes( {
 			images: images.map( ( image ) => pickRelevantMediaFiles( image ) ),
-		} );
+		} )
 	}
 
 	render() {
@@ -155,8 +153,8 @@ class UAGBImageGallery extends Component {
 						icon="format-gallery"
 						className={ className }
 						labels={ {
-							title: __( 'Gallery' ),
-							instructions: __( 'Drag images, upload new ones or select files from your library.' ),
+							title: __( "Gallery" ),
+							instructions: __( "Drag images, upload new ones or select files from your library." ),
 						} }
 						onSelect={ this.onSelectImages }
 						accept="image/*"
@@ -166,16 +164,16 @@ class UAGBImageGallery extends Component {
 						onError={ noticeOperations.createErrorNotice }
 					/>
 				</Fragment>
-			);
+			)
 		}
 
 		return (
 			<Fragment>
 				{ editControl }
 				<InspectorControls>
-					<PanelBody title={ __( 'Gallery Settings' ) }>
+					<PanelBody title={ __( "Gallery Settings" ) }>
 						<SelectControl
-							label={ __( 'Link To' ) }
+							label={ __( "Link To" ) }
 							value={ linkTo }
 							onChange={ ( value ) => setAttributes( { linkTo: value } ) }
 							options={ linkOptions }
@@ -187,11 +185,26 @@ class UAGBImageGallery extends Component {
 					className,
 					"uagb-gallery__outer-wrap"
 				) }
-				id={ `uagb-gallery-${ this.props.clientId }` }
-				>
+				id={ `uagb-gallery-${ this.props.clientId }` }>
+					{ images.map( ( img, index ) => {
+
+						return (
+							<div className="uagb-gallery-item" key={ img.id || img.url }>
+								<div>
+									<img
+										src={ img.url }
+										alt={ img.alt }
+										id={ img.id }
+										caption={ img.caption }
+										aria-label={ img.caption }
+									/>
+								</div>
+							</div>
+						)
+					})}
 				</div>
 			</Fragment>
-		);
+		)
 	}
 }
 

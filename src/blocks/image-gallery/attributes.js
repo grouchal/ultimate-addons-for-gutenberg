@@ -5,23 +5,23 @@
 
 const attributes = {
 	images: {
-		type: 'array',
+		type: "array",
 		default: [],
 	},
 	ids: {
-		type: 'array',
+		type: "array",
 		default: [],
 	},
 	columns: {
-		type: 'number',
+		type: "number",
 	},
 	imageCrop: {
-		type: 'boolean',
+		type: "boolean",
 		default: true,
 	},
 	linkTo: {
-		type: 'string',
-		default: 'none',
+		type: "string",
+		default: "none",
 	}
 }
 
