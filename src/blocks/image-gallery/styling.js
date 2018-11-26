@@ -1,58 +1,60 @@
 function styling( props ) {
 
 	const {
+		images,
 		align,
-		className,
-		btn_count,
-		buttons,
-		gap,
-		stack
+		captionPadding,
+		rowGap,
+		columnGap,
+		scale,
+		opacity,
+		overlayColor,
+		overlayOp,
+		capColor,
+		capBgColor,
+		capBgColorOp
 	} = props.attributes
 
 	var selectors = {}
 	var tablet_selectors = {}
 	var mobile_selectors = {}
 
-	buttons.map( ( button, index ) => {
-
-		if ( btn_count <= index ) {
-			return
-		}
-
-		selectors[" .uagb-buttons-repeater-" + index] = {
-			"font-size" : button.size + "px",
-			"border": button.borderWidth + "px " + button.borderStyle + " " + button.borderColor,
-			"border-radius" : button.borderRadius + "px",
-			"background": button.background
-		}
-
-		selectors[" .uagb-buttons-repeater-" + index + ":hover"] = {
-			"background": button.hBackground,
-			"border": button.borderWidth + "px " + button.borderStyle + " " + button.borderHColor,
-		}
-
-		selectors[" .uagb-buttons-repeater-" + index + " a.uagb-button__link"] = {
-			"padding" : button.vPadding + "px " + button.hPadding + "px",
-			"color": button.color
-		}
-
-		selectors[" .uagb-buttons-repeater-" + index + ":hover a.uagb-button__link"] = {
-			"color": button.hColor
-		}
+	images.map( ( img, index ) => {
 
 	})
 
-	selectors[" .uagb-button__wrapper"] = {
-		"margin-left" : ( gap/2 ) + "px",
-		"margin-right" : ( gap/2 ) + "px"
+	selectors[".uagb-gallery__outer-wrap"] = {
+		"margin-right" : ( - rowGap/2 ) + "px",
+		"margin-left" : ( - rowGap/2 ) + "px",
 	}
 
-	selectors[" .uagb-button__wrapper:first-child"] = {
-		"margin-left" : 0
+	selectors[" .uagb-gallery__item"] = {
+		"padding-right" : ( rowGap/2 ) + "px",
+		"padding-left" : ( rowGap/2 ) + "px",
 	}
 
-	selectors[" .uagb-button__wrapper:last-child"] = {
-		"margin-right" : 0
+	selectors[" .uagb-gallery__item img"] = {
+		"transform": "scale(" + ( scale / 100 ) + ")",
+		"opacity" : ( opacity / 100 )
+	}
+
+	selectors[" .uagb-gallery__content"] = {
+		"margin-bottom" : columnGap + "px"
+	}
+
+	selectors[" .uagb-gallery__caption"] = {
+		"padding" : captionPadding + "px",
+		"background" : capBgColor,
+		"opacity" : ( capBgColorOp / 100 )
+	}
+
+	selectors[" .uagb-gallery__img-overlay"] = {
+		"background" : overlayColor,
+		"opacity" : ( overlayOp / 100 )
+	}
+
+	selectors[" p.uagb-gallery__caption-text"] = {
+		"color" : capColor,
 	}
 
 	var alignment = ( align == "left" ) ? "flex-start" : ( ( align == "right" ) ? "flex-end" : "center" )
@@ -64,7 +66,7 @@ function styling( props ) {
 		"justify-content": alignment,
 	}
 
-	if ( "desktop" == stack ) {
+	/*if ( "desktop" == stack ) {
 
 		selectors[" .uagb-button__wrapper"] = {
 			"margin-left" : 0,
@@ -111,10 +113,10 @@ function styling( props ) {
 		mobile_selectors[" .uagb-button__wrapper:last-child"] = {
 			"margin-bottom" : 0
 		}
-	}
+	}*/
 
 	var styling_css = ""
-	var id = `#uagb-buttons-${ props.clientId }`
+	var id = `#uagb-gallery-${ props.clientId }`
 
 	for( var i in selectors ) {
 

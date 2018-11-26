@@ -136,7 +136,7 @@ class UAGBPostGrid extends Component {
 					/>
 					{ displayPostImage == true &&
 						<SelectControl
-							label={ __( "Image Sizes" ) }
+							label={ __( "Image Size" ) }
 							value={ imgSize }
 							onChange={ ( value ) => setAttributes( { imgSize: value } ) }
 							options={ [

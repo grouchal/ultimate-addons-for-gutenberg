@@ -2,6 +2,11 @@
  * Editor styles for the admin
  */
 
-.uagb-gallery__outer-wrap {
-	background:red;height:300px; width:100%;
+#wpwrap .edit-post-visual-editor p.uagb-gallery__caption-text,
+#wpwrap .edit-post-visual-editor .editor-block-list__block p.uagb-gallery__caption-text {
+	margin-bottom: 0px;
+}
+
+#wpwrap .edit-post-visual-editor .uagb-gallery__thumnail img {
+	width: 100%;
 }
