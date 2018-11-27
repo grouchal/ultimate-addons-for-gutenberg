@@ -8,12 +8,11 @@ import pick from "lodash/pick"
 import map from "lodash/map"
 import get from "lodash/get"
 import shuffle from "lodash/shuffle"
-
 import classnames from "classnames"
 import times from "lodash/times"
-const MAX_GALLERY_COLUMNS = 4
 import styling from "./styling"
 
+const MAX_GALLERY_COLUMNS = 4
 const { __ } = wp.i18n
 
 const {
@@ -40,14 +39,42 @@ const {
 	ToggleControl,
 	Toolbar,
 	withNotices,
+	TabPanel
 } = wp.components
 
-const MAX_COLUMNS = 8
 const linkOptions = [
 	{ value: "attachment", label: __( "Attachment Page" ) },
 	{ value: "media", label: __( "Media File" ) },
 	{ value: "lightbox", label: __( "Lightbox" ) },
 	{ value: "none", label: __( "None" ) },
+]
+
+const effectOptions = [
+	{ value: "normal", label: __( "Normal" ) },
+	{ value: "a-1977", label: __( "1977" ) },
+	{ value: "aden", label: __( "Aden" ) },
+	{ value: "earlybird", label: __( "Earlybird" ) },
+	{ value: "hudson", label: __( "Hudson" ) },
+	{ value: "inkwell", label: __( "Inkwell" ) },
+	{ value: "perpetua", label: __( "Perpetua" ) },
+	{ value: "poprocket", label: __( "Poprocket" ) },
+	{ value: "sutro", label: __( "Sutro" ) },
+	{ value: "toaster", label: __( "Toaster" ) },
+	{ value: "willow", label: __( "Willow" ) },
+]
+
+const heffectOptions = [
+	{ value: "normal", label: __( "Inherit" ) },
+	{ value: "a-1977", label: __( "1977" ) },
+	{ value: "aden", label: __( "Aden" ) },
+	{ value: "earlybird", label: __( "Earlybird" ) },
+	{ value: "hudson", label: __( "Hudson" ) },
+	{ value: "inkwell", label: __( "Inkwell" ) },
+	{ value: "perpetua", label: __( "Perpetua" ) },
+	{ value: "poprocket", label: __( "Poprocket" ) },
+	{ value: "sutro", label: __( "Sutro" ) },
+	{ value: "toaster", label: __( "Toaster" ) },
+	{ value: "willow", label: __( "Willow" ) },
 ]
 
 export function defaultColumnsNumber( attributes ) {
@@ -94,6 +121,7 @@ class UAGBImageGallery extends Component {
 		const $style = document.createElement( "style" )
 		$style.setAttribute( "id", "uagb-style-gallery-" + this.props.clientId )
 		document.head.appendChild( $style )
+
 	}
 
 	onSelectImages( images ) {
@@ -130,6 +158,11 @@ class UAGBImageGallery extends Component {
 			effect,
 			overlayColor,
 			overlayOp,
+			hscale,
+			hopacity,
+			heffect,
+			hoverlayColor,
+			hoverlayOp,
 			showCaption,
 			captionAlign,
 			captionVAlign,
@@ -137,8 +170,6 @@ class UAGBImageGallery extends Component {
 			capBgColor,
 			capBgColorOp
 		} = attributes
-
-		console.log(attributes)
 
 		var element = document.getElementById( "uagb-style-gallery-" + this.props.clientId )
 
@@ -198,6 +229,89 @@ class UAGBImageGallery extends Component {
 			images_set = shuffle( images )
 		}
 
+		const normalSettings = (
+			<Fragment>
+				<RangeControl
+					label={ __( "Scale" ) }
+					value={ scale }
+					onChange={ ( value ) => setAttributes( { scale: value } ) }
+					min={ 100 }
+					max={ 200 }
+				/>
+				<RangeControl
+					label={ __( "Opacity (%)" ) }
+					value={ opacity }
+					onChange={ ( value ) => setAttributes( { opacity: value } ) }
+					min={ 1 }
+					max={ 100 }
+				/>
+				<SelectControl
+					label={ __( "Image Effect" ) }
+					value={ effect }
+					onChange={ ( value ) => setAttributes( { effect: value } ) }
+					options={ effectOptions }
+				/>
+				<PanelColorSettings
+					title={ __( "Color" ) }
+					colorSettings={[
+						{
+							value: overlayColor,
+							onChange:( value ) => setAttributes( { overlayColor: value } ),
+							label: __( "Overlay Color" ),
+						}
+					]}>
+				</PanelColorSettings>
+				<RangeControl
+					label={ __( "Overlay Opacity" ) }
+					value={ overlayOp }
+					onChange={ ( value ) => setAttributes( { overlayOp: value } ) }
+					min={ 1 }
+					max={ 100 }
+				/>
+			</Fragment>
+		)
+
+		const hoverSettings = (
+			<Fragment>
+				<RangeControl
+					label={ __( "Scale" ) }
+					value={ hscale }
+					onChange={ ( value ) => setAttributes( { hscale: value } ) }
+					min={ 100 }
+					max={ 200 }
+				/>
+				<RangeControl
+					label={ __( "Opacity (%)" ) }
+					value={ hopacity }
+					onChange={ ( value ) => setAttributes( { hopacity: value } ) }
+					min={ 1 }
+					max={ 100 }
+				/>
+				<SelectControl
+					label={ __( "Image Effect" ) }
+					value={ heffect }
+					onChange={ ( value ) => setAttributes( { heffect: value } ) }
+					options={ heffectOptions }
+				/>
+				<PanelColorSettings
+					title={ __( "Color" ) }
+					colorSettings={[
+						{
+							value: hoverlayColor,
+							onChange:( value ) => setAttributes( { hoverlayColor: value } ),
+							label: __( "Overlay Color" ),
+						}
+					]}>
+				</PanelColorSettings>
+				<RangeControl
+					label={ __( "Overlay Opacity" ) }
+					value={ hoverlayOp }
+					onChange={ ( value ) => setAttributes( { hoverlayOp: value } ) }
+					min={ 1 }
+					max={ 100 }
+				/>
+			</Fragment>
+		)
 
 		return (
 			<Fragment>
@@ -272,47 +386,32 @@ class UAGBImageGallery extends Component {
 						/>
 					</PanelBody>
 					<PanelBody title={ __( "Effects" ) } initialOpen={ false }>
-						<RangeControl
-							label={ __( "Scale" ) }
-							value={ scale }
-							onChange={ ( value ) => setAttributes( { scale: value } ) }
-							min={ 100 }
-							max={ 200 }
-						/>
-						<RangeControl
-							label={ __( "Opacity (%)" ) }
-							value={ opacity }
-							onChange={ ( value ) => setAttributes( { opacity: value } ) }
-							min={ 1 }
-							max={ 100 }
-						/>
-						<SelectControl
-							label={ __( "Image Effect" ) }
-							value={ effect }
-							onChange={ ( value ) => setAttributes( { effect: value } ) }
-							options={ [
-								{ value: "normal", label: __( "Normal" ) },
-								{ value: "1977", label: __( "1977" ) },
-								{ value: "aden", label: __( "Aden" ) },
-							] }
-						/>
-						<PanelColorSettings
-							title={ __( "Color" ) }
-							colorSettings={[
+						<TabPanel className="uagb-inspect-tabs uagb-inspect-tabs-col-2"
+							activeClass="active-tab"
+							tabs={ [
 								{
-									value: overlayColor,
-									onChange:( value ) => setAttributes( { overlayColor: value } ),
-									label: __( "Overlay Color" ),
+									name: "normal",
+									title: __( "Normal" ),
+									className: "uagb-normal-tab",
+								},
+								{
+									name: "hover",
+									title: __( "Hover" ),
+									className: "uagb-hover-tab",
+								},
+							] }>
+							{
+								( tabName ) => {
+									let tabout
+									if ( "hover" === tabName.name ) {
+										tabout = hoverSettings
+									} else {
+										tabout = normalSettings
+									}
+									return <div>{ tabout }</div>
 								}
-							]}>
-						</PanelColorSettings>
-						<RangeControl
-							label={ __( "Overlay Opacity" ) }
-							value={ overlayOp }
-							onChange={ ( value ) => setAttributes( { overlayOp: value } ) }
-							min={ 1 }
-							max={ 100 }
-						/>
+							}
+						</TabPanel>
 					</PanelBody>
 					<PanelBody title={ __( "Caption" ) } initialOpen={ false }>
 						<SelectControl
@@ -398,13 +497,15 @@ class UAGBImageGallery extends Component {
 				<div className={ classnames(
 					className,
 					"uagb-gallery__outer-wrap",
+					`uagb-gallery__layout-${ layout }`,
 					`uagb-gallery__columns-${ columns }`,
 					`uagb-gallery__columns-tablet-${ tcolumns }`,
 					`uagb-gallery__columns-mobile-${ mcolumns }`,
 					`uagb-gallery__caption-show-${ showCaption }`,
 					`uagb-gallery__caption-align-${ captionAlign }`,
 					`uagb-gallery__caption-valign-${ captionVAlign }`,
-					`uagb-gallery__effect-${ effect }`,
+					`uagb-ins-${ effect }`,
+					`uagb-ins-hover-${ effect }`,
 				) }
 				id={ `uagb-gallery-${ this.props.clientId }` }>
 					{ images_set.map( ( img, index ) => {
@@ -443,11 +544,12 @@ class UAGBImageGallery extends Component {
 						return (
 							<div className={ classnames(
 								"uagb-gallery__item",
-								`uagb-gallery__item-${index}`
+								`uagb-gallery__item-${index}`,
+								"uagb-ins-hover"
 							) }
 							key={ img.id || img.url }>
 								<div className="uagb-gallery__content">
-									<div className="uagb-gallery__thumnail">
+									<div className="uagb-gallery__thumnail uagb-ins-target">
 										{ image_html }
 									</div>
 									<div className="uagb-gallery__img-overlay"></div>

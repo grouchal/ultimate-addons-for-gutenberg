@@ -10,6 +10,10 @@ function styling( props ) {
 		opacity,
 		overlayColor,
 		overlayOp,
+		hscale,
+		hopacity,
+		hoverlayColor,
+		hoverlayOp,
 		capColor,
 		capBgColor,
 		capBgColorOp
@@ -38,6 +42,21 @@ function styling( props ) {
 		"opacity" : ( opacity / 100 )
 	}
 
+	selectors[" .uagb-gallery__img-overlay"] = {
+		"background" : overlayColor,
+		"opacity" : ( overlayOp / 100 )
+	}
+
+	selectors[" .uagb-gallery__item:hover img"] = {
+		"transform": "scale(" + ( hscale / 100 ) + ")",
+		"opacity" : ( hopacity / 100 )
+	}
+
+	selectors[" .uagb-gallery__item:hover .uagb-gallery__img-overlay"] = {
+		"background" : hoverlayColor,
+		"opacity" : ( hoverlayOp / 100 )
+	}
+
 	selectors[" .uagb-gallery__content"] = {
 		"margin-bottom" : columnGap + "px"
 	}
@@ -46,11 +65,6 @@ function styling( props ) {
 		"padding" : captionPadding + "px",
 		"background" : capBgColor,
 		"opacity" : ( capBgColorOp / 100 )
-	}
-
-	selectors[" .uagb-gallery__img-overlay"] = {
-		"background" : overlayColor,
-		"opacity" : ( overlayOp / 100 )
 	}
 
 	selectors[" p.uagb-gallery__caption-text"] = {

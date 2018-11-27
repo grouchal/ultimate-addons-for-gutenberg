@@ -6,22 +6,23 @@
 */
 .uagb-inspect-tabs .components-tab-panel__tabs button{
 	border: 1px solid #a4afb7;
-		padding: 10px;
+	padding: 10px;
 }
 
 .uagb-inspect-tabs .active-tab {
-		background-color: #a4afb7;
-		color: #fff;
-		outline:none;
+	background-color: #a4afb7;
+	color: #fff;
+	outline:none;
 }
 
 .uagb-inspect-tabs .components-tab-panel__tabs button:focus{
-		border: 1px solid #a4afb7;
-		outline: none;
+	border: 1px solid #a4afb7;
+	outline: none;
 }
 
 .uagb-inspect-tabs .components-tab-panel__tabs {
-		margin-top: 15px;
+	margin-top: 15px;
+	margin-bottom: 15px;
 }
 
 .uagb-inspect-tabs-col-2 .components-tab-panel__tabs button,

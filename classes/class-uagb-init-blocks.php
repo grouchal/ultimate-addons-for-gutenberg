@@ -98,6 +98,15 @@ class UAGB_Init_Blocks {
 			false // Enqueue the script in the footer.
 		);
 
+		// Scripts.
+		wp_enqueue_script(
+			'uagb-justified-js', // Handle.
+			UAGB_URL . 'assets/js/justifiedgallery.min.js',
+			array( 'jquery' ), // Dependencies, defined above.
+			UAGB_VER,
+			false // Enqueue the script in the footer.
+		);
+
 		// Styles.
 		wp_enqueue_style(
 			'uagb-slick-css', // Handle.
@@ -118,6 +127,15 @@ class UAGB_Init_Blocks {
 		wp_enqueue_script(
 			'uabg-timeline-js', // Handle.
 			UAGB_URL . 'assets/js/timeline.js',
+			array( 'jquery' ),
+			UAGB_VER,
+			true // Enqueue the script in the footer.
+		);
+
+		// Image Gallery js.
+		wp_enqueue_script(
+			'uagb-gallery-js', // Handle.
+			UAGB_URL . 'assets/js/gallery.js',
 			array( 'jquery' ),
 			UAGB_VER,
 			true // Enqueue the script in the footer.

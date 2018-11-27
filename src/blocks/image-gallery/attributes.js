@@ -77,6 +77,23 @@ const attributes = {
 		type: "number",
 		default: 30
 	},
+	hscale: {
+		type: "number"
+	},
+	hopacity: {
+		type: "number"
+	},
+	heffect: {
+		type: "string",
+		default: "normal",
+	},
+	hoverlayColor: {
+		type: "string",
+	},
+	hoverlayOp: {
+		type: "number",
+		default: 30
+	},
 	showCaption: {
 		type: "string",
 		default: "image"
