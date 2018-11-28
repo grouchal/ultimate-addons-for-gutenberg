@@ -45,7 +45,6 @@ const {
 const linkOptions = [
 	{ value: "attachment", label: __( "Attachment Page" ) },
 	{ value: "media", label: __( "Media File" ) },
-	{ value: "lightbox", label: __( "Lightbox" ) },
 	{ value: "none", label: __( "None" ) },
 ]
 
@@ -505,7 +504,7 @@ class UAGBImageGallery extends Component {
 					`uagb-gallery__caption-align-${ captionAlign }`,
 					`uagb-gallery__caption-valign-${ captionVAlign }`,
 					`uagb-ins-${ effect }`,
-					`uagb-ins-hover-${ effect }`,
+					`uagb-ins-hover-${ heffect }`,
 				) }
 				id={ `uagb-gallery-${ this.props.clientId }` }>
 					{ images_set.map( ( img, index ) => {

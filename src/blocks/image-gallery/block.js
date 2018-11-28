@@ -35,7 +35,7 @@ const {
 registerBlockType( "uagb/image-gallery", {
 	title: uagb_blocks_info.blocks["uagb/image-gallery"]["title"],
 	description: uagb_blocks_info.blocks["uagb/image-gallery"]["description"],
-	icon: UAGB_Block_Icons.buttons,
+	icon: UAGB_Block_Icons.image_gallery,
 	category: uagb_blocks_info.category,
 	keywords: [
 		__( "image" ),
