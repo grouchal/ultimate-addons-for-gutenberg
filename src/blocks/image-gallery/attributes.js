@@ -16,11 +16,11 @@ const attributes = {
 		type: "number",
 		default: 4
 	},
-	mcolumns: {
+	tcolumns: {
 		type: "number",
 		default: 3
 	},
-	tcolumns: {
+	mcolumns: {
 		type: "number",
 		default: 2
 	},
