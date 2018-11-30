@@ -90,6 +90,18 @@ if ( ! class_exists( 'UAGB_Config' ) ) {
 							'stack'              => 'tablet',
 						),
 					),
+					'uagb/content-toggle' => array(
+						'slug'        => '',
+						'title'       => __( 'Content Toggle', 'ultimate-addons-for-gutenberg' ),
+						'description' => __( 'The Content Toggle block lets you create toggle on your website.', 'ultimate-addons-for-gutenberg' ),
+						'default'     => true,
+						'attributes'  => array(
+							'align'              => 'center',
+							'headingColor'       => '',
+							'subHeadingColor'    => '',							
+							'stack'              => 'tablet',
+						),
+					),
 					'uagb/google-map'       => array(
 						'slug'        => '',
 						'title'       => __( 'Google Map', 'ultimate-addons-for-gutenberg' ),
