@@ -30,7 +30,7 @@ const attributes = {
 		type : "string",
 		default : "#333",
 	},
-	headingDesc_1 : {
+	contentColor_1 : {
 		type : "string",
 		default : "#333",
 	},
@@ -38,27 +38,27 @@ const attributes = {
 		type : "string",
 		default : "#333",
 	},
-	headingDesc_2 : {
+	contentColor_2 : {
 		type : "string",
 		default : "#333",
 	},
 	headingTag : {
 		type : "string",
-		default : "#333",
+		default : "h3",
 	},
 	headingFontSize_1 : {
 		type : "number",
 	},
-	descFontSize_1 : {
+	contentFontSize_1 : {
 		type : "number",
 	},
 	headingFontSize_2 : {
 		type : "number",
 	},
-	descFontSize_2 : {
+	contentFontSize_2 : {
 		type : "number",
 	},
-	defualtdispaly : {
+	defualtDisplay : {
 		type : "string",
 		default : "content_1",
 	},
@@ -100,6 +100,10 @@ const attributes = {
 	},
 	headingBorderRadius : {
 		type : "number",
+		default : "",
+	},
+	contentBgColor : {
+		type : "string",
 		default : "",
 	},
 	contentBorderType : {
