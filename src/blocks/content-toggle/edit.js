@@ -13,6 +13,7 @@ const {
 	InspectorControls,
 	RichText,
 	PanelColorSettings,
+	ColorPalette,
 	MediaUpload,
 } = wp.editor
 
@@ -88,7 +89,7 @@ class UAGBTeam extends Component {
 			<Fragment>
 				<PanelBody
 					title={ __( "Typography" ) }
-					initialOpen={ true } >
+					initialOpen={ false } >
 					<SelectControl
 						label={ __( "Title Tag" ) }
 						value={ headingTag }
@@ -240,10 +241,10 @@ class UAGBTeam extends Component {
 
 		const headingBgControls = (
 			<PanelBody
-					title={ __( "Background" ) }
+					title={ __( "Heding Background" ) }
 					initialOpen={ true } >				
 				<Fragment>
-				    <p className="uagb-setting-label">{ __( "Heading Background Color" ) }
+				    <p className="uagb-setting-label">{ __( "Background Color" ) }
 				    <span className="components-base-control__label">
 					    <span className="component-color-indicator" 
 					    	style={{ backgroundColor: headingBgColor }} >
@@ -306,7 +307,7 @@ class UAGBTeam extends Component {
 
 		const contentBgControls = (
 			<PanelBody
-					title={ __( "Background" ) }
+					title={ __( "Content Background" ) }
 					initialOpen={ true } >				
 				<Fragment>
 				    <p className="uagb-setting-label">{ __( "Background Color" ) }
