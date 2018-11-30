@@ -1,8 +1,11 @@
 // Import block dependencies and components.
 import classnames from "classnames"
 
-// Import icon.
-import UAGBIcon from "../../../dist/blocks/uagb-controls/UAGBIcon"
+import heading_1 from "./components/heading_1"
+import heading_2 from "./components/heading_2"
+import content_1 from "./components/content_1"
+import content_2 from "./components/content_2"
+
 //import styling from "./styling"
 
 const { __ } = wp.i18n
@@ -397,6 +400,33 @@ class UAGBTeam extends Component {
 			</Fragment>
 		)
 
+		const output= (
+			<Fragment>
+				<div class="uagb-ctgl__desktop-stack--no uagb-ctgl__wrapper">	
+					<div class="uagb-ctgl__toggle">
+
+						<heading_1 attributes={attributes} setAttributes = { setAttributes } props = { this.props } />
+
+			            <div className="uagb-ctgl__main-btn" data-switch-type="round_1">    
+			            	<label className="uagb-ctgl__switch-label">
+			            	<input className="uagb-ctgl__switch uagb-ctgl__switch-round-1" type="checkbox"/>
+			            	<span className="uagb-ctgl__slider uagb-ctgl__round"></span>
+			            	</label>    
+					    </div>
+
+					    <heading_2 attributes={attributes} setAttributes = { setAttributes } props = { this.props } />
+
+					</div>  
+
+					<div class="uagb-ctgl-toggle-sections">
+						<content_1 attributes={attributes} setAttributes = { setAttributes } props = { this.props } />
+						<content_2 attributes={attributes} setAttributes = { setAttributes } props = { this.props } />
+					</div>
+
+				</div>
+			</Fragment>
+		)
+
 		// Global Controls.
 		const inspect_control = (
 			<Fragment>
@@ -408,6 +438,7 @@ class UAGBTeam extends Component {
 				{ contentBgControls }
 				{ spaceControls }
 				</InspectorControls>
+				{ output }
 			</Fragment>
 		)
 
