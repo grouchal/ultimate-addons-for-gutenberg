@@ -8,7 +8,7 @@ const {
 
 const { __ } = wp.i18n
 
-class content_2 extends React.Component {
+class Content_2 extends React.Component {
 
 	render() {
 
@@ -55,4 +55,4 @@ class content_2 extends React.Component {
 	}
 }
 
-export default content_2
+export default Content_2

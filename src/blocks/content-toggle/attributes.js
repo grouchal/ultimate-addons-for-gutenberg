@@ -16,11 +16,11 @@ const attributes = {
 	},
 	headingTitle_2: {
 		type: "string",
-		default : "Heading 1",
+		default : "Heading 2",
 	},
 	headingDesc_2: {
 		type: "string",
-		default : "This is your first content. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo.​ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo.",
+		default : "This is your second content. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo.​ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo.",
 	},
 	align : {
 		type : "string",

@@ -8,17 +8,17 @@ const {
 
 const { __ } = wp.i18n
 
-class heading_1 extends React.Component {
+class Heading_1 extends React.Component {
 
 	render() {
 
 		//const { attributes, setAttributes , props } = this.props;
 		const {
 			attributes,
-			setAttributes ,
+			setAttributes,
 			props
 		} = this.props
-
+		console.log(attributes.headingTag)
 		if( setAttributes !== "not_set" ){
 			return (
 				<RichText
@@ -55,4 +55,4 @@ class heading_1 extends React.Component {
 	}
 }
 
-export default heading_1
+export default Heading_1

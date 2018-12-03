@@ -8,14 +8,13 @@ const {
 
 const { __ } = wp.i18n
 
-class heading_2 extends React.Component {
+class Heading_2 extends React.Component {
 
 	render() {
 
-		//const { attributes, setAttributes , props } = this.props;
 		const {
 			attributes,
-			setAttributes ,
+			setAttributes,
 			props
 		} = this.props
 
@@ -55,4 +54,4 @@ class heading_2 extends React.Component {
 	}
 }
 
-export default heading_2
+export default Heading_2

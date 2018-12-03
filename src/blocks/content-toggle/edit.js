@@ -1,10 +1,10 @@
 // Import block dependencies and components.
 import classnames from "classnames"
 
-import heading_1 from "./components/heading_1"
-import heading_2 from "./components/heading_2"
-import content_1 from "./components/content_1"
-import content_2 from "./components/content_2"
+import Heading_1 from "./components/heading_1"
+import Heading_2 from "./components/heading_2"
+import Content_1 from "./components/content_1"
+import Content_2 from "./components/content_2"
 
 //import styling from "./styling"
 
@@ -402,10 +402,10 @@ class UAGBTeam extends Component {
 
 		const output= (
 			<Fragment>
-				<div class="uagb-ctgl__desktop-stack--no uagb-ctgl__wrapper">	
-					<div class="uagb-ctgl__toggle">
+				<div className="uagb-ctgl__desktop-stack--no uagb-ctgl__wrapper">	
+					<div className="uagb-ctgl__toggle">
 
-						<heading_1 attributes={attributes} setAttributes = { setAttributes } props = { this.props } />
+						<Heading_1 attributes={attributes} setAttributes = { setAttributes } props = { this.props } />
 
 			            <div className="uagb-ctgl__main-btn" data-switch-type="round_1">    
 			            	<label className="uagb-ctgl__switch-label">
@@ -414,13 +414,13 @@ class UAGBTeam extends Component {
 			            	</label>    
 					    </div>
 
-					    <heading_2 attributes={attributes} setAttributes = { setAttributes } props = { this.props } />
+					    <Heading_2 attributes={attributes} setAttributes = { setAttributes } props = { this.props } />
 
 					</div>  
 
-					<div class="uagb-ctgl-toggle-sections">
-						<content_1 attributes={attributes} setAttributes = { setAttributes } props = { this.props } />
-						<content_2 attributes={attributes} setAttributes = { setAttributes } props = { this.props } />
+					<div className="uagb-ctgl-toggle-sections">
+						<Content_1 attributes={attributes} setAttributes = { setAttributes } props = { this.props } />
+						<Content_2 attributes={attributes} setAttributes = { setAttributes } props = { this.props } />
 					</div>
 
 				</div>
