@@ -12,44 +12,47 @@ class Heading_1 extends React.Component {
 
 	render() {
 
-		//const { attributes, setAttributes , props } = this.props;
 		const {
 			attributes,
 			setAttributes,
 			props
 		} = this.props
-		console.log(attributes.headingTag)
+		
 		if( setAttributes !== "not_set" ){
 			return (
-				<RichText
-	                tagName= { attributes.headingTag }
-	                value={ attributes.headingTitle_1 }
-	                className = 'uagb-ctgl__sec-1'
-	                onChange = { ( value ) => setAttributes( { headingTitle_1: value } ) }
-	                multiline={ false }
-	                placeholder={ __( "Heading1" ) }
-	                onMerge = { props.mergeBlocks }
-	                unstableOnSplit = {
-						props.insertBlocksAfter ?
-							( before, after, ...blocks ) => {
-								setAttributes( { content: before } )
-								props.insertBlocksAfter( [
-									...blocks,
-									createBlock( "core/paragraph", { content: after } ),
-								] )
-							} :
-							undefined
-					}
-					onRemove={ () => props.onReplace( [] ) }
-	            />
+				<div className ="uagb-ctgl__sec-1">
+					<RichText
+		                tagName= { attributes.headingTag }
+		                value={ attributes.headingTitle_1 }
+		                className = 'uagb-ctgl__sec-heading-1'
+		                onChange = { ( value ) => setAttributes( { headingTitle_1: value } ) }
+		                multiline={ false }
+		                placeholder={ __( "Heading1" ) }
+		                onMerge = { props.mergeBlocks }
+		                unstableOnSplit = {
+							props.insertBlocksAfter ?
+								( before, after, ...blocks ) => {
+									setAttributes( { content: before } )
+									props.insertBlocksAfter( [
+										...blocks,
+										createBlock( "core/paragraph", { content: after } ),
+									] )
+								} :
+								undefined
+						}
+						onRemove={ () => props.onReplace( [] ) }
+		            />
+		        </div>
 			)
 		}else{
 			return (
-				<RichText.Content
-	                tagName= { attributes.headingTag }
-	                value={ attributes.headingTitle_1 }
-	                className='uagb-ctgl__sec-1'
-	            />
+				<div className ="uagb-ctgl__sec-1">
+					<RichText.Content
+		                tagName= { attributes.headingTag }
+		                value={ attributes.headingTitle_1 }
+		                className='uagb-ctgl__sec-heading-1'
+		            />
+		        </div>
 			)
 		}
 	}

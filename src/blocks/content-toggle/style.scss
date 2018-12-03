@@ -3,3 +3,102 @@
  *
  * CSS for both Frontend+Backend.
  */
+.uagb-ctgl__toggle {
+    -js-display: flex;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+    padding: 25px;
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -moz-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: row;
+    -moz-box-orient: horizontal;
+    -moz-box-direction: normal;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    justify-content: center;
+}
+.uagb-ctgl__sec-1,
+.uagb-ctgl__sec-2 {
+    cursor: pointer;
+}
+/*Deafult*/
+.uagb-ctgl__sec-1 {
+    margin-right: 5%; 
+}
+.uagb-ctgl__sec-2 {
+    margin-left: 5%;
+}
+.uagb-ctgl-toggle-sections {
+    padding: 25px;
+}
+/*End of Defaults*/
+
+.uagb-ctgl__main-btn {
+    -webkit-box-align: center;
+    -webkit-align-items: center;
+    -moz-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+}
+label.uagb-ctgl__switch-label {
+    position: relative;
+    display: inline-block;
+    width: 4.5em;
+    height: 2.3em;
+    vertical-align: middle;
+}
+input.uagb-ctgl__switch {
+    display: none;
+}
+.uagb-ctgl__slider.uagb-ctgl__round {
+    -webkit-border-radius: 1.5em;
+    border-radius: 1.5em;
+}
+.uagb-ctgl__slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+.uagb-ctgl__switch + .uagb-ctgl__slider {
+    background-color: #7a7a7a;
+}
+.uagb-ctgl__switch:checked + .uagb-ctgl__slider {
+    background-color: #7a7a7a;
+}
+
+.uagb-ctgl__slider.uagb-ctgl__round:before {
+    -webkit-border-radius: 50%;
+    border-radius: 50%;
+    background-color: #fff;
+}
+
+.uagb-ctgl__slider:before {
+    position: absolute;
+    content: "";
+    height: 1.8em;
+    width: 1.8em;
+    left: 0.25em;
+    bottom: 0.25em;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+.uagb-ctgl__switch:checked + .uagb-ctgl__slider:before {
+    -webkit-transform: translateX(2.1em);
+    -ms-transform: translateX(2.1em);
+    transform: translateX(2.1em);
+}
