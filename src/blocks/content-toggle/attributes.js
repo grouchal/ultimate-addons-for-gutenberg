@@ -133,7 +133,11 @@ const attributes = {
 	stack: {
 		type: "string",
 		default: "tablet"
-	}
+	},
+	/*is_checked: {
+		type: "string",
+		default: false
+	}*/
 }
 
 export default attributes

@@ -38,6 +38,9 @@ class UAGBTeam extends Component {
 
 	constructor() {
 		super( ...arguments )
+		this.state = {
+	      isChecked: true,
+	    };
 	}
 	
 	render() {
@@ -408,7 +411,7 @@ class UAGBTeam extends Component {
 
 						<Heading_1 attributes={attributes} setAttributes = { setAttributes } props = { this.props } />
 
-			            <ToggleSwitch attributes={attributes}/>
+			            <ToggleSwitch attributes={attributes} props = {this.props}/>
 
 					    <Heading_2 attributes={attributes} setAttributes = { setAttributes } props = { this.props } />
 
@@ -461,13 +464,71 @@ class UAGBTeam extends Component {
 
 	componentDidMount() {
 
+		var id = this.props.clientId
 		// Assigning block_id in the attribute.
-		this.props.setAttributes( { block_id: this.props.clientId } )
+		this.props.setAttributes( { block_id: id } )
 
 		// Pushing Style tag for this block css.
 		const $style = document.createElement( "style" )
-		$style.setAttribute( "id", "uagb-team-style-" + this.props.clientId )
+		$style.setAttribute( "id", "uagb-content-toggle-style-" + id )
 		document.head.appendChild( $style )
+		window.addEventListener("load", this.toggleContentHandeler("uagb-content-toggle-" + id))
+	}
+
+	componentDidUpdate(){
+		var id = this.props.clientId
+		window.addEventListener("load", this.toggleContentHandeler("uagb-content-toggle-" + id))		
+	}
+
+	toggleContentHandeler(id){
+		var $scope 			= jQuery("#"+id);
+		var $this           = $scope.find( '.uagb-ctgl__wrapper' );
+		var node_id 		= id;
+		var rbs_section_1   = $scope.find( ".uagb-ctgl__section-1" );
+		var rbs_section_2   = $scope.find( ".uagb-ctgl__section-2" );
+		var main_btn        = $scope.find( ".uagb-ctgl__main-btn" );
+		var switch_type     = main_btn.attr( 'data-switch-type' );
+		var rbs_label_1   	= $scope.find( ".uael-sec-1" );
+		var rbs_label_2   	= $scope.find( ".uael-sec-2" );
+		var current_class;
+		switch ( switch_type ) {
+			case 'round_1':
+				current_class = '.uagb-ctgl__switch-round-1';
+				break;
+			case 'round_2':
+				current_class = '.uagb-ctgl__switch-round-2';
+				break;
+			case 'rectangle':
+				current_class = '.uagb-ctgl__switch-rectangle';
+				break;
+			case 'label_box':
+				current_class = '.uagb-ctgl__switch-label-box';
+				break;
+			default:
+				current_class = 'No Class Selected';
+				break;
+		}
+
+		var rbs_switch      = $scope.find( current_class );
+
+		if( this.props.attributes.defualtDisplay  && this.props.attributes.defualtDisplay == 'content_2'){
+			rbs_switch.click();			
+		}else{
+			rbs_switch.click();		
+		}
+
+		if( rbs_switch.is( ':checked' ) ) {
+			rbs_section_1.hide();
+			rbs_section_2.show();
+		} else {
+			rbs_section_1.show();
+			rbs_section_2.hide();
+		}
+
+		rbs_switch.on('click', function(e){		        
+	        rbs_section_1.toggle();
+	        rbs_section_2.toggle();	        
+	    });
 	}
 }
 

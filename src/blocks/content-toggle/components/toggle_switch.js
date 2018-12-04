@@ -2,10 +2,32 @@ import classnames from "classnames"
 const { __ } = wp.i18n
 class ToggleSwitch extends React.Component {
 
+	constructor(props) {
+	    super(props);	    
+	    if(props.attributes.defualtDisplay == 'content_2'){
+		    this.state = {
+		      isChecked: true,
+		    };
+		}else{
+			 this.state = {
+		      isChecked: false,
+		    };
+		}
+		
+		this.toggleSwitch = this.toggleSwitch.bind( this )
+	}
+
+	toggleSwitch(){		
+		this.setState({
+	      isChecked: !this.state.isChecked,
+	    });	    
+	}
+
 	render() {
 
 		const {
 			attributes,
+			props
 		} = this.props
 
 		var switch_class = attributes.swichType.replace("_", "-")
@@ -13,11 +35,14 @@ class ToggleSwitch extends React.Component {
 		var switch_html = '';
 
 		var input_html = <input type="checkbox" className={ classnames( "uagb-ctgl__switch",`uagb-ctgl__switch-${switch_class}` ) }/>
-
+		//console.log(this.state.isChecked)
 		switch(attributes.swichType ){
 			case 'round_1':
 					switch_html = <label className="uagb-ctgl__switch-label">
-					            	<input type="checkbox" className={ classnames( "uagb-ctgl__switch",`uagb-ctgl__switch-${switch_class}` ) }/>
+					            	<input type="checkbox" className={ classnames( "uagb-ctgl__switch",`uagb-ctgl__switch-${switch_class}` ) } 
+					            	checked={this.state.isChecked}
+					            	onChange={this.toggleSwitch}
+					            	/>
 					            	<span className="uagb-ctgl__slider uagb-ctgl__round"></span>
 		            			</label>    
 				break;
