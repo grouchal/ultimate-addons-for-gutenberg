@@ -2679,54 +2679,24 @@ h1.uagb-timeline__heading, h2.uagb-timeline__heading, h3.uagb-timeline__heading,
  * Can include things like variables and mixins
  * that are used across the project.
 */
-/**
- * #.# Styles
- *
- * CSS for both Frontend+Backend.
- */
-.uagb-ctgl__toggle {
-  -js-display: flex;
-  display: -ms-flexbox;
-  display: flex;
-  padding: 25px;
-  -ms-flex-align: center;
-  align-items: center;
-  -ms-flex-direction: row;
-  flex-direction: row;
-  -ms-flex-pack: center;
-      justify-content: center; }
-
-.uagb-ctgl__sec-1,
-.uagb-ctgl__sec-2 {
-  cursor: pointer; }
-
-/*Deafult*/
-.uagb-ctgl__sec-1 {
-  margin-right: 5%; }
-
-.uagb-ctgl__sec-2 {
-  margin-left: 5%; }
-
-.uagb-ctgl-toggle-sections {
-  padding: 25px; }
-
-/*End of Defaults*/
-.uagb-ctgl__main-btn {
-  -ms-flex-align: center;
-  align-items: center; }
-
-label.uagb-ctgl__switch-label {
+/* Switcher CSS starts here. */
+.uagb-ctgl__switch-label {
   position: relative;
   display: inline-block;
   width: 4.5em;
   height: 2.3em;
   vertical-align: middle; }
 
-input.uagb-ctgl__switch {
+.uagb-ctgl__switch-label .uagb-ctgl__switch {
   display: none; }
 
-.uagb-ctgl__slider.uagb-ctgl__round {
-  border-radius: 1.5em; }
+.uagb-ctgl__main-btn {
+  -ms-flex-align: center;
+  align-items: center; }
+
+.uagb-ctgl__sec-1,
+.uagb-ctgl__sec-2 {
+  cursor: pointer; }
 
 .uagb-ctgl__slider {
   position: absolute;
@@ -2739,16 +2709,6 @@ input.uagb-ctgl__switch {
   -o-transition: .4s;
   transition: .4s; }
 
-.uagb-ctgl__switch + .uagb-ctgl__slider {
-  background-color: #7a7a7a; }
-
-.uagb-ctgl__switch:checked + .uagb-ctgl__slider {
-  background-color: #7a7a7a; }
-
-.uagb-ctgl__slider.uagb-ctgl__round:before {
-  border-radius: 50%;
-  background-color: #fff; }
-
 .uagb-ctgl__slider:before {
   position: absolute;
   content: "";
@@ -2760,7 +2720,122 @@ input.uagb-ctgl__switch {
   -o-transition: .4s;
   transition: .4s; }
 
+.uagb-ctgl__switch + .uagb-ctgl__slider {
+  background-color: #d2d2d2; }
+
+.uagb-ctgl__switch:checked + .uagb-ctgl__slider {
+  background-color: #d2d2d2; }
+
 .uagb-ctgl__switch:checked + .uagb-ctgl__slider:before {
   -webkit-transform: translateX(2.1em);
   -ms-transform: translateX(2.1em);
-  transform: translateX(2.1em); }
+  transform: translateX(2.1em);
+  background-color: #fff; }
+
+/* Round - 1 switch css */
+.uagb-ctgl__slider.uagb-ctgl__round {
+  border-radius: 1.5em; }
+
+.uagb-ctgl__slider.uagb-ctgl__round:before {
+  border-radius: 50%;
+  background-color: #fff; }
+
+.uagb-ctgl__sec-heading-1 {
+  margin: 0px;
+  padding: 0px; }
+
+.uagb-ctgl__sec-heading-2 {
+  margin: 0px;
+  padding: 0px; }
+
+.uagb-ctgl__toggle {
+  -js-display: flex;
+  display: -ms-flexbox;
+  display: flex;
+  padding: 25px;
+  -ms-flex-align: center;
+  align-items: center;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  -ms-flex-pack: center;
+      justify-content: center; }
+
+.uagb-ctgl-toggle-sections {
+  padding: 25px; }
+
+/* Round - 2 switch css */
+input.uagb-ctgl__switch-round-2 {
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  margin-right: 0.4375em;
+  padding: 0;
+  opacity: 0;
+  display: none; }
+
+.uagb-ctgl_toggle_switch {
+  display: block;
+  position: relative;
+  background: 0 0;
+  width: 3.8em; }
+
+.uagb-ctgl_toggle_switch input[type="checkbox"] + label {
+  position: relative;
+  display: inline-block;
+  top: 0;
+  left: 0.2em;
+  padding-left: 0;
+  color: #000;
+  cursor: pointer;
+  width: 2.28em;
+  height: 1.3em; }
+
+.uagb-ctgl_toggle_switch input[type="checkbox"] + label:before {
+  -webkit-transition: background-color 0.4s ease;
+  -o-transition: background-color 0.4s ease;
+  transition: background-color 0.4s ease;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  position: absolute;
+  top: 0.4em;
+  left: 0;
+  content: '';
+  width: 3.5em;
+  height: 1em;
+  background-color: #767676;
+  border-radius: 0.5em; }
+
+.uagb-ctgl_toggle_switch input[type="checkbox"] + label:before {
+  background-color: #61ce70; }
+
+.uagb-ctgl_toggle_switch input[type="checkbox"] + label:after {
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  -webkit-transition: -webkit-transform 0.4s cubic-bezier(0.45, 1.8, 0.5, 0.75);
+  -webkit-transition: -webkit-transform 0.4s cubic-bezier(0.45, 1.8, 0.5, 0.75);
+  transition: -webkit-transform 0.4s cubic-bezier(0.45, 1.8, 0.5, 0.75);
+  -o-transition: transform 0.4s cubic-bezier(0.45, 1.8, 0.5, 0.75);
+  transition: transform 0.4s cubic-bezier(0.45, 1.8, 0.5, 0.75);
+  transition: transform 0.4s cubic-bezier(0.45, 1.8, 0.5, 0.75), -webkit-transform 0.4s cubic-bezier(0.45, 1.8, 0.5, 0.75);
+  position: absolute;
+  top: 0;
+  left: -0.2em;
+  width: 2.4em;
+  height: 2.4em;
+  content: '';
+  font-size: 0.75em;
+  border-radius: 500em;
+  border: 0.3em solid #767676; }
+
+.uagb-ctgl_toggle_switch input[type="checkbox"] + label:after {
+  border: 0.3em solid #61ce70;
+  background-color: #fff; }
+
+.uagb-ctgl_toggle_switch input[type="checkbox"]:checked + label:before {
+  background-color: #7a7a7a; }
+
+.uagb-ctgl_toggle_switch .uagb-ctgl__switch-round-2[type="checkbox"]:checked + label:after {
+  -webkit-transform: translateX(2.5em);
+  -ms-transform: translateX(2.5em);
+  transform: translateX(2.5em);
+  border: 0.3em solid #7a7a7a; }

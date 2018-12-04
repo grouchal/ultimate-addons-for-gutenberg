@@ -5,8 +5,9 @@ import Heading_1 from "./components/heading_1"
 import Heading_2 from "./components/heading_2"
 import Content_1 from "./components/content_1"
 import Content_2 from "./components/content_2"
+import ToggleSwitch from "./components/toggle_switch"
 
-//import styling from "./styling"
+import styling from "./styling"
 
 const { __ } = wp.i18n
 
@@ -332,7 +333,7 @@ class UAGBTeam extends Component {
 							{ value: "solid", label: __( "Solid" ) },
 							{ value: "dotted", label: __( "Dotted" ) },
 							{ value: "dashed", label: __( "Dashed" ) },
-							{ value: "double", label: __( "Double" ) },
+							{ value: "double", label: __( "Dou  ble" ) },
 							{ value: "groove", label: __( "Groove" ) },
 							{ value: "inset", label: __( "Inset" ) },
 							{ value: "outset", label: __( "Outset" ) },
@@ -402,17 +403,12 @@ class UAGBTeam extends Component {
 
 		const output= (
 			<Fragment>
-				<div className="uagb-ctgl__desktop-stack--no uagb-ctgl__wrapper">	
+				<div className="uagb-ctgl__wrapper">	
 					<div className="uagb-ctgl__toggle">
 
 						<Heading_1 attributes={attributes} setAttributes = { setAttributes } props = { this.props } />
 
-			            <div className="uagb-ctgl__main-btn" data-switch-type="round_1">    
-			            	<label className="uagb-ctgl__switch-label">
-			            	<input className="uagb-ctgl__switch uagb-ctgl__switch-round-1" type="checkbox"/>
-			            	<span className="uagb-ctgl__slider uagb-ctgl__round"></span>
-			            	</label>    
-					    </div>
+			            <ToggleSwitch attributes={attributes}/>
 
 					    <Heading_2 attributes={attributes} setAttributes = { setAttributes } props = { this.props } />
 
@@ -437,8 +433,7 @@ class UAGBTeam extends Component {
 				{ headingBgControls }
 				{ contentBgControls }
 				{ spaceControls }
-				</InspectorControls>
-				{ output }
+				</InspectorControls>				
 			</Fragment>
 		)
 
@@ -457,7 +452,7 @@ class UAGBTeam extends Component {
 				) }
 				id = { my_block_id }
 				>
-					
+				{ output }
 				</div>
 			</Fragment>
 		)
