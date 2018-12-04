@@ -39,7 +39,7 @@ class UAGBTeam extends Component {
 	constructor() {
 		super( ...arguments )
 		this.state = {
-	      isChecked: true,
+	      isChecked: false,
 	    };
 	}
 	
@@ -194,7 +194,14 @@ class UAGBTeam extends Component {
 					<SelectControl
 						label={ __( "Default Display" ) }
 						value={ defualtDisplay }
-						onChange={ ( value ) => setAttributes( { defualtDisplay: value } ) }
+						onChange={ ( value ) => {
+							setAttributes( { defualtDisplay: value } ) 							
+							if( value == 'content_2' ){
+								setAttributes( { is_checked: true} )
+							}else{
+								setAttributes( { is_checked: false} )
+							}
+						}}
 						options={ [
 							{ value: "content_1", label: __( "Content 1" ) },
 							{ value: "content_2", label: __( "Content 2" ) },
@@ -511,11 +518,13 @@ class UAGBTeam extends Component {
 
 		var rbs_switch      = $scope.find( current_class );
 
-		if( this.props.attributes.defualtDisplay  && this.props.attributes.defualtDisplay == 'content_2'){
-			rbs_switch.click();			
+		/*if( this.props.attributes.is_checked ) {
+			rbs_switch.click()
 		}else{
-			rbs_switch.click();		
+			rbs_switch.removeAttr("checked")
 		}
+		*/
+	console.log(rbs_switch.is( ':checked' ))
 
 		if( rbs_switch.is( ':checked' ) ) {
 			rbs_section_1.hide();
@@ -527,7 +536,8 @@ class UAGBTeam extends Component {
 
 		rbs_switch.on('click', function(e){		        
 	        rbs_section_1.toggle();
-	        rbs_section_2.toggle();	        
+	        rbs_section_2.toggle();	      
+	       
 	    });
 	}
 }

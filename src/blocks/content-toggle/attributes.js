@@ -134,10 +134,10 @@ const attributes = {
 		type: "string",
 		default: "tablet"
 	},
-	/*is_checked: {
+	is_checked: {
 		type: "string",
 		default: false
-	}*/
+	}
 }
 
 export default attributes
