@@ -38,7 +38,7 @@
  * Loads on front end and back end
  */
 .uagb-post-grid {
-  margin: 0 0 30px 0;
+  margin: 0;
   position: relative; }
   .uagb-post-grid .is-grid article {
     float: left;
@@ -213,19 +213,9 @@
  * Post grid styles
  * Loads on front end and back end
  */
-.uagb-post-grid .slick-slide img {
-  width: 100%; }
-
 /* -------- Slick CSS */
-.uagb-post-grid .slick-slide img {
-  width: 100%; }
-
 .uagb-post-grid .slick-prev,
-.uagb-post-grid .slick-next,
-.uagb-post-grid .slick-prev:hover,
-.uagb-post-grid .slick-next:hover,
-.uagb-post-grid .slick-prev:focus,
-.uagb-post-grid .slick-next:focus {
+.uagb-post-grid .slick-next {
   font-size: 0;
   line-height: 0;
   position: absolute;
@@ -342,7 +332,7 @@
   background: transparent; }
 
 .uagb-post-grid ul.slick-dots li button:before {
-  font-family: dashicons;
+  font-family: Font Awesome\ 5 Free;
   font-size: 10px;
   line-height: 20px;
   position: absolute;
@@ -350,7 +340,7 @@
   left: 0;
   width: 20px;
   height: 20px;
-  content: '\f159';
+  content: '\f111';
   text-align: center;
   opacity: .25;
   color: black;
@@ -364,6 +354,9 @@
 .uagb-post__arrow-inside.uagb-post-grid .slick-prev {
   left: 25px;
   z-index: 1; }
+
+.uagb-post-grid button.slick-arrow {
+  padding: 5px 10px; }
 
 [dir="rtl"] .uagb-post__arrow-inside.uagb-post-grid .slick-prev {
   left: auto;
@@ -818,6 +811,9 @@ a.uagb-infobox-link-wrap {
  *
  * CSS for both Frontend+Backend.
  */
+.uagb-slick-carousel {
+  padding: 45px; }
+
 .uagb-testimonial__wrap {
   position: relative; }
 
@@ -1342,6 +1338,377 @@ a.uagb-infobox-link-wrap {
  * Can include things like variables and mixins
  * that are used across the project.
 */
+/**
+ * #.# Styles
+ *
+ * CSS for both Frontend+Backend.
+ */
+.uagb-icon-list__outer-wrap .uagb-icon-list__wrap {
+  -js-display: flex;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-align: flex-start;
+  align-items: flex-start;
+  -ms-flex-pack: flex-start;
+  justify-content: flex-start; }
+
+.uagb-icon-list__outer-wrap a.uagb-icon-list__wrapper,
+.uagb-icon-list__outer-wrap a.uagb-icon-list__wrapper:focus,
+.uagb-icon-list__outer-wrap a.uagb-icon-list__wrapper:active,
+.uagb-icon-list__outer-wrap a.uagb-icon-list__wrapper:visited {
+  text-decoration: none; }
+
+.uagb-icon-list__outer-wrap a.uagb-button__link:focus {
+  -webkit-box-shadow: none;
+          box-shadow: none; }
+
+.uagb-icon-list__outer-wrap .uagb-icon-list__wrapper {
+  padding: 0;
+  margin-left: 5px;
+  margin-right: 5px;
+  -webkit-transition: all 0.5s;
+  -o-transition: all 0.5s;
+  transition: all 0.5s;
+  display: -ms-inline-flexbox;
+  display: inline-flex;
+  text-align: center; }
+
+.uagb-icon-list__outer-wrap .uagb-icon-list__content-wrap,
+.uagb-icon-list__outer-wrap .uagb-icon-list__source-wrap {
+  width: inherit;
+  display: inline-block; }
+
+.uagb-icon-list__outer-wrap .uagb-icon-list__content-wrap {
+  color: #3a3a3a;
+  -js-display: flex;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-align: center;
+  align-items: center; }
+
+.uagb-icon-list__outer-wrap .uagb-icon-list__source-icon,
+.uagb-icon-list__outer-wrap .uagb-icon-list__source-icon:before {
+  font-size: 40px;
+  width: 40px;
+  height: 40px; }
+
+.uagb-icon-list__outer-wrap .uagb-icon-list__source-image {
+  width: 40px; }
+
+.uagb-icon-list__outer-wrap .uagb-icon-list__wrapper:first-child {
+  margin-left: 0; }
+
+.uagb-icon-list__outer-wrap .uagb-icon-list__wrapper:last-child {
+  margin-right: 0; }
+
+.uagb-icon-list__outer-wrap:not(.uagb-icon-list__no-label) .uagb-icon-list__source-wrap {
+  margin-right: 15px; }
+/**
+ * #.# Common SCSS
+ *
+ * Can include things like variables and mixins
+ * that are used across the project.
+*/
+/**
+ * #.# Styles
+ *
+ * CSS for both Frontend+Backend.
+ */
+.uagb-rest_menu__wrap {
+  position: relative;
+  padding-left: 5px;
+  padding-right: 5px; }
+
+.uagb-rest_menu__wrap,
+.uagb-rest_menu__wrap * {
+  -webkit-transition: all 0.5s;
+  -o-transition: all 0.5s;
+  transition: all 0.5s; }
+
+.uagb-rm__image img,
+.slick-slide .uagb-rm__image img {
+  display: inline-block;
+  -webkit-box-sizing: content-box;
+          box-sizing: content-box; }
+
+.uagb-rm__title,
+.uagb-rm__price {
+  display: inline-block; }
+
+.uagb-rm__desc {
+  margin-bottom: 15px;
+  font-style: italic; }
+
+.uagb-rm__content {
+  overflow: hidden;
+  text-align: left;
+  word-break: break-word;
+  padding: 15px;
+  border-radius: inherit;
+  position: relative;
+  padding: 5px; }
+
+.uagb-rm__image-position-left .uagb-rm__content,
+.uagb-rm__image-position-right .uagb-rm__content {
+  display: -ms-flexbox;
+  -js-display: flex;
+  display: flex; }
+
+.uagb-rm-details {
+  display: table;
+  width: 100%; }
+
+.uagb-rm__title-wrap,
+.uagb-rm__price-wrap {
+  display: table-cell; }
+
+.uagb-rm__title-wrap,
+.uagb-rm__image-position-left.uagb-rm__align-center .uagb-rm__price-wrap,
+.uagb-rm__image-position-right.uagb-rm__align-center .uagb-rm__price-wrap {
+  width: 85%; }
+
+.uagb-rm__price-wrap,
+.uagb-rm__image-position-left.uagb-rm__align-center .uagb-rm__price-wrap,
+.uagb-rm__image-position-right.uagb-rm__align-center .uagb-rm__price-wrap {
+  width: 15%; }
+
+.uagb-rm__title, .uagb-rm__price {
+  display: block; }
+
+/*center aligned block without image*/
+.uagb-rm__align-center .uagb-rm-details,
+.uagb-rm__align-center .uagb-rm__title-wrap,
+.uagb-rm__align-center .uagb-rm__price-wrap {
+  display: block;
+  width: 100%; }
+
+/*end*/
+.uagb-rm__image-aligned-middle .uagb-rm__image-content {
+  -ms-flex-item-align: center;
+  align-self: center; }
+
+.uagb-rm__image {
+  overflow: hidden; }
+
+.uagb-rm__title {
+  margin-bottom: 5px;
+  font-size: 20px; }
+
+.uagb-rm__price {
+  font-style: italic;
+  text-align: right; }
+
+.uagb-rm__image-position-center.uagb-rm__align-center .uagb-rm-details,
+.uagb-rm__image-position-center.uagb-rm__align-center .uagb-rm__title-wrap,
+.uagb-rm__image-position-center.uagb-rm__align-center .uagb-rm__price-wrap {
+  display: block;
+  width: 100%;
+  text-align: center; }
+
+.uagb-rm__align-center .uagb-rm__price {
+  text-align: center; }
+
+.uagb-rm__align-right .uagb-rm-details {
+  display: -ms-flexbox;
+  display: flex;
+  width: 100%;
+  -ms-flex-direction: row-reverse;
+      flex-direction: row-reverse; }
+
+.uagb-rm__align-right .uagb-rm__price {
+  text-align: left; }
+
+.uagb-rm__align-left .uagb-rm__price {
+  text-align: right; }
+
+/*CSS for image position left with all alignment*/
+.uagb-rm__image-position-left.uagb-rm__align-left .uagb-rm__price,
+.uagb-rm__image-position-left.uagb-rm__align-right .uagb-rm__price,
+.uagb-rm__image-position-left.uagb-rm__align-center .uagb-rm__price {
+  text-align: right; }
+
+.uagb-rm__image-position-left.uagb-rm__align-left .uagb-rm-details,
+.uagb-rm__image-position-left.uagb-rm__align-right .uagb-rm-details,
+.uagb-rm__image-position-left.uagb-rm__align-center .uagb-rm-details {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: unset;
+      flex-direction: unset;
+  text-align: left; }
+
+.uagb-rm__image-position-left.uagb-rm__align-left .uagb-rm__title-wrap,
+.uagb-rm__image-position-left.uagb-rm__align-right .uagb-rm__title-wrap,
+.uagb-rm__image-position-left.uagb-rm__align-center .uagb-rm__title-wrap,
+.uagb-rm__image-position-left.uagb-rm__align-left .uagb-rm__image-content,
+.uagb-rm__image-position-left.uagb-rm__align-right .uagb-rm__image-content,
+.uagb-rm__image-position-left.uagb-rm__align-center .uagb-rm__image-content {
+  text-align: left; }
+
+/*CSS for image position right with all alignment*/
+.uagb-rm__image-position-right.uagb-rm__align-left .uagb-rm-details,
+.uagb-rm__image-position-right.uagb-rm__align-right .uagb-rm-details,
+.uagb-rm__image-position-right.uagb-rm__align-center .uagb-rm-details {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-direction: row-reverse;
+      flex-direction: row-reverse;
+  text-align: right; }
+
+.uagb-rm__image-position-right.uagb-rm__align-left .uagb-rm__price,
+.uagb-rm__image-position-right.uagb-rm__align-right .uagb-rm__price,
+.uagb-rm__image-position-right.uagb-rm__align-center .uagb-rm__price {
+  text-align: left; }
+
+.uagb-rm__image-position-right.uagb-rm__align-left .uagb-rm__title-wrap,
+.uagb-rm__image-position-right.uagb-rm__align-right .uagb-rm__title-wrap,
+.uagb-rm__image-position-right.uagb-rm__align-center .uagb-rm__title-wrap,
+.uagb-rm__image-position-right.uagb-rm__align-left .uagb-rm__image-content,
+.uagb-rm__image-position-right.uagb-rm__align-right .uagb-rm__image-content,
+.uagb-rm__image-position-right.uagb-rm__align-center .uagb-rm__image-content {
+  text-align: right; }
+
+.uagb-rest_menu__outer-wrap {
+  position: relative; }
+
+.uagb-rm__overlay {
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  position: absolute;
+  background: transparent; }
+
+.uagb-tm-parent {
+  padding: 30px; }
+
+.uagb-rm__text-wrap {
+  position: relative;
+  display: block;
+  width: 100%; }
+
+.uagb-rest_menu__wrap {
+  position: relative; }
+
+.uagb-rest_menu__outer-wrap:after {
+  content: "";
+  display: block;
+  clear: both; }
+
+.uagb-rest_menu__wrap.uagb-rm__desk-column-3 {
+  display: block;
+  width: 33%;
+  float: left;
+  width: calc(100% / 3);
+  padding-left: 10px;
+  padding-right: 10px; }
+
+.uagb-rest_menu__wrap.uagb-rm__desk-column-2 {
+  display: block;
+  width: 49%;
+  float: left;
+  padding-left: 10px;
+  padding-right: 10px; }
+
+.uagb-rest_menu__wrap.uagb-rm__desk-column-1 {
+  display: block;
+  width: 100%;
+  float: left;
+  padding-left: 10px;
+  padding-right: 10px; }
+
+.uagb-rm__separator-parent {
+  line-height: 0em;
+  margin-left: 0;
+  margin-right: 0;
+  margin-bottom: 10px; }
+
+.uagb-rm__separator {
+  width: 100%;
+  border-top-width: 1px;
+  border-top-color: #b2b4b5;
+  border-top-style: inherit; }
+
+.uagb-rm__image-position-left .uagb-rm__image {
+  margin-right: 10px; }
+
+.uagb-rm__image-position-right .uagb-rm__image {
+  margin-left: 10px; }
+
+@media (max-width: 1023px) {
+  .uagb-rm__image-position-left.uagb-rm-stacked-tablet .uagb-rm__content,
+  .uagb-rm__image-position-right.uagb-rm-stacked-tablet .uagb-rm__content {
+    display: block;
+    -js-display: block;
+    display: block; }
+  .uagb-rm__image-position-right.uagb-rm-stacked-tablet.uagb-rm-reverse-order-tablet .uagb-rm__content {
+    display: -ms-flexbox;
+    -js-display: flex;
+    display: -moz-flexbox;
+    display: flex;
+    -ms-flex-direction: column-reverse;
+    flex-direction: column-reverse; }
+  .uagb-rest_menu__wrap.uagb-rm__tablet-column-3 {
+    width: 33%;
+    float: left;
+    padding-left: 10px;
+    padding-right: 10px; }
+  .uagb-rest_menu__wrap.uagb-rm__tablet-column-2 {
+    width: 50%;
+    float: left;
+    padding-left: 10px;
+    padding-right: 10px; }
+  .uagb-rest_menu__wrap.uagb-rm__tablet-column-1 {
+    width: 100%;
+    float: left;
+    padding-left: 10px;
+    padding-right: 10px; }
+  .uagb-rm__image-position-right.uagb-rm-stacked-tablet.uagb-rm__image-aligned-middle .uagb-rm__image-content {
+    -ms-flex-item-align: end;
+        align-self: flex-end; }
+  .uagb-rm__image-position-left.uagb-rm-stacked-tablet.uagb-rm__image-aligned-middle .uagb-rm__image-content {
+    -ms-flex-item-align: start;
+        align-self: flex-start; } }
+
+@media (max-width: 767px) {
+  .uagb-rm__image-position-left.uagb-rm-stacked-mobile .uagb-rm__content,
+  .uagb-rm__image-position-right.uagb-rm-stacked-mobile .uagb-rm__content {
+    display: block;
+    -js-display: block;
+    display: block; }
+  .uagb-rm__image-position-right.uagb-rm-stacked-mobile.uagb-rm-reverse-order-mobile .uagb-rm__content {
+    display: -ms-flexbox;
+    -js-display: flex;
+    display: -moz-flexbox;
+    display: flex;
+    -ms-flex-direction: column-reverse;
+    flex-direction: column-reverse; }
+  .uagb-rest_menu__wrap.uagb-rm__mobile-column-3 {
+    width: 33%;
+    float: left;
+    padding-left: 10px;
+    padding-right: 10px; }
+  .uagb-rest_menu__wrap.uagb-rm__mobile-column-2 {
+    width: 50%;
+    float: left;
+    padding-left: 10px;
+    padding-right: 10px; }
+  .uagb-rest_menu__wrap.uagb-rm__mobile-column-1 {
+    width: 100%;
+    float: left;
+    padding-left: 10px;
+    padding-right: 10px; }
+  .uagb-rm__image-position-right.uagb-rm-stacked-mobile.uagb-rm__image-aligned-middle .uagb-rm__image-content {
+    -ms-flex-item-align: end;
+        align-self: flex-end; }
+  .uagb-rm__image-position-left.uagb-rm-stacked-mobile.uagb-rm__image-aligned-middle .uagb-rm__image-content {
+    -ms-flex-item-align: start;
+        align-self: flex-start; } }
+/**
+ * #.# Common SCSS
+ *
+ * Can include things like variables and mixins
+ * that are used across the project.
+*/
 /** * #.# Styles * * CSS for both Frontend+Backend. */
 .uagb-timeline__widget {
   position: relative;
@@ -1360,8 +1727,29 @@ a.uagb-infobox-link-wrap {
   color: inherit;
   margin-bottom: inherit; }
 
+.uagb-timeline__image a {
+  display: block;
+  position: relative;
+  max-width: 100%; }
+
+.uagb-timeline__image img {
+  display: inline-block;
+  -webkit-box-sizing: content-box;
+  -mz-box-sizing: content-box;
+  box-sizing: content-box; }
+
+.uagb-timeline__author {
+  text-transform: uppercase; }
+
 .uagb-timeline__main {
   position: relative; }
+
+.uagb-content {
+  word-break: break-word; }
+
+a.uagb-timeline__link {
+  padding: 5px 10px;
+  display: inline-block; }
 
 h1.uagb-timeline__heading, h2.uagb-timeline__heading, h3.uagb-timeline__heading, h4.uagb-timeline__heading, h5.uagb-timeline__heading, h6.uagb-timeline__heading {
   margin-bottom: 0px; }
@@ -1507,7 +1895,7 @@ h1.uagb-timeline__heading, h2.uagb-timeline__heading, h3.uagb-timeline__heading,
   -o-transition: all .2s ease-in-out;
   transition: all .2s ease-in-out; }
 
-.uagb-timeline__main .uagb-timeline__days .uagb-timeline__animate-border:hover .uagb-timeline__marker {
+.uagb-timeline__main .uagb-timeline__days .uagb-timeline__field-wrap:hover .uagb-timeline__marker {
   -webkit-transition: all .2s ease-in-out;
   -o-transition: all .2s ease-in-out;
   transition: all .2s ease-in-out; }
@@ -1694,7 +2082,7 @@ h1.uagb-timeline__heading, h2.uagb-timeline__heading, h3.uagb-timeline__heading,
   -ms-transform: translateX(-50%);
   transform: translateX(-50%); }
 
-.uagb-timeline__right .uagb-timeline__line {
+.uagb-timeline__right-block .uagb-timeline__main .uagb-timeline__line {
   position: absolute;
   -webkit-transform: translateX(50%);
   -ms-transform: translateX(50%);
@@ -1746,6 +2134,11 @@ h1.uagb-timeline__heading, h2.uagb-timeline__heading, h3.uagb-timeline__heading,
 /* RIGHT CSS STARTS */
 .uagb-timeline__right .uagb-timeline__days {
   text-align: right; }
+
+.uagb-timeline__outer-wrap span.dashicons-admin-users.dashicons {
+  display: inline;
+  vertical-align: baseline;
+  margin-right: 4px; }
 
 @media screen and (max-width: 1023px) {
   .uagb-timeline__center-block.uagb-timeline__responsive-tablet .uagb-timeline-res-right .uagb-timeline__line {
@@ -2303,376 +2696,6 @@ h1.uagb-timeline__heading, h2.uagb-timeline__heading, h3.uagb-timeline__heading,
   .uagb-timeline__center-block.uagb-timeline__responsive-mobile .uagb-timeline-res-right .uagb-timeline__line, .rtl .uagb-timeline__center-block.uagb-timeline__responsive-mobile .uagb-timeline__line {
     right: calc(3em / 2);
     left: auto; } }
-/**
- * #.# Common SCSS
- *
- * Can include things like variables and mixins
- * that are used across the project.
-*/
-/**
- * #.# Styles
- *
- * CSS for both Frontend+Backend.
- */
-.uagb-rest_menu__wrap {
-  position: relative;
-  padding-left: 5px;
-  padding-right: 5px; }
-
-.uagb-rest_menu__wrap,
-.uagb-rest_menu__wrap * {
-  -webkit-transition: all 0.5s;
-  -o-transition: all 0.5s;
-  transition: all 0.5s; }
-
-.uagb-rm__image img,
-.slick-slide .uagb-rm__image img {
-  display: inline-block;
-  -webkit-box-sizing: content-box;
-          box-sizing: content-box; }
-
-.uagb-rm__title,
-.uagb-rm__price {
-  display: inline-block; }
-
-.uagb-rm__desc {
-  margin-bottom: 15px;
-  font-style: italic; }
-
-.uagb-rm__content {
-  overflow: hidden;
-  text-align: left;
-  word-break: break-word;
-  padding: 15px;
-  border-radius: inherit;
-  position: relative;
-  padding: 5px; }
-
-.uagb-rm__image-position-left .uagb-rm__content,
-.uagb-rm__image-position-right .uagb-rm__content {
-  display: -ms-flexbox;
-  -js-display: flex;
-  display: flex; }
-
-.uagb-rm-details {
-  display: table;
-  width: 100%; }
-
-.uagb-rm__title-wrap,
-.uagb-rm__price-wrap {
-  display: table-cell; }
-
-.uagb-rm__title-wrap,
-.uagb-rm__image-position-left.uagb-rm__align-center .uagb-rm__price-wrap,
-.uagb-rm__image-position-right.uagb-rm__align-center .uagb-rm__price-wrap {
-  width: 85%; }
-
-.uagb-rm__price-wrap,
-.uagb-rm__image-position-left.uagb-rm__align-center .uagb-rm__price-wrap,
-.uagb-rm__image-position-right.uagb-rm__align-center .uagb-rm__price-wrap {
-  width: 15%; }
-
-.uagb-rm__title, .uagb-rm__price {
-  display: block; }
-
-/*center aligned block without image*/
-.uagb-rm__align-center .uagb-rm-details,
-.uagb-rm__align-center .uagb-rm__title-wrap,
-.uagb-rm__align-center .uagb-rm__price-wrap {
-  display: block;
-  width: 100%; }
-
-/*end*/
-.uagb-rm__image-aligned-middle .uagb-rm__image-content {
-  -ms-flex-item-align: center;
-  align-self: center; }
-
-.uagb-rm__image {
-  overflow: hidden; }
-
-.uagb-rm__title {
-  margin-bottom: 5px;
-  font-size: 20px; }
-
-.uagb-rm__price {
-  font-style: italic;
-  text-align: right; }
-
-.uagb-rm__image-position-center.uagb-rm__align-center .uagb-rm-details,
-.uagb-rm__image-position-center.uagb-rm__align-center .uagb-rm__title-wrap,
-.uagb-rm__image-position-center.uagb-rm__align-center .uagb-rm__price-wrap {
-  display: block;
-  width: 100%;
-  text-align: center; }
-
-.uagb-rm__align-center .uagb-rm__price {
-  text-align: center; }
-
-.uagb-rm__align-right .uagb-rm-details {
-  display: -ms-flexbox;
-  display: flex;
-  width: 100%;
-  -ms-flex-direction: row-reverse;
-      flex-direction: row-reverse; }
-
-.uagb-rm__align-right .uagb-rm__price {
-  text-align: left; }
-
-.uagb-rm__align-left .uagb-rm__price {
-  text-align: right; }
-
-/*CSS for image position left with all alignment*/
-.uagb-rm__image-position-left.uagb-rm__align-left .uagb-rm__price,
-.uagb-rm__image-position-left.uagb-rm__align-right .uagb-rm__price,
-.uagb-rm__image-position-left.uagb-rm__align-center .uagb-rm__price {
-  text-align: right; }
-
-.uagb-rm__image-position-left.uagb-rm__align-left .uagb-rm-details,
-.uagb-rm__image-position-left.uagb-rm__align-right .uagb-rm-details,
-.uagb-rm__image-position-left.uagb-rm__align-center .uagb-rm-details {
-  display: -ms-flexbox;
-  display: flex;
-  -ms-flex-direction: unset;
-      flex-direction: unset;
-  text-align: left; }
-
-.uagb-rm__image-position-left.uagb-rm__align-left .uagb-rm__title-wrap,
-.uagb-rm__image-position-left.uagb-rm__align-right .uagb-rm__title-wrap,
-.uagb-rm__image-position-left.uagb-rm__align-center .uagb-rm__title-wrap,
-.uagb-rm__image-position-left.uagb-rm__align-left .uagb-rm__image-content,
-.uagb-rm__image-position-left.uagb-rm__align-right .uagb-rm__image-content,
-.uagb-rm__image-position-left.uagb-rm__align-center .uagb-rm__image-content {
-  text-align: left; }
-
-/*CSS for image position right with all alignment*/
-.uagb-rm__image-position-right.uagb-rm__align-left .uagb-rm-details,
-.uagb-rm__image-position-right.uagb-rm__align-right .uagb-rm-details,
-.uagb-rm__image-position-right.uagb-rm__align-center .uagb-rm-details {
-  display: -ms-flexbox;
-  display: flex;
-  -ms-flex-direction: row-reverse;
-      flex-direction: row-reverse;
-  text-align: right; }
-
-.uagb-rm__image-position-right.uagb-rm__align-left .uagb-rm__price,
-.uagb-rm__image-position-right.uagb-rm__align-right .uagb-rm__price,
-.uagb-rm__image-position-right.uagb-rm__align-center .uagb-rm__price {
-  text-align: left; }
-
-.uagb-rm__image-position-right.uagb-rm__align-left .uagb-rm__title-wrap,
-.uagb-rm__image-position-right.uagb-rm__align-right .uagb-rm__title-wrap,
-.uagb-rm__image-position-right.uagb-rm__align-center .uagb-rm__title-wrap,
-.uagb-rm__image-position-right.uagb-rm__align-left .uagb-rm__image-content,
-.uagb-rm__image-position-right.uagb-rm__align-right .uagb-rm__image-content,
-.uagb-rm__image-position-right.uagb-rm__align-center .uagb-rm__image-content {
-  text-align: right; }
-
-.uagb-rest_menu__outer-wrap {
-  position: relative; }
-
-.uagb-rm__overlay {
-  height: 100%;
-  width: 100%;
-  top: 0;
-  left: 0;
-  position: absolute;
-  background: transparent; }
-
-.uagb-tm-parent {
-  padding: 30px; }
-
-.uagb-rm__text-wrap {
-  position: relative;
-  display: block;
-  width: 100%; }
-
-.uagb-rest_menu__wrap {
-  position: relative; }
-
-.uagb-rest_menu__outer-wrap:after {
-  content: "";
-  display: block;
-  clear: both; }
-
-.uagb-rest_menu__wrap.uagb-rm__desk-column-3 {
-  display: block;
-  width: 33%;
-  float: left;
-  width: calc(100% / 3);
-  padding-left: 10px;
-  padding-right: 10px; }
-
-.uagb-rest_menu__wrap.uagb-rm__desk-column-2 {
-  display: block;
-  width: 49%;
-  float: left;
-  padding-left: 10px;
-  padding-right: 10px; }
-
-.uagb-rest_menu__wrap.uagb-rm__desk-column-1 {
-  display: block;
-  width: 100%;
-  float: left;
-  padding-left: 10px;
-  padding-right: 10px; }
-
-.uagb-rm__separator-parent {
-  line-height: 0em;
-  margin-left: 0;
-  margin-right: 0;
-  margin-bottom: 10px; }
-
-.uagb-rm__separator {
-  width: 100%;
-  border-top-width: 1px;
-  border-top-color: #b2b4b5;
-  border-top-style: inherit; }
-
-.uagb-rm__image-position-left .uagb-rm__image {
-  margin-right: 10px; }
-
-.uagb-rm__image-position-right .uagb-rm__image {
-  margin-left: 10px; }
-
-@media (max-width: 1023px) {
-  .uagb-rm__image-position-left.uagb-rm-stacked-tablet .uagb-rm__content,
-  .uagb-rm__image-position-right.uagb-rm-stacked-tablet .uagb-rm__content {
-    display: block;
-    -js-display: block;
-    display: block; }
-  .uagb-rm__image-position-right.uagb-rm-stacked-tablet.uagb-rm-reverse-order-tablet .uagb-rm__content {
-    display: -ms-flexbox;
-    -js-display: flex;
-    display: -moz-flexbox;
-    display: flex;
-    -ms-flex-direction: column-reverse;
-    flex-direction: column-reverse; }
-  .uagb-rest_menu__wrap.uagb-rm__tablet-column-3 {
-    width: 33%;
-    float: left;
-    padding-left: 10px;
-    padding-right: 10px; }
-  .uagb-rest_menu__wrap.uagb-rm__tablet-column-2 {
-    width: 50%;
-    float: left;
-    padding-left: 10px;
-    padding-right: 10px; }
-  .uagb-rest_menu__wrap.uagb-rm__tablet-column-1 {
-    width: 100%;
-    float: left;
-    padding-left: 10px;
-    padding-right: 10px; }
-  .uagb-rm__image-position-right.uagb-rm-stacked-tablet.uagb-rm__image-aligned-middle .uagb-rm__image-content {
-    -ms-flex-item-align: end;
-        align-self: flex-end; }
-  .uagb-rm__image-position-left.uagb-rm-stacked-tablet.uagb-rm__image-aligned-middle .uagb-rm__image-content {
-    -ms-flex-item-align: start;
-        align-self: flex-start; } }
-
-@media (max-width: 767px) {
-  .uagb-rm__image-position-left.uagb-rm-stacked-mobile .uagb-rm__content,
-  .uagb-rm__image-position-right.uagb-rm-stacked-mobile .uagb-rm__content {
-    display: block;
-    -js-display: block;
-    display: block; }
-  .uagb-rm__image-position-right.uagb-rm-stacked-mobile.uagb-rm-reverse-order-mobile .uagb-rm__content {
-    display: -ms-flexbox;
-    -js-display: flex;
-    display: -moz-flexbox;
-    display: flex;
-    -ms-flex-direction: column-reverse;
-    flex-direction: column-reverse; }
-  .uagb-rest_menu__wrap.uagb-rm__mobile-column-3 {
-    width: 33%;
-    float: left;
-    padding-left: 10px;
-    padding-right: 10px; }
-  .uagb-rest_menu__wrap.uagb-rm__mobile-column-2 {
-    width: 50%;
-    float: left;
-    padding-left: 10px;
-    padding-right: 10px; }
-  .uagb-rest_menu__wrap.uagb-rm__mobile-column-1 {
-    width: 100%;
-    float: left;
-    padding-left: 10px;
-    padding-right: 10px; }
-  .uagb-rm__image-position-right.uagb-rm-stacked-mobile.uagb-rm__image-aligned-middle .uagb-rm__image-content {
-    -ms-flex-item-align: end;
-        align-self: flex-end; }
-  .uagb-rm__image-position-left.uagb-rm-stacked-mobile.uagb-rm__image-aligned-middle .uagb-rm__image-content {
-    -ms-flex-item-align: start;
-        align-self: flex-start; } }
-/**
- * #.# Common SCSS
- *
- * Can include things like variables and mixins
- * that are used across the project.
-*/
-/**
- * #.# Styles
- *
- * CSS for both Frontend+Backend.
- */
-.uagb-icon-list__outer-wrap .uagb-icon-list__wrap {
-  -js-display: flex;
-  display: -ms-flexbox;
-  display: flex;
-  -ms-flex-align: flex-start;
-  align-items: flex-start;
-  -ms-flex-pack: flex-start;
-  justify-content: flex-start; }
-
-.uagb-icon-list__outer-wrap .uagb-icon-list__wrapper:focus,
-.uagb-icon-list__outer-wrap .uagb-icon-list__wrapper:active,
-.uagb-icon-list__outer-wrap .uagb-icon-list__wrapper:visited {
-  text-decoration: none; }
-
-.uagb-icon-list__outer-wrap a.uagb-button__link:focus {
-  -webkit-box-shadow: none;
-          box-shadow: none; }
-
-.uagb-icon-list__outer-wrap .uagb-icon-list__wrapper {
-  padding: 0;
-  margin-left: 5px;
-  margin-right: 5px;
-  -webkit-transition: all 0.5s;
-  -o-transition: all 0.5s;
-  transition: all 0.5s;
-  display: -ms-inline-flexbox;
-  display: inline-flex;
-  text-align: center; }
-
-.uagb-icon-list__outer-wrap .uagb-icon-list__content-wrap,
-.uagb-icon-list__outer-wrap .uagb-icon-list__source-wrap {
-  width: inherit;
-  display: inline-block; }
-
-.uagb-icon-list__outer-wrap .uagb-icon-list__source-wrap {
-  margin-right: 15px; }
-
-.uagb-icon-list__outer-wrap .uagb-icon-list__content-wrap {
-  color: #3a3a3a;
-  -js-display: flex;
-  display: -ms-flexbox;
-  display: flex;
-  -ms-flex-align: center;
-  align-items: center; }
-
-.uagb-icon-list__outer-wrap .uagb-icon-list__source-icon,
-.uagb-icon-list__outer-wrap .uagb-icon-list__source-icon:before {
-  font-size: 40px;
-  width: 40px;
-  height: 40px; }
-
-.uagb-icon-list__outer-wrap .uagb-icon-list__source-image {
-  width: 40px; }
-
-.uagb-icon-list__outer-wrap .uagb-icon-list__wrapper:first-child {
-  margin-left: 0; }
-
-.uagb-icon-list__outer-wrap .uagb-icon-list__wrapper:last-child {
-  margin-right: 0; }
 /**
  * #.# Common SCSS
  *

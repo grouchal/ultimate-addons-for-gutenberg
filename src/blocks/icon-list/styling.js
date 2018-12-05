@@ -41,14 +41,14 @@ function styling( props ) {
 	})
 
 	if ( "right" == align ) {
-		selectors[" .uagb-icon-list__source-wrap"] = {
+		selectors[":not(.uagb-icon-list__no-label) .uagb-icon-list__source-wrap"] = {
 			"margin-left" : inner_gap + "px"
 		}
 		selectors[" .uagb-icon-list__content-wrap"] = {
 			"flex-direction" : "row-reverse"
 		}
 	} else {
-		selectors[" .uagb-icon-list__source-wrap"] = {
+		selectors[":not(.uagb-icon-list__no-label) .uagb-icon-list__source-wrap"] = {
 			"margin-right" : inner_gap + "px"
 		}
 	}
@@ -95,6 +95,10 @@ function styling( props ) {
 		"width": size + "px",
 		"height": size + "px",
 		"font-size": size + "px"
+	}
+
+	selectors[" .uagb-icon-list__label-wrap"] = {
+		"text-align": align
 	}
 
 	var alignment = ( align == "left" ) ? "flex-start" : ( ( align == "right" ) ? "flex-end" : "center" )

@@ -199,6 +199,17 @@ a.uagb-infobox-cta-link {
  * that are used across the project.
 */
 /**
+ * Editor styles for the admin
+ */
+#wpwrap .edit-post-visual-editor a.uagb-icon-list__link {
+  color: #3a3a3a; }
+/**
+ * #.# Common SCSS
+ *
+ * Can include things like variables and mixins
+ * that are used across the project.
+*/
+/**
  * #.# Editor Styles
  *
  * CSS for just Backend enqueued after style.scss
@@ -217,10 +228,26 @@ a.uagb-infobox-cta-link {
  * that are used across the project.
 */
 /**
- * Editor styles for the admin
+ * #.# Editor Styles
+ *
+ * CSS for just Backend enqueued after style.scss
+ * which makes it higher in priority.
  */
-#wpwrap .edit-post-visual-editor a.uagb-icon-list__link {
-  color: #3a3a3a; }
+#wpwrap .edit-post-visual-editor .uagb-timeline__widget a {
+  text-decoration: none;
+  color: inherit; }
+
+#wpwrap .edit-post-visual-editor .uagb-timeline__heading a,
+.gutenberg-editor-page #wpwrap .edit-post-visual-editor a {
+  font-size: inherit;
+  color: inherit;
+  margin: 0; }
+
+#wpwrap .edit-post-visual-editor .uagb-timeline__heading {
+  margin: 0; }
+
+#wpwrap .edit-post-visual-editor .uagb-timeline-wrapper a {
+  pointer-events: none; }
 /**
  * #.# Common SCSS
  *
