@@ -1265,5 +1265,103 @@ if ( ! class_exists( 'UAGB_Block_Helper' ) ) {
 
 			return $desktop . $r_desktop . $tablet . $mobile;
 		}
+		
+		public static function get_content_toggle_css( $attr, $id ) {
+
+			// @codingStandardsIgnoreStart
+
+			$defaults = UAGB_Helper::$block_list['uagb/restaurant-menu']['attributes'];
+
+			$attr = array_merge( $defaults, (array) $attr );
+
+			$m_selectors = array();
+			$t_selectors = array();
+
+			$selectors[" .uagb-ctgl__main-btn"] = array(
+				'font-size'  =>  $attr['switchSize'] . "px"
+			);
+
+			$selectors[" span.uagb-ctgl__slider.uagb-ctgl__round"] = array(
+				'background-color'  =>  $attr['color1'] 
+			);
+
+			$selectors[" .uagb-ctgl__switch:checked + .uagb-ctgl__slider"] = array(
+				'background-color'  =>  $attr['color2'] 
+			);
+
+			$selectors[" .uagb-ctgl__slider.uagb-ctgl__round:before"] = array(
+				'background-color'  =>  $attr['controllerColor'] 
+			);
+
+			$selectors[" .uagb-ctgl_toggle_switch input[type='checkbox'] + label:after"] = array(
+				'background-color'  =>  $attr['controllerColor'],
+				'border'  =>  '0.3em solid '.$attr['color1'] 
+			);
+
+			$selectors[" .uagb-ctgl_toggle_switch input[type='checkbox'] + label:before"] = array(
+				'background-color'  =>  $attr['color1'] 
+			);
+
+			$selectors[" .uagb-ctgl_toggle_switch input[type='checkbox']:checked + label:before"] = array(
+				'background-color'  =>  $attr['color2'] 
+			);
+			$selectors[" .uagb-ctgl_toggle_switch .uagb-ctgl__switch-round-2[type='checkbox']:checked + label:after"] = array(
+				'background-color'  =>  $attr['color2'] 
+			);
+
+			$selectors[" .uagb-ctgl__sec-heading-1"] = array(
+				'color'  =>  $attr['headingColor_1'],
+				'font-size'  =>  $attr['headingFontSize_1'] . "px"
+			);
+
+			$selectors[" .uagb-ctgl__sec-heading-2"] = array(
+				'color'  =>  $attr['headingColor_2'],
+				'font-size'  =>  $attr['headingFontSize_2'] . "px"
+			);
+
+			$selectors[" .uagb-ctgl__content-1"] = array(
+				'color'  =>  $attr['contentColor_1'],
+				'font-size'  =>  $attr['contentFontSize_1'] . "px"
+			);
+
+			$selectors[" .uagb-ctgl__content-2"] = array(
+				'color'  =>  $attr['contentColor_2'],
+				'font-size'  =>  $attr['contentFontSize_2'] . "px"
+			);
+
+			$align_item = 'center' ;
+			if( 'left' === $attr['align'] ){
+				$align_item = 'flex-start';
+			}else if( 'right' === $attr['align']){
+				$align_item = 'flex-end';
+			}
+
+			$selectors[" .uagb-ctgl__toggle"] = array(
+				'background-color'  =>  $attr['headingBgColor'],
+				'border-style' => $attr['headingBorderType'],
+				'border-color' => $attr['headingBorderColor'],
+				'border-width'  =>  $attr['headingBorderWidth'] . "px",
+				'border-radius'  =>  $attr['headingBorderRadius'] . "px",
+				'margin-bottom'  =>  $attr['contentHeadSpace'] . "px",
+				"justify-content"=>  $align_item,
+			);
+
+			$selectors[" .uagb-ctgl-toggle-sections"] = array(
+				'background-color'  =>  $attr['contentBgColor'],
+				'border-style' => $attr['contentBorderType'],
+				'border-color' => $attr['contentBorderColor'],
+				'border-width'  =>  $attr['contentBorderWidth'] . "px",
+				'border-radius'  =>  $attr['contentBorderRadius'] . "px",
+				'text-align'  =>  $attr['align'] 
+			);
+
+			$selectors[" .uagb-ctgl__sec-1"] = array(
+				'margin-right'  =>  $attr['btnHeadSpaceWidth'] . "%"
+			);
+
+			$selectors[" .uagb-ctgl__sec-2"] = array(
+				'margin-left'  =>  $attr['btnHeadSpaceWidth'] . "%"
+			);
+		}
 	}
 }
