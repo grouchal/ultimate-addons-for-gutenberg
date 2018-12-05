@@ -96,7 +96,7 @@ if ( ! class_exists( 'UAGB_Config' ) ) {
 						'description' => __( 'The Content Toggle block lets you create toggle on your website.', 'ultimate-addons-for-gutenberg' ),
 						'default'     => true,
 						'attributes'  => array(
-							'align'               => 'center',	
+							'align'               => 'center',
 							'headingColor_1'      => '#333',
 							'contentColor_1'      => '#333',
 							'headingColor_2'      => '#333',
@@ -110,7 +110,7 @@ if ( ! class_exists( 'UAGB_Config' ) ) {
 							'color1'              => '',
 							'color2'              => '',
 							'controllerColor'     => '#fff',
-							'switchSize'          => '15',	
+							'switchSize'          => '15',
 							'headingBgColor'      => '',
 							'headingBorderType'   => 'none',
 							'headingBorderColor'  => '',
@@ -123,7 +123,7 @@ if ( ! class_exists( 'UAGB_Config' ) ) {
 							'contentBorderRadius' => '0',
 							'btnHeadSpaceWidth'   => '5',
 							'contentHeadSpace'    => '',
-							'stack'               => 'tablet'
+							'stack'               => 'tablet',
 						),
 					),
 					'uagb/google-map'       => array(

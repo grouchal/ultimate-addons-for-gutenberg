@@ -1265,7 +1265,15 @@ if ( ! class_exists( 'UAGB_Block_Helper' ) ) {
 
 			return $desktop . $r_desktop . $tablet . $mobile;
 		}
-		
+
+		/**
+		 * Get Toggle Content Block CSS
+		 *
+		 * @since 1.3.1
+		 * @param array  $attr The block attributes.
+		 * @param string $id The selector ID.
+		 * @return array The Widget List.
+		 */
 		public static function get_content_toggle_css( $attr, $id ) {
 
 			// @codingStandardsIgnoreStart
@@ -1365,7 +1373,7 @@ if ( ! class_exists( 'UAGB_Block_Helper' ) ) {
 
 			// @codingStandardsIgnoreEnd
 
-			$desktop   = UAGB_Helper::generate_css( $selectors, '#uagb-content-toggle-' . $id );
+			$desktop = UAGB_Helper::generate_css( $selectors, '#uagb-content-toggle-' . $id );
 			return $desktop;
 		}
 	}
