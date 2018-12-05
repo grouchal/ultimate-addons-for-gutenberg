@@ -1270,7 +1270,7 @@ if ( ! class_exists( 'UAGB_Block_Helper' ) ) {
 
 			// @codingStandardsIgnoreStart
 
-			$defaults = UAGB_Helper::$block_list['uagb/restaurant-menu']['attributes'];
+			$defaults = UAGB_Helper::$block_list['uagb/content-toggle']['attributes'];
 
 			$attr = array_merge( $defaults, (array) $attr );
 
@@ -1362,6 +1362,11 @@ if ( ! class_exists( 'UAGB_Block_Helper' ) ) {
 			$selectors[" .uagb-ctgl__sec-2"] = array(
 				'margin-left'  =>  $attr['btnHeadSpaceWidth'] . "%"
 			);
+
+			// @codingStandardsIgnoreEnd
+
+			$desktop   = UAGB_Helper::generate_css( $selectors, '#uagb-content-toggle-' . $id );
+			return $desktop;
 		}
 	}
 }
