@@ -1622,7 +1622,8 @@ if ( ! class_exists( 'UAGB_Block_Helper' ) ) {
 				'background-color'  =>  $attr['color2'] 
 			);
 			$selectors[" .uagb-ctgl_toggle_switch .uagb-ctgl__switch-round-2[type='checkbox']:checked + label:after"] = array(
-				'background-color'  =>  $attr['color2'] 
+				'background-color'  =>  $attr['controllerColor'],
+				'border'  =>  '0.3em solid '.$attr['color2'] 
 			);
 
 			$selectors[" .uagb-ctgl__sec-heading-1"] = array(
