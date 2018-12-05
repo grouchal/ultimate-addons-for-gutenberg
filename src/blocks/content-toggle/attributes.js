@@ -124,7 +124,7 @@ const attributes = {
 	},
 	btnHeadSpaceWidth : {
 		type : "number",
-		default : "",
+		default : "5",
 	},
 	contentHeadSpace : {
 		type : "number",
