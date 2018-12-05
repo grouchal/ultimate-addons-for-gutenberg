@@ -1627,12 +1627,14 @@ if ( ! class_exists( 'UAGB_Block_Helper' ) ) {
 
 			$selectors[" .uagb-ctgl__sec-heading-1"] = array(
 				'color'  =>  $attr['headingColor_1'],
-				'font-size'  =>  $attr['headingFontSize_1'] . "px"
+				'font-size'  =>  $attr['headingFontSize_1'] . "px",
+				'margin'  => "0"
 			);
 
 			$selectors[" .uagb-ctgl__sec-heading-2"] = array(
 				'color'  =>  $attr['headingColor_2'],
-				'font-size'  =>  $attr['headingFontSize_2'] . "px"
+				'font-size'  =>  $attr['headingFontSize_2'] . "px",
+				'margin'  => "0"
 			);
 
 			$selectors[" .uagb-ctgl__content-1"] = array(
@@ -1679,10 +1681,70 @@ if ( ! class_exists( 'UAGB_Block_Helper' ) ) {
 				'margin-left'  =>  $attr['btnHeadSpaceWidth'] . "%"
 			);
 
+			// Stack on desktop.
+			$selectors[".uagb-content-toggle__stack-on-desktop .uagb-ctgl__toggle"] = array(
+				'flex-direction'  => 'column',
+				"justify-content"=>  $align_item
+			);
+			$selectors[".uagb-content-toggle__stack-on-desktop .uagb-ctgl__sec-1"] = array(
+				'margin-right'  => 0,
+				'margin-bottom' => $attr['btnHeadSpaceWidth'] . "%"
+			);
+
+			$selectors[".uagb-content-toggle__stack-on-desktop .uagb-ctgl__sec-2"] = array(
+				'margin-left' => 0,
+				'margin-top'  => $attr['btnHeadSpaceWidth'] . "%"
+			);
+
+			// Stack on tablet
+			$t_selectors = array();
+
+			$t_selectors[".uagb-content-toggle__stack-on-tablet .uagb-ctgl__toggle"] = array(
+				'flex-direction'  => 'column',
+				"justify-content"=>  'center'
+			);
+			$t_selectors[".uagb-content-toggle__stack-on-tablet .uagb-ctgl__sec-1"] = array(
+				'margin-right'  => 0,
+				'margin-bottom' => $attr['btnHeadSpaceWidth'] . "%"
+			);
+
+			$t_selectors[".uagb-content-toggle__stack-on-tablet .uagb-ctgl__sec-2"] = array(
+				'margin-left' => 0,
+				'margin-top'  => $attr['btnHeadSpaceWidth'] . "%"
+			);
+			$t_selectors[".uagb-content-toggle__stack-on-tablet .uagb-ctgl-toggle-sections"] = array(
+				'text-align'=>  'center'
+			);
+
+
+			// Stack on Mobile
+			$m_selectors = array();
+
+			$m_selectors[".uagb-content-toggle__stack-on-mobile .uagb-ctgl__toggle"] = array(
+				'flex-direction'  => 'column',
+				"justify-content"=>  'center'
+			);
+			$m_selectors[".uagb-content-toggle__stack-on-mobile .uagb-ctgl__sec-1"] = array(
+				'margin-right'  => 0,
+				'margin-bottom' => $attr['btnHeadSpaceWidth'] . "%"
+			);
+
+			$m_selectors[".uagb-content-toggle__stack-on-mobile .uagb-ctgl__sec-2"] = array(
+				'margin-left' => 0,
+				'margin-top'  => $attr['btnHeadSpaceWidth'] . "%"
+			);
+
+			$m_selectors[".uagb-content-toggle__stack-on-mobile .uagb-ctgl-toggle-sections"] = array(
+				'text-align'=>  'center'
+			);
+
 			// @codingStandardsIgnoreEnd
 
 			$desktop = UAGB_Helper::generate_css( $selectors, '#uagb-content-toggle-' . $id );
-			return $desktop;
+			$tablet  = UAGB_Helper::generate_responsive_css( '@media only screen and (max-width: 1024px)', $t_selectors, '#uagb-content-toggle-' . $id );
+			$mobile  = UAGB_Helper::generate_responsive_css( '@media only screen and (max-width: 767px)', $m_selectors, '#uagb-content-toggle-' . $id );
+
+			return $desktop . $tablet . $mobile;
 		}
 	}
 }

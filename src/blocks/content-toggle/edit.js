@@ -400,7 +400,19 @@ class UAGBTeam extends Component {
 						min = { 0 }
 						max = { 100 }
 						allowReset
-					/>					
+					/>		
+					<SelectControl
+						label={ __( "Stack Heading On" ) }
+						value={ stack }
+						options={ [
+							{ value: "none", label: __( "None" ) },
+							{ value: "desktop", label: __( "Desktop" ) },
+							{ value: "tablet", label: __( "Tablet" ) },
+							{ value: "mobile", label: __( "Mobile" ) },
+						] }
+						help={ __( "Note: Choose on what breakpoint the Toggle Heading will stack." ) }
+						onChange={ ( value ) => setAttributes( { stack: value } ) }
+					/>			
 				</PanelBody>
 			</Fragment>
 		)
@@ -452,7 +464,8 @@ class UAGBTeam extends Component {
 				{inspect_control}
 				<div className={ classnames(
 					className,
-					"uagb-content-toggle__outer-wrap"
+					"uagb-content-toggle__outer-wrap",
+					`uagb-content-toggle__stack-on-${stack}`
 				) }
 				id = { my_block_id }
 				>

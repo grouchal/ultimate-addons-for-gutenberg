@@ -68,11 +68,11 @@ const attributes = {
 	},
 	color1 : {
 		type : "string",
-		default : "",
+		default : "#abb8c3",
 	},
 	color2 : {
 		type : "string",
-		default : "",
+		default : "#abb8c3",
 	},
 	controllerColor : {
 		type : "string",

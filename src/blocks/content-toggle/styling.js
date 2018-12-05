@@ -111,6 +111,59 @@ function styling( props ) {
 		}
 	}
 
+	// Stack on desktop.
+	selectors[".uagb-content-toggle__stack-on-desktop .uagb-ctgl__toggle"] = {
+		'flex-direction'  : 'column',
+		"justify-content":  align_item
+	}
+	selectors[".uagb-content-toggle__stack-on-desktop .uagb-ctgl__sec-1"] = {
+		'margin-right'  : 0,
+		'margin-bottom' : btnHeadSpaceWidth + "%"
+	}
+
+	selectors[".uagb-content-toggle__stack-on-desktop .uagb-ctgl__sec-2"] = {
+		'margin-left' : 0,
+		'margin-top'  : btnHeadSpaceWidth + "%"
+	}
+
+	/* Generate Responsive CSS for Tablet */
+	var t_selector = {}
+	t_selector[".uagb-content-toggle__stack-on-tablet .uagb-ctgl__toggle"] = {
+		'flex-direction'  : 'column',
+		"justify-content" :  'center'
+	}
+
+	t_selector[".uagb-content-toggle__stack-on-tablet .uagb-ctgl__sec-1"] = {
+		'margin-right'  : 0,
+		'margin-bottom' : btnHeadSpaceWidth+ "%"
+	}
+	t_selector[".uagb-content-toggle__stack-on-tablet .uagb-ctgl__sec-2"] = {
+		'margin-left' : 0,
+		'margin-top'  : btnHeadSpaceWidth+ "%"
+	}
+	t_selector[".uagb-content-toggle__stack-on-tablet .uagb-ctgl-toggle-sections"] = {
+		'text-align' : 'center'
+	}
+
+	/* Generate Responsive CSS for Mobile */
+	var m_selector = {}
+	m_selector[".uagb-content-toggle__stack-on-mobile .uagb-ctgl__toggle"] = {
+		'flex-direction'  : 'column',
+		"justify-content" :  'center'
+	}
+
+	m_selector[".uagb-content-toggle__stack-on-mobile .uagb-ctgl__sec-1"] = {
+		'margin-right'  : 0,
+		'margin-bottom' : btnHeadSpaceWidth+ "%"
+	}
+	m_selector[".uagb-content-toggle__stack-on-mobile .uagb-ctgl__sec-2"] = {
+		'margin-left' : 0,
+		'margin-top'  : btnHeadSpaceWidth+ "%"
+	}
+	m_selector[".uagb-content-toggle__stack-on-mobile .uagb-ctgl-toggle-sections"] = {
+		'text-align' : 'center'
+	}
+
 
 	var styling_css = ""
 
@@ -130,6 +183,44 @@ function styling( props ) {
 
 		styling_css += css + " } "
 	}
+
+	// Responsive css Tablet.
+	styling_css += "@media(max-width:1024px){"
+	for( var i in t_selector ) {
+
+
+		styling_css += `.block-editor-page #wpwrap #uagb-content-toggle-${ props.clientId }`
+
+		var sel = t_selector[i]
+		var css = ""
+
+		for( var j in sel ) {
+
+			css += j + ": " + sel[j] + ";"
+		}
+
+		styling_css += css + " } "
+	}
+	styling_css += "}"
+
+	// Responsive css Mobile.
+	styling_css += "@media(max-width:768px){"
+	for( var i in m_selector ) {
+
+
+		styling_css += `.block-editor-page #wpwrap #uagb-content-toggle-${ props.clientId }`
+
+		var sel = m_selector[i]
+		var css = ""
+
+		for( var j in sel ) {
+
+			css += j + ": " + sel[j] + ";"
+		}
+
+		styling_css += css + " } "
+	}
+	styling_css += "}"
 
 	return styling_css
 }
