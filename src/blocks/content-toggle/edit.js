@@ -87,9 +87,9 @@ class UAGBTeam extends Component {
 
 		const my_block_id = "uagb-content-toggle-"+this.props.clientId
 		// Add CSS.
-		var element = document.getElementById( "uagb-info-box-style-" + this.props.clientId )
+		var element = document.getElementById( "uagb-content-toggle-style-" + this.props.clientId )
 		if( null != element && "undefined" != typeof element ) {
-			//element.innerHTML = InfoBoxStyle( this.props )
+			element.innerHTML = styling( this.props )
 		}
 
 		const FontControls = (
@@ -196,15 +196,15 @@ class UAGBTeam extends Component {
 						value={ defualtDisplay }
 						onChange={ ( value ) => {
 							setAttributes( { defualtDisplay: value } ) 							
-							if( value == 'content_2' ){
+							if( value == 'off' ){
 								setAttributes( { is_checked: true} )
 							}else{
 								setAttributes( { is_checked: false} )
 							}
 						}}
 						options={ [
-							{ value: "content_1", label: __( "Content 1" ) },
-							{ value: "content_2", label: __( "Content 2" ) },
+							{ value: "on", label: __( "Content 1" ) },
+							{ value: "off", label: __( "Content 2" ) },
 						] }
 					/>
 					<SelectControl
@@ -255,8 +255,8 @@ class UAGBTeam extends Component {
 
 		const headingBgControls = (
 			<PanelBody
-					title={ __( "Heding Background" ) }
-					initialOpen={ true } >				
+					title={ __( "Heading Background" ) }
+					initialOpen={ false } >				
 				<Fragment>
 				    <p className="uagb-setting-label">{ __( "Background Color" ) }
 				    <span className="components-base-control__label">
@@ -299,7 +299,7 @@ class UAGBTeam extends Component {
 									value={ headingBorderRadius }
 									onChange={ ( value ) => setAttributes( { headingBorderRadius: value } ) }
 									min={ 0 }
-									max={ 1000 }
+									max={ 100 }
 									allowReset
 								/>
 								<Fragment>
@@ -322,7 +322,7 @@ class UAGBTeam extends Component {
 		const contentBgControls = (
 			<PanelBody
 					title={ __( "Content Background" ) }
-					initialOpen={ true } >				
+					initialOpen={ false } >				
 				<Fragment>
 				    <p className="uagb-setting-label">{ __( "Background Color" ) }
 				    <span className="components-base-control__label">
@@ -365,7 +365,7 @@ class UAGBTeam extends Component {
 									value={ contentBorderRadius }
 									onChange={ ( value ) => setAttributes( { contentBorderRadius: value } ) }
 									min={ 0 }
-									max={ 1000 }
+									max={ 100 }
 									allowReset
 								/>
 								<Fragment>
@@ -479,7 +479,6 @@ class UAGBTeam extends Component {
 		const $style = document.createElement( "style" )
 		$style.setAttribute( "id", "uagb-content-toggle-style-" + id )
 		document.head.appendChild( $style )
-		window.addEventListener("load", this.toggleContentHandeler("uagb-content-toggle-" + id))
 	}
 
 	componentDidUpdate(){
@@ -518,14 +517,7 @@ class UAGBTeam extends Component {
 
 		var rbs_switch      = $scope.find( current_class );
 
-		/*if( this.props.attributes.is_checked ) {
-			rbs_switch.click()
-		}else{
-			rbs_switch.removeAttr("checked")
-		}
-		*/
-	console.log(rbs_switch.is( ':checked' ))
-
+		
 		if( rbs_switch.is( ':checked' ) ) {
 			rbs_section_1.hide();
 			rbs_section_2.show();
@@ -537,7 +529,14 @@ class UAGBTeam extends Component {
 		rbs_switch.on('click', function(e){		        
 	        rbs_section_1.toggle();
 	        rbs_section_2.toggle();	      
-	       
+	       	
+	       	if( rbs_switch.is( ':checked' ) ) {
+				rbs_section_1.hide();
+				rbs_section_2.show();
+			} else {
+				rbs_section_1.show();
+				rbs_section_2.hide();
+			}
 	    });
 	}
 }

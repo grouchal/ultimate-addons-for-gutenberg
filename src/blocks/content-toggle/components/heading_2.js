@@ -24,7 +24,7 @@ class Heading_2 extends React.Component {
 					<RichText
 		                tagName= { attributes.headingTag }
 		                value={ attributes.headingTitle_2 }
-		                className = 'uagb-ctgl__sec-heaidng-2'
+		                className = 'uagb-ctgl__sec-heading-2'
 		                onChange = { ( value ) => setAttributes( { headingTitle_2: value } ) }
 		                multiline={ false }
 		                placeholder={ __( "Heading 2" ) }
@@ -50,7 +50,7 @@ class Heading_2 extends React.Component {
 					<RichText.Content
 		                tagName= { attributes.headingTag }
 		                value={ attributes.headingTitle_2 }
-		                className='uagb-ctgl__sec-heaidng-2'
+		                className='uagb-ctgl__sec-heading-2'
 		            />
 		        </div>
 			)

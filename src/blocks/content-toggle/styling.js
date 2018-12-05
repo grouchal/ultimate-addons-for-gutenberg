@@ -39,85 +39,79 @@ function styling( props ) {
 		stack,
 	} = props.attributes
 
+
 	var selectors = {
-		" .editor-rich-text p.uagb-team__desc.editor-rich-text__tinymce": {
-			"font-size": descFontSize + "px",
-			"color": descColor,
-			"margin-bottom": descSpace + "px",
+		" .uagb-ctgl__main-btn": {
+			"font-size": switchSize + "px",
 		},
-		" .uagb-team__prefix": {
-			"font-size": prefixFontSize + "px",
-			"color": prefixColor,
+		" span.uagb-ctgl__slider.uagb-ctgl__round": {
+			"background-color": color1,
 		},
-		" .uagb-team__desc-wrap": {
-			"margin-top": prefixSpace + "px",
+		" .uagb-ctgl__switch:checked + .uagb-ctgl__slider": {
+			"background-color": color2,
 		},
-		" .uagb-team__social-icon a": {
-			"color": socialColor + " !important",
-			"font-size": socialFontSize + "px !important",
-			"width": socialFontSize + "px !important",
-			"height": socialFontSize + "px !important",
+		" .uagb-ctgl__slider.uagb-ctgl__round:before": {
+			"background-color": controllerColor,
 		},
-		" .uagb-team__social-icon:hover a": {
-			"color": socialHoverColor + " !important",
+		" .uagb-ctgl_toggle_switch input[type='checkbox'] + label:after": {
+			"background-color": controllerColor,
+			"border": "0.3em solid "+ color1
 		},
-		".uagb-team__image-position-left .uagb-team__social-icon" : {
-			"margin-right": socialSpace + "px !important",
-			"margin-left": "0",
+		" .uagb-ctgl_toggle_switch input[type='checkbox'] + label:before": {
+			"background-color": color1,
 		},
-		".uagb-team__image-position-right .uagb-team__social-icon" : {
-			"margin-left": socialSpace + "px !important",
-			"margin-right": "0",
+		" .uagb-ctgl_toggle_switch input[type='checkbox']:checked + label:before": {
+			"background-color": color2,
 		},
-		".uagb-team__image-position-above.uagb-team__align-center .uagb-team__social-icon" : {
-			"margin-right": ( socialSpace / 2 ) + "px !important",
-			"margin-left": ( socialSpace / 2 ) + "px !important",
+		" .uagb-ctgl_toggle_switch .uagb-ctgl__switch-round-2[type='checkbox']:checked + label:after": {
+			"border-color": color2,
 		},
-		".uagb-team__image-position-above.uagb-team__align-left .uagb-team__social-icon" : {
-			"margin-right": socialSpace + "px !important",
-			"margin-left": "0",
+		" .uagb-ctgl__sec-heading-1": {
+			"color": headingColor_1 ,
+			"font-size": headingFontSize_1 + "px ",
 		},
-		".uagb-team__image-position-above.uagb-team__align-right .uagb-team__social-icon" : {
-			"margin-left": socialSpace + "px !important",
-			"margin-right": "0",
+		" .uagb-ctgl__sec-heading-2": {
+			"color": headingColor_2 ,
+			"font-size": headingFontSize_2 + "px ",
 		},
-		" .uagb-team__image-wrap" : {
-			"margin-top": imgTopMargin + "px",
-			"margin-bottom": imgBottomMargin + "px",
-			"margin-left": imgLeftMargin + "px",
-			"margin-right": imgRightMargin + "px",
-			"width": imgWidth + "px"
+		" .uagb-ctgl__content-1": {
+			"color": contentColor_1 ,
+			"font-size": contentFontSize_1 + "px ",
+		},
+		" .uagb-ctgl__content-2": {
+			"color": contentColor_2 ,
+			"font-size": contentFontSize_2 + "px ",
+		},	
+		" .uagb-ctgl__toggle": {
+			"background-color": headingBgColor ,
+			"border-style": headingBorderType,
+			"border-width": headingBorderWidth + "px ",
+			"border-color": headingBorderColor ,
+			"border-radius": headingBorderRadius + "px ",
+			"margin-bottom": contentHeadSpace + "px",
+			"justify-content": align,
+		},	
+		" .uagb-ctgl-toggle-sections": {
+			"background-color": contentBgColor ,
+			"border-style": contentBorderType,
+			"border-width": contentBorderWidth + "px ",
+			"border-color": contentBorderColor ,
+			"border-radius": contentBorderRadius + "px ",
+		},	
+		" .uagb-ctgl__sec-1":{
+			"margin-right": btnHeadSpaceWidth + "% ",
+		},	
+		" .uagb-ctgl__sec-2":{
+			"margin-left": btnHeadSpaceWidth + "% ",
 		}
 	}
 
-	if ( "above" == imgPosition ) {
-		if ( "center" == align ) {
-			selectors[" .uagb-team__image-wrap"]["margin-left"] = "auto"
-			selectors[" .uagb-team__image-wrap"]["margin-right"] = "auto"
-		} else if ( "left" == align ) {
-			selectors[" .uagb-team__image-wrap"]["margin-right"] = "auto"
-		} else if ( "right" == align ) {
-			selectors[" .uagb-team__image-wrap"]["margin-left"] = "auto"
-		}
-	}
-
-	if ( "above" != imgPosition ) {
-		if ( "middle" == imgAlign ) {
-			selectors[" .uagb-team__image-wrap"]["align-self"] = "center"
-		}
-	}
-
-	selectors[" .editor-rich-text " + tag + ".uagb-team__title"] = {
-		"font-size": titleFontSize + "px",
-		"color": titleColor,
-		"margin-bottom": titleSpace + "px",
-	}
 
 	var styling_css = ""
 
 	for( var i in selectors ) {
 
-		styling_css += `#uagb-team-${ props.clientId }`
+		styling_css += `.block-editor-page #wpwrap #uagb-content-toggle-${ props.clientId }`
 
 		styling_css += i + " { "
 

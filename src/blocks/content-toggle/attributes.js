@@ -60,7 +60,7 @@ const attributes = {
 	},
 	defualtDisplay : {
 		type : "string",
-		default : "content_1",
+		default : "on",
 	},
 	swichType : {
 		type : "string",
@@ -96,11 +96,11 @@ const attributes = {
 	},
 	headingBorderWidth : {
 		type : "number",
-		default : "",
+		default : "1",
 	},
 	headingBorderRadius : {
 		type : "number",
-		default : "",
+		default : "0",
 	},
 	contentBgColor : {
 		type : "string",
@@ -116,11 +116,11 @@ const attributes = {
 	},
 	contentBorderWidth : {
 		type : "number",
-		default : "",
+		default : "1",
 	},
 	contentBorderRadius : {
 		type : "number",
-		default : "",
+		default : "0",
 	},
 	btnHeadSpaceWidth : {
 		type : "number",
