@@ -135,7 +135,7 @@ const attributes = {
 		default: "tablet"
 	},
 	is_checked: {
-		type: "string",
+		type: "boolean",
 		default: false
 	}
 }

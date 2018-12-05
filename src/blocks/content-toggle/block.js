@@ -68,7 +68,7 @@ registerBlockType( "uagb/content-toggle", {
 
 						<Heading_1 attributes={props.attributes} setAttributes = "not_set" props = "not_set" />
 
-			            <ToggleSwitch attributes={props.attributes} props = "not_set"/>
+			            <ToggleSwitch attributes={props.attributes} setAttributes = "not_set" props = "not_set"/>
 
 					    <Heading_2 attributes={props.attributes} setAttributes = "not_set" props = "not_set" />
 
