@@ -132,7 +132,7 @@ const attributes = {
 	},
 	stack: {
 		type: "string",
-		default: "tablet"
+		default: "none"
 	},
 	is_checked: {
 		type: "boolean",

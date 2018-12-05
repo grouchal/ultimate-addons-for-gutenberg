@@ -123,7 +123,7 @@ if ( ! class_exists( 'UAGB_Config' ) ) {
 							'contentBorderRadius' => '0',
 							'btnHeadSpaceWidth'   => '5',
 							'contentHeadSpace'    => '0',
-							'stack'               => 'tablet',
+							'stack'               => 'none',
 						),
 					),
 					'uagb/google-map'       => array(
