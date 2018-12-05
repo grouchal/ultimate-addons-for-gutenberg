@@ -13,12 +13,10 @@ function styling( props ) {
 		contentColor_1,
 		headingColor_2,
 		contentColor_2,
-		headingTag,
 		headingFontSize_1,
 		contentFontSize_1,
 		headingFontSize_2,
 		contentFontSize_2,
-		defualtDisplay,
 		swichType,
 		color1,
 		color2,
@@ -39,6 +37,12 @@ function styling( props ) {
 		stack,
 	} = props.attributes
 
+	var align_item = 'center' 
+	if( align == 'left' ){
+		align_item = 'flex-start'
+	}else if(align == 'right' ){
+		align_item = 'flex-end'
+	}
 
 	var selectors = {
 		" .uagb-ctgl__main-btn": {
@@ -89,7 +93,7 @@ function styling( props ) {
 			"border-color": headingBorderColor ,
 			"border-radius": headingBorderRadius + "px ",
 			"margin-bottom": contentHeadSpace + "px",
-			"justify-content": align,
+			"justify-content": align_item,
 		},	
 		" .uagb-ctgl-toggle-sections": {
 			"background-color": contentBgColor ,
@@ -97,6 +101,7 @@ function styling( props ) {
 			"border-width": contentBorderWidth + "px ",
 			"border-color": contentBorderColor ,
 			"border-radius": contentBorderRadius + "px ",
+			"text-align": align,
 		},	
 		" .uagb-ctgl__sec-1":{
 			"margin-right": btnHeadSpaceWidth + "% ",

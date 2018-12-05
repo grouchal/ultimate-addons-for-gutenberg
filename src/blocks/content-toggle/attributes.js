@@ -76,7 +76,7 @@ const attributes = {
 	},
 	controllerColor : {
 		type : "string",
-		default : "#61ce70",
+		default : "#fff",
 	},
 	switchSize : {
 		type : "number",

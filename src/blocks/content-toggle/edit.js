@@ -15,20 +15,14 @@ const {
 	AlignmentToolbar,
 	BlockControls,
 	InspectorControls,
-	RichText,
 	PanelColorSettings,
 	ColorPalette,
-	MediaUpload,
 } = wp.editor
 
 const {
 	PanelBody,
 	SelectControl,
 	RangeControl,
-	Button,
-	TextControl,
-	BaseControl,
-	ToggleControl
 } = wp.components
 
 // Extend component
@@ -390,21 +384,21 @@ class UAGBTeam extends Component {
 			<Fragment>
 				<PanelBody
 					title={ __( "Spacing" ) }
-					initialOpen={ true } >					
+					initialOpen={ false } >					
 					<RangeControl
 						label = { __( "Heading & Button Space" ) }
 						value = { btnHeadSpaceWidth }
 						onChange = { ( value ) => setAttributes( { btnHeadSpaceWidth: value } ) }
-						min = { 10 }
-						max = { 300 }
+						min = { 0 }
+						max = { 100 }
 						allowReset
 					/>
 					<RangeControl
 						label = { __( "Content & Heading Space" ) }
 						value = { contentHeadSpace }
 						onChange = { ( value ) => setAttributes( { contentHeadSpace: value } ) }
-						min = { 10 }
-						max = { 300 }
+						min = { 0 }
+						max = { 100 }
 						allowReset
 					/>					
 				</PanelBody>

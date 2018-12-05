@@ -6,6 +6,12 @@
 import classnames from "classnames"
 import UAGB_Block_Icons from "../../../dist/blocks/uagb-controls/block-icons"
 
+import Heading_1 from "./components/heading_1"
+import Heading_2 from "./components/heading_2"
+import Content_1 from "./components/content_1"
+import Content_2 from "./components/content_2"
+import ToggleSwitch from "./components/toggle_switch"
+
 // Import icon.
 import edit from "./edit"
 import attributes from "./attributes"
@@ -17,10 +23,6 @@ const { __ } = wp.i18n
 const {
 	registerBlockType,
 } = wp.blocks
-
-const {
-	RichText
-} = wp.editor
 
 // Extend component
 const { Fragment } = wp.element
@@ -51,8 +53,49 @@ registerBlockType( "uagb/content-toggle", {
 	edit,
 	save: function( props ) {
 
-		return (
-			null
+		const {
+			block_id,
+			stack,
+			className,
+		} = props.attributes
+
+		const my_block_id = "uagb-content-toggle-"+block_id
+
+		const output= (
+			<Fragment>
+				<div className="uagb-ctgl__wrapper">	
+					<div className="uagb-ctgl__toggle">
+
+						<Heading_1 attributes={props.attributes} setAttributes = "not_set" props = "not_set" />
+
+			            <ToggleSwitch attributes={props.attributes} props = "not_set"/>
+
+					    <Heading_2 attributes={props.attributes} setAttributes = "not_set" props = "not_set" />
+
+					</div>  
+
+					<div className="uagb-ctgl-toggle-sections">
+						<Content_1 attributes={props.attributes} setAttributes = "not_set" props = "not_set" />
+						<Content_2 attributes={props.attributes} setAttributes = "not_set" props = "not_set" />
+					</div>
+
+				</div>
+			</Fragment>
 		)
+
+
+		return (
+			<Fragment>	
+				<div className={ classnames(
+					className,
+					"uagb-content-toggle__outer-wrap"
+				) }
+				id = { my_block_id }
+				>
+				{ output }
+				</div>
+			</Fragment>
+		)
+
 	}
 } )
