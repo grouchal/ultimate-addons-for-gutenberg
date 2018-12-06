@@ -4,23 +4,15 @@ class ToggleSwitch extends React.Component {
 
 	constructor(props) {
 	    super(props);	    
-	    if(props.attributes.defualtDisplay == 'content_2'){
-		    this.state = {
-		      isChecked: true,
-		    };
-		}else{
-			 this.state = {
-		      isChecked: false,
-		    };
-		}		
 		this.toggleSwitch = this.toggleSwitch.bind( this )
 	}
 
 	toggleSwitch(){		
-		this.setState({
-	      isChecked: !this.state.isChecked,
-	    });	
-	}
+	    const { is_checked } = this.props.attributes
+		const { setAttributes } = this.props
+
+		setAttributes( { is_checked: ! is_checked } )	
+	}	
 
 	render() {
 
@@ -36,20 +28,13 @@ class ToggleSwitch extends React.Component {
 
 		var input_html = <input type="checkbox" className={ classnames( "uagb-ctgl__switch",`uagb-ctgl__switch-${switch_class}` ) }/>
 		
-		/*var is_checked = false;
-		if( attributes.defualtDisplay == 'off' ){
-			 is_checked = true;
-		}*/
-
-		if( setAttributes !== "not_set" ){
-			setAttributes( { is_checked: this.state.isChecked} )
-		}
+		var is_checked = false;		
 
 		switch(attributes.swichType ){
 			case 'round_1':
 					switch_html = <label className="uagb-ctgl__switch-label">
 					            	<input type="checkbox" className={ classnames( "uagb-ctgl__switch",`uagb-ctgl__switch-${switch_class}` ) } 
-					            	checked={this.state.isChecked}
+					            	checked={attributes.is_checked}
 					            	onChange={this.toggleSwitch}
 					            	/>
 					            	<span className="uagb-ctgl__slider uagb-ctgl__round"></span>
@@ -59,7 +44,7 @@ class ToggleSwitch extends React.Component {
 			case 'round_2':
 					switch_html = <div className="uagb-ctgl_toggle_switch">
 								<input type="checkbox" className={ classnames( `uagb-ctgl__switch-${switch_class}` ) } name="group1" id="toggle_491dd59"
-									checked={this.state.isChecked}
+									checked={attributes.is_checked}
 					            	onChange={this.toggleSwitch}
 								/>
 								<label className="uagb-ctgl__toggle_round_2" htmlFor="toggle_491dd59"></label>
@@ -95,7 +80,7 @@ class ToggleSwitch extends React.Component {
 		}
 
 		return (
-			<div className="uagb-ctgl__main-btn" data-switch-type={attributes.swichType}>
+			<div className="uagb-ctgl__main-btn" data-switch-type={attributes.swichType} data-checked = {attributes.defualtDisplay}>
             	{ switch_html }
 		    </div>
 		)

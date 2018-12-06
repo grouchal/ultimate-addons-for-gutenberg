@@ -89,7 +89,7 @@ registerBlockType( "uagb/content-toggle", {
 				<div className={ classnames(
 					className,
 					"uagb-content-toggle__outer-wrap",
-					`uagb-content-toggle__stack-on-${stack}`
+					`uagb-content-toggle__stack-on-${stack}`,
 				) }
 				id = { my_block_id }
 				>

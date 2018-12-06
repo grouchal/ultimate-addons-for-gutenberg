@@ -32,13 +32,9 @@ class UAGBTeam extends Component {
 
 	constructor() {
 		super( ...arguments )
-		this.state = {
-	      isChecked: false,
-	    };
 	}
 	
 	render() {
-
 		const { isSelected, className, setAttributes, attributes, mergeBlocks, insertBlocksAfter, onReplace } = this.props
 
 		// Setup the attributes.
@@ -465,7 +461,7 @@ class UAGBTeam extends Component {
 				<div className={ classnames(
 					className,
 					"uagb-content-toggle__outer-wrap",
-					`uagb-content-toggle__stack-on-${stack}`
+					`uagb-content-toggle__stack-on-${stack}`,
 				) }
 				id = { my_block_id }
 				>
@@ -492,7 +488,7 @@ class UAGBTeam extends Component {
 		var id = this.props.clientId
 		$(window).trigger('uagbToggleContent',[id]);
 	}
-	
+
 }
 
 export default UAGBTeam

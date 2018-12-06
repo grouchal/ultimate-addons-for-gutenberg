@@ -23,6 +23,7 @@
 				rbs_section_2   = $scope.find( ".uagb-ctgl__section-2" ),
 				main_btn        = $scope.find( ".uagb-ctgl__main-btn" ),
 				switch_type     = main_btn.attr( 'data-switch-type' ),
+				default_checked = main_btn.attr( 'data-checked' ),
 				rbs_label_1   	= $scope.find( ".uael-sec-1" ),
 				rbs_label_2   	= $scope.find( ".uael-sec-2" ),
 				current_class 	= '';
@@ -47,6 +48,7 @@
 
 			var rbs_switch      = $scope.find( current_class );
 
+			
 			if( rbs_switch.is( ':checked' ) ) {
 				rbs_section_1.hide();
 				rbs_section_2.show();
