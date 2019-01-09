@@ -202,9 +202,12 @@ class UAGBtestimonial extends Component {
 			pauseOnHover,
 			infiniteLoop,
 			transitionSpeed,
+			arrowDots,
+			arrowSize, 
+			arrowBorderSize,
+			arrowBorderRadius,
 			autoplay,
 			autoplaySpeed,
-			arrowSize,
 			arrowColor,
 			rowGap,
 			columnGap,
@@ -221,7 +224,7 @@ class UAGBtestimonial extends Component {
 			borderWidth ,
 			borderRadius,
 			borderColor,
-			stack
+			stack,			
 		} = attributes
 
 		// Add CSS.
@@ -294,7 +297,7 @@ class UAGBtestimonial extends Component {
 						{
 							value: arrowColor,
 							onChange: ( colorValue ) => setAttributes( { arrowColor: colorValue } ),
-							label: __( "Arrow Color" ),
+							label: __( "Arrow & Dots Color" ),
 						},
 					] }
 				>
@@ -310,7 +313,7 @@ class UAGBtestimonial extends Component {
 					initialOpen={ false }
 				>
 					<RangeControl
-						label={ __( "Row Gap" ) }
+						label={ __( "Gap Between Content & Dots" ) }
 						value={ rowGap }
 						onChange={ ( value ) => setAttributes( { rowGap: value } ) }
 						min={ 0 }
@@ -318,7 +321,7 @@ class UAGBtestimonial extends Component {
 						allowReset
 					/>
 					<RangeControl
-						label={ __( "Column Gap" ) }
+						label={ __( "Row Gap" ) }
 						value={ columnGap }
 						onChange={ ( value ) => setAttributes( { columnGap: value } ) }
 						min={ 0 }
@@ -537,16 +540,19 @@ class UAGBtestimonial extends Component {
 		function NextArrow( props ) {
 
 			return (
-				<button type="button" data-role="none" className="slick-next slick-arrow" aria-label="Next" tabIndex="0" role="button" style={{ "borderColor" : arrowColor }}><span className="fas fa-angle-right" style={{ "fontSize" : props.arrowSize, "color" : arrowColor }}></span></button>
+				<button type="button" data-role="none" className="slick-next slick-arrow" aria-label="Next" tabIndex="0" role="button" style={{ "borderColor" : arrowColor, "borderRadius" : arrowBorderRadius, "borderWidth" : arrowBorderSize }}><span className="fas fa-angle-right" style={{ "fontSize" : props.arrowSize, "color" : arrowColor, "height" : props.arrowSize, "width" : props.arrowSize,}}></span></button>
 			)
 		}
 
 		function PrevArrow( props ) {
 
 			return (
-				<button type="button" data-role="none" className="slick-prev slick-arrow" aria-label="Previous" tabIndex="0" role="button" style={{ "borderColor" : arrowColor }}><span className="fas fa-angle-left" style={{ "fontSize" : props.arrowSize, "color" : arrowColor }}></span></button>
+				<button type="button" data-role="none" className="slick-prev slick-arrow" aria-label="Previous" tabIndex="0" role="button" style={{ "borderColor" : arrowColor, "borderRadius" : arrowBorderRadius, "borderWidth" : arrowBorderSize }}><span className="fas fa-angle-left" style={{ "fontSize" : props.arrowSize, "color" : arrowColor, "height" : props.arrowSize, "width" : props.arrowSize, }}></span></button>
 			)
 		}
+
+		let dots = ( "dots" == arrowDots || "arrows_dots" == arrowDots ) ? true : false
+		let arrows = ( "arrows" == arrowDots || "arrows_dots" == arrowDots ) ? true : false
 
 		const settings = {
 			slidesToShow : columns,
@@ -556,9 +562,10 @@ class UAGBtestimonial extends Component {
 			infinite : infiniteLoop,
 			pauseOnHover : pauseOnHover,
 			speed : transitionSpeed,
-			arrows : true,
-			dots : true,
+			arrows : arrows,
+			dots : dots,
 			rtl : false,
+			draggable: false,
 			nextArrow: <NextArrow arrowSize={arrowSize}/>,
 			prevArrow: <PrevArrow arrowSize={arrowSize}/>,
 			responsive : [
@@ -655,13 +662,41 @@ class UAGBtestimonial extends Component {
 						min={ 100 }
 						max={ 5000 }
 					/>
-					<RangeControl
-						label={ __( "Arrow Size" ) }
-						value={ arrowSize }
-						onChange={ ( value ) => setAttributes( { arrowSize: value } ) }
-						min={ 10 }
-						max={ 50 }
+					<SelectControl
+						label={ __( "Show Arrows & Dots" ) }
+						value={ arrowDots }
+						onChange={ ( value ) => setAttributes( { arrowDots: value } ) }
+						options={ [
+							{ value: "arrows", label: __( "Only Arrows" ) },
+							{ value: "dots", label: __( "Only Dots" ) },
+							{ value: "arrows_dots", label: __( "Both Arrows & Dots" ) },
+						] }
 					/>
+					{ "dots" != arrowDots &&
+						<Fragment>
+							<RangeControl
+								label={ __( "Arrow Size" ) }
+								value={ arrowSize }
+								onChange={ ( value ) => setAttributes( { arrowSize: value } ) }
+								min={ 0 }
+								max={ 50 }
+							/>
+							<RangeControl
+								label={ __( "Arrow Border Size" ) }
+								value={ arrowBorderSize }
+								onChange={ ( value ) => setAttributes( { arrowBorderSize: value } ) }
+								min={ 0 }
+								max={ 50 }
+							/>
+							<RangeControl
+								label={ __( "Arrow Border Radius" ) }
+								value={ arrowBorderRadius }
+								onChange={ ( value ) => setAttributes( { arrowBorderRadius: value } ) }
+								min={ 0 }
+								max={ 50 }
+							/>
+						</Fragment>
+					}
 				</PanelBody>
 			</Fragment>
 		)

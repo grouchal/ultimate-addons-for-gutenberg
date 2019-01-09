@@ -29,11 +29,12 @@ if ( ! class_exists( 'UAGB_Helper' ) ) {
 		public static $block_list;
 
 		/**
-		 * Google Map Language List
+		 * Page Blocks Variable
 		 *
-		 * @var google_map_languages
+		 * @since 1.6.0
+		 * @var instance
 		 */
-		private static $google_map_languages = null;
+		public static $page_blocks;
 
 		/**
 		 *  Initiator
@@ -58,7 +59,9 @@ if ( ! class_exists( 'UAGB_Helper' ) ) {
 			self::$block_list = UAGB_Config::get_block_attributes();
 
 			add_action( 'wp_head', array( $this, 'generate_stylesheet' ), 80 );
+			add_action( 'wp_footer', array( $this, 'generate_script' ), 1000 );
 		}
+
 
 		/**
 		 * Parse CSS into correct CSS syntax.
@@ -169,6 +172,10 @@ if ( ! class_exists( 'UAGB_Helper' ) ) {
 					$css .= UAGB_Block_Helper::get_content_timeline_css( $blockattr, $block_id );
 					break;
 
+				case 'uagb/call-to-action':
+					$css .= UAGB_Block_Helper::get_call_to_action_css( $blockattr, $block_id );
+					break;
+
 				case 'uagb/post-timeline':
 					$css .= UAGB_Block_Helper::get_post_timeline_css( $blockattr, $block_id );
 					break;
@@ -183,6 +190,18 @@ if ( ! class_exists( 'UAGB_Helper' ) ) {
 
 				case 'uagb/content-toggle':
 					$css .= UAGB_Block_Helper::get_content_toggle_css( $blockattr, $block_id );
+					break;
+
+				case 'uagb/post-grid':
+					$css .= UAGB_Block_Helper::get_post_grid_css( $blockattr, $block_id );
+					break;
+
+				case 'uagb/post-carousel':
+					$css .= UAGB_Block_Helper::get_post_carousel_css( $blockattr, $block_id );
+					break;
+
+				case 'uagb/post-masonry':
+					$css .= UAGB_Block_Helper::get_post_masonry_css( $blockattr, $block_id );
 					break;
 
 				default:
@@ -202,21 +221,95 @@ if ( ! class_exists( 'UAGB_Helper' ) ) {
 		}
 
 		/**
+		 * Generates Js recurrsively.
+		 *
+		 * @param object $block The block object.
+		 * @since 1.6.0
+		 */
+		public function get_block_js( $block ) {
+
+			// @codingStandardsIgnoreStart
+
+			$block = ( array ) $block;
+
+			$name = $block['blockName'];
+			$js  = '';
+
+			if( ! isset( $name ) ) {
+				return;
+			}
+
+			if ( isset( $block['attrs'] ) && is_array( $block['attrs'] ) ) {
+				$blockattr = $block['attrs'];
+				if ( isset( $blockattr['block_id'] ) ) {
+					$block_id = $blockattr['block_id'];
+				}
+			}
+
+			switch ( $name ) {
+
+				case 'uagb/testimonial':
+					$js .= UAGB_Block_Helper::get_testimonial_js( $blockattr, $block_id );
+					break;
+
+				default:
+					// Nothing to do here.
+					break;
+			}
+
+			if ( isset( $block['innerBlocks'] ) ) {
+				foreach ( $block['innerBlocks'] as $j => $inner_block ) {
+					$js .= $this->get_block_js( $inner_block );
+				}
+			}
+
+			echo $js;
+
+			// @codingStandardsIgnoreEnd
+		}
+
+		/**
 		 * Generates stylesheet and appends in head tag.
 		 *
 		 * @since 0.0.1
 		 */
 		public function generate_stylesheet() {
 
-			if ( has_blocks( get_the_ID() ) ) {
+			$this_post = array();
 
+			if ( is_single() || is_page() || is_404() ) {
 				global $post;
-
+				$this_post = $post;
+				$this->_generate_stylesheet( $this_post );
 				if ( ! is_object( $post ) ) {
 					return;
 				}
+			} elseif ( is_archive() || is_home() || is_search() ) {
+				global $wp_query;
 
-				$blocks = $this->parse( $post->post_content );
+				if ( $wp_query->have_posts() ) {
+					while ( $wp_query->have_posts() ) {
+						$wp_query->the_post();
+						global $post;
+						$this_post = $post;
+						$this->_generate_stylesheet( $this_post );
+					}
+				}
+			}
+		}
+
+		/**
+		 * Generates stylesheet in loop.
+		 *
+		 * @param object $this_post Current Post Object.
+		 * @since 1.7.0
+		 */
+		public function _generate_stylesheet( $this_post ) {
+
+			if ( has_blocks( get_the_ID() ) ) {
+
+				$blocks            = $this->parse( $this_post->post_content );
+				self::$page_blocks = $blocks;
 
 				if ( ! is_array( $blocks ) || empty( $blocks ) ) {
 					return;
@@ -227,6 +320,29 @@ if ( ! class_exists( 'UAGB_Helper' ) ) {
 				<style type="text/css" media="all" id="uagb-style-frontend"><?php $this->get_stylesheet( $blocks ); ?></style>
 				<?php
 			}
+		}
+
+		/**
+		 * Generates scripts and appends in footer tag.
+		 *
+		 * @since 1.5.0
+		 */
+		public function generate_script() {
+
+			$blocks = self::$page_blocks;
+
+			if ( ! is_array( $blocks ) || empty( $blocks ) ) {
+				return;
+			}
+
+			ob_start();
+			?>
+			<script type="text/javascript" id="uagb-script-frontend">
+				( function( $ ) {
+					<?php $this->get_scripts( $blocks ); ?>
+				})(jQuery)
+			</script>
+			<?php
 		}
 
 		/**
@@ -270,6 +386,40 @@ if ( ! class_exists( 'UAGB_Helper' ) ) {
 
 						// Get CSS for the Block.
 						$this->get_block_css( $block );
+					}
+				}
+			}
+		}
+
+
+		/**
+		 * Generates scripts for reusable blocks.
+		 *
+		 * @param array $blocks Blocks array.
+		 * @since 1.6.0
+		 */
+		public function get_scripts( $blocks ) {
+
+			foreach ( $blocks as $i => $block ) {
+
+				if ( is_array( $block ) ) {
+
+					if ( 'core/block' == $block['blockName'] ) {
+
+						$id = ( isset( $block['attrs']['ref'] ) ) ? $block['attrs']['ref'] : 0;
+
+						if ( $id ) {
+
+							$content = get_post_field( 'post_content', $id );
+
+							$reusable_blocks = $this->parse( $content );
+
+							$this->get_scripts( $reusable_blocks );
+						}
+					} else {
+
+						// Get CSS for the Block.
+						$this->get_block_js( $block );
 					}
 				}
 			}
@@ -357,7 +507,7 @@ if ( ! class_exists( 'UAGB_Helper' ) ) {
 
 			$knowledgebase = array(
 				'enable_knowledgebase' => true,
-				'knowledgebase_url'    => 'http://uagb.sharkz.in/docs/',
+				'knowledgebase_url'    => 'https://www.ultimategutenberg.com/docs/',
 			);
 
 			return $knowledgebase;
@@ -373,7 +523,7 @@ if ( ! class_exists( 'UAGB_Helper' ) ) {
 
 			$support = array(
 				'enable_support' => true,
-				'support_url'    => 'https://wordpress.org/support/plugin/ultimate-addons-for-gutenberg',
+				'support_url'    => 'https://www.ultimategutenberg.com/support/',
 			);
 
 			return $support;

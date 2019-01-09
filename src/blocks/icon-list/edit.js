@@ -79,7 +79,9 @@ class UAGBIconList extends Component {
 			icon_layout,
 			size,
 			hideLabel,
-			fontSize
+			fontSize,
+			borderRadius,
+			bgSize
 		} = attributes
 
 		const iconControls = ( index ) => {
@@ -92,13 +94,23 @@ class UAGBIconList extends Component {
 					{
 						value: icons[ index ].label_color,
 						onChange:( value ) => this.saveIcons( { label_color: value }, index ),
-						label: __( "Label Color" ),
+						label: __( "Text Color" ),
+					},
+					{
+						value: icons[ index ].icon_bg_color,
+						onChange:( value ) => this.saveIcons( { icon_bg_color: value }, index ),
+						label: __( "Image Background Color" ),
 					},
 					{
 						value: icons[ index ].label_hover_color,
 						onChange:( value ) => this.saveIcons( { label_hover_color: value }, index ),
-						label: __( "Label Hover Color" ),
-					}
+						label: __( "Text Hover Color" ),
+					},
+					{
+						value: icons[ index ].icon_bg_hover_color,
+						onChange:( value ) => this.saveIcons( { icon_bg_hover_color: value }, index ),
+						label: __( "Image Background Hover Color" ),
+					},
 				]
 			} else {
 
@@ -109,20 +121,30 @@ class UAGBIconList extends Component {
 						label: __( "Icon Color" ),
 					},
 					{
-						value: icons[ index ].icon_hover_color,
-						onChange:( value ) => this.saveIcons( { icon_hover_color: value }, index ),
-						label: __( "Hover Color" ),
+						value: icons[ index ].icon_bg_color,
+						onChange:( value ) => this.saveIcons( { icon_bg_color: value }, index ),
+						label: __( "Background Color" ),
 					},
 					{
 						value: icons[ index ].label_color,
 						onChange:( value ) => this.saveIcons( { label_color: value }, index ),
-						label: __( "Label Color" ),
+						label: __( "Text Color" ),
+					},
+					{
+						value: icons[ index ].icon_hover_color,
+						onChange:( value ) => this.saveIcons( { icon_hover_color: value }, index ),
+						label: __( "Icon Hover Color" ),
+					},
+					{
+						value: icons[ index ].icon_bg_hover_color,
+						onChange:( value ) => this.saveIcons( { icon_bg_hover_color: value }, index ),
+						label: __( "Background Hover Color" ),
 					},
 					{
 						value: icons[ index ].label_hover_color,
 						onChange:( value ) => this.saveIcons( { label_hover_color: value }, index ),
-						label: __( "Label Hover Color" ),
-					}
+						label: __( "Text Hover Color" ),
+					},
 				]
 			}
 
@@ -251,6 +273,8 @@ class UAGBIconList extends Component {
 											"image": cloneIcons[ 0 ].image,
 											"icon_color": cloneIcons[ 0 ].icon_color,
 											"icon_hover_color": cloneIcons[ 0 ].icon_hover_color,
+											"icon_bg_color": cloneIcons[ 0 ].icon_bg_color,
+											"icon_bg_hover_color": cloneIcons[ 0 ].icon_bg_hover_color,
 											"link": cloneIcons[ 0 ].link,
 											"target": cloneIcons[ 0 ].target
 										} )
@@ -317,6 +341,22 @@ class UAGBIconList extends Component {
 							initialPosition={15}
 						/>
 						<RangeControl
+							label={ __( "Background Size" ) }
+							value={ bgSize }
+							onChange={ ( value ) => setAttributes( { bgSize: value } ) }
+							min={ 0 }
+							max={ 500 }
+						/>
+						<p className="uagb-note">{ __( "Note: Background Size option is useful when one adds background color to the icons." ) }</p>
+						<RangeControl
+							label={ __( "Circular Size" ) }
+							value={ borderRadius }
+							onChange={ ( value ) => setAttributes( { borderRadius: value } ) }
+							min={ 0 }
+							max={ 500 }
+						/>
+						<p className="uagb-note">{ __( "Note: Circular Size option is useful when one adds background color to the icons." ) }</p>
+						<RangeControl
 							label={ __( "Gap between Items" ) }
 							value={ gap }
 							onChange={ ( value ) => setAttributes( { gap: value } ) }
@@ -372,7 +412,7 @@ class UAGBIconList extends Component {
 											"uagb-icon-list__wrapper"
 										) }
 										key={ index }
-										href={ icon.link }
+										href="javascript:void(0)"
 										target={ target }
 										rel="noopener noreferrer"
 									>
@@ -381,7 +421,8 @@ class UAGBIconList extends Component {
 											{ ! hideLabel &&
 												<div className="uagb-icon-list__label-wrap">
 													<RichText
-														tagName="span"
+														tagName="div"
+														placeholder={ __( "Label Name" ) }
 														value={ icons[ index ].label }
 														className='uagb-icon-list__label'
 														onChange={ value => {

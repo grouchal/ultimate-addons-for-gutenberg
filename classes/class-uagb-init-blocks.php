@@ -94,7 +94,7 @@ class UAGB_Init_Blocks {
 		// Font Awsome.
 		wp_enqueue_style(
 			'uagb-fontawesome-css', // Handle.
-			'https://use.fontawesome.com/releases/v5.0.9/css/all.css', // Block style CSS.
+			'https://use.fontawesome.com/releases/v5.6.0/css/all.css', // Block style CSS.
 			UAGB_VER
 		);
 
@@ -110,22 +110,13 @@ class UAGB_Init_Blocks {
 		// Styles.
 		wp_enqueue_style(
 			'uagb-slick-css', // Handle.
-			UAGB_URL . 'assets/css/slick.min.css', // Block style CSS.
+			UAGB_URL . 'assets/css/slick.css', // Block style CSS.
 			UAGB_VER
-		);
-
-		// Testimonial Scripts.
-		wp_enqueue_script(
-			'uabg-testimonial-js',
-			UAGB_URL . 'assets/js/testimonial.js',
-			array( 'jquery' ),
-			UAGB_VER,
-			true
 		);
 
 		// Timeline js.
 		wp_enqueue_script(
-			'uabg-timeline-js', // Handle.
+			'uagb-timeline-js', // Handle.
 			UAGB_URL . 'assets/js/timeline.js',
 			array( 'jquery' ),
 			UAGB_VER,

@@ -10,36 +10,36 @@ const attributes = {
 		type: "string",
 	},
 	topPadding: {
-		type: "string",
-		default: "20"
+		type: "number",
+		default: 20
 	},
 	bottomPadding: {
-		type: "string",
-		default: "20"
+		type: "number",
+		default: 20
 	},
 	leftPadding: {
-		type: "string",
-		default: "20"
+		type: "number",
+		default: 20
 	},
 	rightPadding: {
-		type: "string",
-		default: "20"
+		type: "number",
+		default: 20
 	},
 	topMargin: {
-		type: "string",
-		default: "0"
+		type: "number",
+		default: 0
 	},
 	bottomMargin: {
-		type: "string",
-		default: "0"
+		type: "number",
+		default: 0
 	},
 	leftMargin: {
-		type: "string",
-		default: "0"
+		type: "number",
+		default: 0
 	},
 	rightMargin: {
-		type: "string",
-		default: "0"
+		type: "number",
+		default: 0
 	},
 	contentWidth: {
 		type: "string",
@@ -52,6 +52,10 @@ const attributes = {
 	innerWidth: {
 		type: "number",
 		default: 1140
+	},
+	themeWidth: {
+		type: "boolean",
+		default: false
 	},
 	tag: {
 		type: "string",
@@ -97,23 +101,22 @@ const attributes = {
 	},
 	gradientLocation1: {
 		type: "number",
-		default: "0"
+		default: 0
 	},
 	gradientLocation2: {
 		type: "number",
-		default: "100"
+		default: 100
 	},
 	gradientAngle: {
 		type: "number",
-		default: "0"
+		default: 0
 	},
 	backgroundOpacity: {
-		type: "number",
-		default: "0"
+		type: "number"
 	},
 	backgroundVideoOpacity: {
 		type: "number",
-		default: "50"
+		default: 50
 	},
 	backgroundVideoColor: {
 		type: "string",
@@ -127,7 +130,7 @@ const attributes = {
 	},
 	borderWidth : {
 		type: "number",
-		default: "1"
+		default: 1
 	},
 	borderRadius : {
 		type: "number"

@@ -258,9 +258,6 @@ class UAGBcontentTimeline extends Component {
 				block_id,
 				iconFocus,
 				iconBgFocus,
-				iconHover,
-				iconBgHover,
-				borderHover,
 				t_date,
 				displayPostDate,
 				stack
@@ -341,40 +338,13 @@ class UAGBcontentTimeline extends Component {
 			</Fragment>
 		)
 
-		const iconHoverSettings = (
-			<Fragment>
-				<PanelColorSettings
-					title={ __( "Color Settings" ) }
-					initialOpen={ true }
-					colorSettings={ [
-						{
-							value: iconHover,
-							onChange: ( colorValue ) => setAttributes( { iconHover: colorValue } ),
-							label: __( "Icon Color" ),
-						},
-						{
-							value: iconBgHover,
-							onChange: ( colorValue ) => setAttributes( { iconBgHover: colorValue } ),
-							label: __( "Background Color" ),
-						},
-						{
-							value: borderHover,
-							onChange: ( colorValue ) => setAttributes( { borderHover: colorValue } ),
-							label: __( "Border Color" ),
-						},
-					] }
-				>
-				</PanelColorSettings>
-			</Fragment>
-		)
-
 		const iconControls = (
 			<Fragment>
 				<PanelBody
 					title={ __( "Connector Color Settings" ) }
 					initialOpen={ true }
 				>
-					<TabPanel className="uagb-inspect-tabs uagb-inspect-tabs-col-3"
+					<TabPanel className="uagb-inspect-tabs uagb-inspect-tabs-col-2"
 						activeClass="active-tab"
 						tabs={ [
 							{
@@ -386,20 +356,13 @@ class UAGBcontentTimeline extends Component {
 								name: "focus",
 								title: __( "Focus" ),
 								className: "uagb-focus-tab",
-							},
-							{
-								name: "hover",
-								title: __( "Hover" ),
-								className: "uagb-hover-tab",
-							},
+							},							
 						] }>
 						{
 							( tabName ) => {
 								let tabout
 								if( "focus" === tabName.name ) {
 									tabout = iconFocusSettings
-								}else if( "hover" === tabName.name ){
-									tabout = iconHoverSettings
 								}else {
 									tabout = iconColorSettings
 								}
@@ -578,29 +541,7 @@ class UAGBcontentTimeline extends Component {
 							{ value: "h5", label: __( "H5" ) },
 							{ value: "h6", label: __( "H6" ) },
 						] }
-					/>
-					<PanelColorSettings
-						title={ __( "Color Settings" ) }
-						initialOpen={ true }
-						colorSettings={ [
-							{
-								value: headingColor,
-								onChange: ( colorValue ) => setAttributes( { headingColor: colorValue } ),
-								label: __( "Heading Color" ),
-							},
-							{
-								value: subHeadingColor,
-								onChange: ( colorValue ) => setAttributes( { subHeadingColor: colorValue } ),
-								label: __( "Content Color" ),
-							},
-							{
-								value: backgroundColor,
-								onChange: ( colorValue ) => setAttributes( { backgroundColor: colorValue } ),
-								label: __( "Background Color" ),
-							},
-						] }
-					>
-					</PanelColorSettings>
+					/>					
 					<RangeControl
 						label={ __( "Rounded Corners" ) }
 						value={ borderRadius }
@@ -676,9 +617,31 @@ class UAGBcontentTimeline extends Component {
 						min={ 1 }
 						max={ 10 }
 						allowReset
-					/>					
+					/>
 					{ iconControls }
 				</PanelBody>
+				<PanelColorSettings
+					title={ __( "Color Settings" ) }
+					initialOpen={ false }
+					colorSettings={ [
+						{
+							value: headingColor,
+							onChange: ( colorValue ) => setAttributes( { headingColor: colorValue } ),
+							label: __( "Heading Color" ),
+						},
+						{
+							value: subHeadingColor,
+							onChange: ( colorValue ) => setAttributes( { subHeadingColor: colorValue } ),
+							label: __( "Content Color" ),
+						},
+						{
+							value: backgroundColor,
+							onChange: ( colorValue ) => setAttributes( { backgroundColor: colorValue } ),
+							label: __( "Background Color" ),
+						},
+					] }
+				>
+				</PanelColorSettings>
 			</InspectorControls>
 		)
 
@@ -766,7 +729,7 @@ class UAGBcontentTimeline extends Component {
 		var element = document.getElementById( "uagb-content-timeline-style-" + this.props.clientId )
 		if( null != element && "undefined" != typeof element ) {
 			element.innerHTML = contentTimelineStyle( this.props )
-		}   
+		}
 
 		const hasItems = Array.isArray( tm_content ) && tm_content.length
 		const hasDate = Array.isArray( t_date ) && t_date.length
@@ -806,7 +769,10 @@ class UAGBcontentTimeline extends Component {
 							}
 							const Tag = this.props.attributes.headingTag
 							var icon_class = "uagb-timeline__icon-new uagb-timeline__out-view-icon "+icon
-
+							var post_date = dateI18n( dateFormat, t_date[index].title )
+							if( post_date === "Invalid date" ){
+								post_date = t_date[index].title
+							}
 							return (
 								<article className = "uagb-timeline__field uagb-timeline__field-wrap"  key={index}>
 									<div className = {content_align_class}>
@@ -821,7 +787,7 @@ class UAGBcontentTimeline extends Component {
 													<div className="uagb-timeline__date-hide uagb-timeline__date-inner">
 														{ displayPostDate && t_date[index].title &&
                                                             <div className={ "uagb-timeline__inner-date-new" }>
-                                                            	{ dateI18n( dateFormat, t_date[index].title ) }
+                                                            	{ post_date }
                                                             </div>
 														}
 													</div>
@@ -832,6 +798,7 @@ class UAGBcontentTimeline extends Component {
 															<RichText
 																tagName={ headingTag }
 																value={ post.time_heading }
+																placeholder={ __( "Write a Heading" ) }
 																className='uagb-timeline__heading'
 																onChange={ ( value ) => {
 																	var p = { "time_heading" : value,"time_desc":data_copy[index]["time_desc"] }
@@ -857,6 +824,7 @@ class UAGBcontentTimeline extends Component {
 														<RichText
 															tagName= "p"
 															value={ post.time_desc }
+															placeholder={ __( "Write a Description" ) }
 															className='uagb-timeline-desc-content'
 															onChange={ ( value ) => {
 																var p = { "time_heading" : data_copy[index]["time_heading"],"time_desc":value }
@@ -879,7 +847,7 @@ class UAGBcontentTimeline extends Component {
 										{ display_inner_date && <div className = "uagb-timeline__date-new">
 											{ displayPostDate && t_date[index].title &&
                                                 <div className={ "uagb-timeline__date-new" }>
-                                                	{ dateI18n( dateFormat, t_date[index].title ) }
+                                                	{ post_date }
                                                 </div>
 											}
 										</div>

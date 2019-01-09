@@ -24,6 +24,8 @@ if ( ! class_exists( 'UAGB_Block_Helper' ) ) {
 
 			// @codingStandardsIgnoreStart
 
+			global $content_width;
+
 			$defaults = UAGB_Helper::$block_list['uagb/section']['attributes'];
 
 			$attr = array_merge( $defaults, $attr );
@@ -35,6 +37,7 @@ if ( ! class_exists( 'UAGB_Block_Helper' ) ) {
 				'padding-bottom' => $attr['bottomPadding'] . 'px',
 				'padding-left'   => $attr['leftPadding'] . 'px',
 				'padding-right'  => $attr['rightPadding'] . 'px',
+				'border-radius'  => $attr['borderRadius'] . "px"
 			);
 
 			if ( 'right' == $attr['align'] ) {
@@ -53,8 +56,6 @@ if ( ! class_exists( 'UAGB_Block_Helper' ) ) {
 				$style['margin-top']    = $attr['topMargin'] . 'px';
 				$style['margin-bottom'] = $attr['bottomMargin'] . 'px';
 			} else {
-				$style['margin-right']  = $attr['rightMargin'] . 'px';
-				$style['margin-left']   = $attr['leftMargin'] . 'px';
 				$style['margin-top']    = $attr['topMargin'] . 'px';
 				$style['margin-bottom'] = $attr['bottomMargin'] . 'px';
 			}
@@ -62,7 +63,6 @@ if ( ! class_exists( 'UAGB_Block_Helper' ) ) {
 			if ( "none" != $attr['borderStyle'] ) {
 				$style["border-style"] = $attr['borderStyle'];
 				$style["border-width"] = $attr['borderWidth'] . "px";
-				$style["border-radius"] = $attr['borderRadius'] . "px";
 				$style["border-color"] =  $attr['borderColor'];
 			}
 
@@ -79,13 +79,12 @@ if ( ! class_exists( 'UAGB_Block_Helper' ) ) {
 				}
 			}
 
-			$style['max-width'] = $section_width;
+			if ( 'wide' != $attr['align'] && 'full' != $attr['align'] ) {
+				$style['max-width'] = $section_width;
+			}
 
-			if ( 'color' === $bg_type ) {
 
-				$style['background-color'] = $attr['backgroundColor'];
-
-			} elseif ( 'image' === $bg_type ) {
+			if ( 'image' === $bg_type ) {
 
 				$style['background-image']      = ( isset( $attr['backgroundImage'] ) ) ? "url('" . $attr['backgroundImage']['url'] . "' )" : null;
 				$style['background-position']   = $position;
@@ -95,6 +94,7 @@ if ( ! class_exists( 'UAGB_Block_Helper' ) ) {
 
 			} elseif ( 'gradient' === $bg_type ) {
 				$style['background-color'] = 'transparent';
+				$style['opacity'] =  ( isset( $attr['backgroundOpacity'] ) && '' != $attr['backgroundOpacity'] ) ? $attr['backgroundOpacity'] / 100 : "";
 
 				if ( 'linear' === $attr['gradientType'] ) {
 
@@ -109,18 +109,22 @@ if ( ! class_exists( 'UAGB_Block_Helper' ) ) {
 
 			if ( isset( $attr['contentWidth'] ) ) {
 				if ( 'boxed' != $attr['contentWidth'] ) {
-					if ( isset( $attr['innerWidth'] ) ) {
-						$inner_width = $attr['innerWidth'] . 'px';
+					if ( isset( $attr['themeWidth'] ) && $attr['themeWidth'] == true ) {
+						$inner_width = $content_width . 'px';
+					} else {
+						if ( isset( $attr['innerWidth'] ) ) {
+							$inner_width = $attr['innerWidth'] . 'px';
+						}
 					}
 				}
 			}
 
 			$selectors = array(
 				'.uagb-section__wrap'        => $style,
-				' .uagb-section__video-wrap' => array(
+				' > .uagb-section__video-wrap' => array(
 					'opacity' => ( isset( $attr['backgroundVideoOpacity'] ) && '' != $attr['backgroundVideoOpacity'] ) ? ( ( 100 - $attr['backgroundVideoOpacity'] ) / 100 ) : 0.5,
 				),
-				' .uagb-section__inner-wrap' => array(
+				' > .uagb-section__inner-wrap' => array(
 					'max-width' => $inner_width,
 				),
 			);
@@ -135,11 +139,14 @@ if ( ! class_exists( 'UAGB_Block_Helper' ) ) {
 					'opacity' => ( isset( $attr['backgroundOpacity'] ) && '' != $attr['backgroundOpacity'] ) ? $attr['backgroundOpacity'] / 100 : 0,
 					'background-color' => $attr['backgroundImageColor'],
 				);
-			} else {
+			} else if ( 'color' == $bg_type ) {
 				$selectors[' > .uagb-section__overlay'] = array(
-					'opacity' => ( isset( $attr['backgroundOpacity'] ) && '' != $attr['backgroundOpacity'] ) ? $attr['backgroundOpacity'] / 100 : 0,
+					'opacity' => ( isset( $attr['backgroundOpacity'] ) && '' != $attr['backgroundOpacity'] ) ? $attr['backgroundOpacity'] / 100 : "",
+					'background-color' => $attr['backgroundColor'],
 				);
 			}
+
+			$selectors[' > .uagb-section__overlay']["border-radius"] = $attr['borderRadius'] . "px";
 
 			// @codingStandardsIgnoreEnd
 
@@ -172,12 +179,6 @@ if ( ! class_exists( 'UAGB_Block_Helper' ) ) {
 				' .uagb-separator-wrap' => array(
 					'text-align' => $attr['headingAlign'],
 				),
-				' .uagb-separator' => array(
-					'border-top-width' => $attr['separatorHeight'] . "px",
-					'width' => $attr['separatorWidth'] . "%",
-					'border-color' => $attr['separatorColor'],
-					'margin-bottom' => $attr['separatorSpace'] . "px",
-				),
 				' .uagb-desc-text' => array(
 					'text-align' => $attr['headingAlign'],
 					'font-size' => $attr['subHeadFontSize'] . "px",
@@ -187,6 +188,17 @@ if ( ! class_exists( 'UAGB_Block_Helper' ) ) {
 
 			);
 
+			$seperatorStyle = isset( $attr['seperatorStyle'] ) ? $attr['seperatorStyle'] : '';
+			if( 'none' !== $seperatorStyle ){
+				$selectors[' .uagb-separator'] = array (
+					'border-top-style' => $attr['seperatorStyle'] ,
+					'border-top-width' => $attr['separatorHeight'] . "px",
+					'width' => $attr['separatorWidth'] . "%",
+					'border-color' => $attr['separatorColor'],
+					'margin-bottom' => $attr['separatorSpace'] . "px",
+				);
+
+			}
 			// @codingStandardsIgnoreEnd
 
 			return UAGB_Helper::generate_css( $selectors, '#uagb-adv-heading-' . $id );
@@ -256,14 +268,18 @@ if ( ! class_exists( 'UAGB_Block_Helper' ) ) {
 
 				$selectors[' .uagb-buttons-repeater-' . $key] = array (
 					'font-size'  => $button['size'] . 'px',
-					'border' => $button['borderWidth'] . 'px ' . $button['borderStyle'] . ' ' . $button['borderColor'],
+					'border-width' => $button['borderWidth'] . 'px',
+					'border-color' => $button['borderColor'],
+					'border-style' => $button['borderStyle'],
 					'border-radius'  => $button['borderRadius'] . 'px',
 					'background' => $button['background']
 				);
 
 				$selectors[' .uagb-buttons-repeater-' . $key . ':hover'] = array (
 					'background' => $button['hBackground'],
-					'border' => $button['borderWidth'] . 'px ' . $button['borderStyle'] . ' ' . $button['borderHColor'],
+					'border-width' => $button['borderWidth'] . 'px',
+					'border-color' => $button['borderHColor'],
+					'border-style' => $button['borderStyle'],
 				);
 
 				$selectors[' .uagb-buttons-repeater-' . $key . ' a.uagb-button__link'] = array (
@@ -391,6 +407,9 @@ if ( ! class_exists( 'UAGB_Block_Helper' ) ) {
 	                'font-size'   => $attr->ctaFontSize.'px',
 	                'color'       => $attr->ctaLinkColor,
 	            ),
+	            ' .uagb-infobox-cta-link:hover' => array(
+	                'color'       => $attr->ctaLinkHoverColor,
+	            ),
 	            ' .uagb-ifb-button-wrapper .uagb-infobox-cta-link' => array(
 	                'font-size'        => $attr->ctaFontSize.'px',
 	                'color'            => $attr->ctaBtnLinkColor,
@@ -404,6 +423,11 @@ if ( ! class_exists( 'UAGB_Block_Helper' ) ) {
 	                'padding-left'     => $attr->ctaBtnHrPadding . "px",
 	                'padding-right'    => $attr->ctaBtnHrPadding . "px",
 
+	            ),
+	            ' .uagb-ifb-button-wrapper .uagb-infobox-cta-link:hover' => array(
+	                'color'       => $attr->ctaLinkHoverColor,
+	                'background-color' => $attr->ctaBgHoverColor,
+	                'border-color'     => $attr->ctaBorderhoverColor,
 	            ),
 
 	           // Prefix Style.
@@ -438,6 +462,14 @@ if ( ! class_exists( 'UAGB_Block_Helper' ) ) {
 	                'margin-bottom' => $attr->seperatorSpace.'px',
 	            ),
 
+	            // CTA icon space.
+	            ' .uagb-ifb-align-icon-after' => array(
+	                'margin-left' => $attr->ctaIconSpace.'px',
+	            ),
+	            ' .uagb-ifb-align-icon-before' => array(
+	                'margin-right' => $attr->ctaIconSpace.'px',
+	            ),
+
 			);
 
 			if( 'above-title' === $attr->iconimgPosition ||  'below-title' === $attr->iconimgPosition ){
@@ -448,6 +480,132 @@ if ( ! class_exists( 'UAGB_Block_Helper' ) ) {
 
 			// @codingStandardsIgnoreEnd.
 			return UAGB_Helper::generate_css( $selectors, '#uagb-infobox-' . $id );
+		}
+
+
+		/**
+		 * Get CTA CSS
+		 *
+		 * @since 1.7.0
+		 * @param array  $attr The block attributes.
+		 * @param string $id The selector ID.
+		 * @return array The Widget List.
+		 */
+		public static function get_call_to_action_css( $attr, $id ) {
+
+			// @codingStandardsIgnoreStart.
+			$defaults = UAGB_Helper::$block_list['uagb/call-to-action']['attributes'];
+
+			$attr = (object) array_merge( $defaults, (array) $attr );
+
+			$selectors = array(		
+				' .uagb-cta__button-wrapper a.uagb-cta-typeof-text'  => array(
+					'font-size'   => $attr->ctaFontSize. "px",
+					'color'       => $attr->ctaBtnLinkColor,
+				),
+				' .uagb-cta__button-wrapper:hover a.uagb-cta-typeof-text '  => array(
+					'color'       => $attr->ctaLinkHoverColor,
+				),
+				' .uagb-cta__button-wrapper a.uagb-cta-typeof-button'  => array(
+					'font-size'        => $attr->ctaFontSize. "px",
+					'color'            => $attr->ctaBtnLinkColor,
+					'background-color' => $attr->ctaBgColor,
+					'border-style'     => $attr->ctaBorderStyle,
+					'border-color'     => $attr->ctaBorderColor,
+					'border-radius'    => $attr->ctaBorderRadius. "px",
+					'border-width'     => $attr->ctaBorderWidth. "px",
+					'padding-top'      => $attr->ctaBtnVertPadding. "px",
+					'padding-bottom'   => $attr->ctaBtnVertPadding. "px",
+					'padding-left'     => $attr->ctaBtnHrPadding. "px",
+					'padding-right'    => $attr->ctaBtnHrPadding. "px",
+				),	
+				' .uagb-cta__button-wrapper:hover a.uagb-cta-typeof-button'  => array(
+					'color'            => $attr->ctaLinkHoverColor,
+					'background-color' => $attr->ctaBgHoverColor,
+					'border-color'     => $attr->ctaBorderhoverColor,
+				),	
+				' .uagb-cta__title'  => array(
+					'font-size'        => $attr->titleFontSize. "px",
+					'color'            => $attr->titleColor,
+					'margin-bottom'    => $attr->titleSpace. "px",					
+				),
+				' .uagb-cta__desc'  => array(
+					'font-size'        => $attr->descFontSize. "px",
+					'color'            => $attr->descColor,
+					'margin-bottom'    => $attr->descSpace. "px",					
+				),	
+				' .uagb-cta__align-button-after'  => array(
+					'margin-left'    => $attr->ctaIconSpace. "px",					
+				),
+				' .uagb-cta__align-button-before'  => array(
+					'margin-right'   => $attr->ctaIconSpace. "px",					
+				),								
+			);
+
+			$selectors[' .uagb-cta__content-wrap'] = array(
+                'text-align' => $attr->textAlign,
+            );			
+
+            if( 'left' === $attr->textAlign && "right" === $attr->ctaPosition ){        
+	            $selectors[' .uagb-cta__left-right-wrap .uagb-cta__content'] = array(
+	                'margin-left'  => $attr->ctaLeftSpace. "px",
+	                'margin-right' => '0px',
+	            );
+            }
+
+            if( 'right' === $attr->textAlign && 'right' === $attr->ctaPosition ){    
+	            $selectors[' .uagb-cta__left-right-wrap .uagb-cta__content'] = array(
+	                'margin-right' => $attr->ctaRightSpace. "px",
+	                'margin-left' => '0px',
+	            );
+            }
+
+            if( $attr->ctaPosition === "right" && ( $attr->ctaType === 'text' || $attr->ctaType === 'button' ) ){		
+				$selectors[" .uagb-cta__content-right .uagb-cta__left-right-wrap .uagb-cta__content"] = array(
+					"width" => $attr->contentWidth."%",	
+				);	
+				
+				$selectors[" .uagb-cta__content-right .uagb-cta__left-right-wrap .uagb-cta__link-wrapper"] = array(
+					"width" => (100 - $attr->contentWidth )."%",	
+				);
+			}
+
+            // Tablet.
+            $t_selectors[' .uagb-cta__content-stacked-tablet .uagb-cta__left-right-wrap .uagb-cta__content'] = array(
+	                'margin-left'  => "0",
+	                'margin-right' => "0",
+	            );
+
+            if( $attr->ctaPosition === "right" && ( $attr->ctaType === 'text' || $attr->ctaType === 'button' ) ){		
+				$t_selectors[" .uagb-cta__content-stacked-tablet.uagb-cta__content-right .uagb-cta__left-right-wrap .uagb-cta__content"] = array(
+					"width" => "100%",	
+				);	
+				$t_selectors[" .uagb-cta__content-stacked-tablet.uagb-cta__content-right .uagb-cta__left-right-wrap .uagb-cta__link-wrapper"] = array(
+					"width" => "100%",	
+				);
+			}
+          
+             // mobile.
+            $m_selectors[' .uagb-cta__content-stacked-mobile .uagb-cta__left-right-wrap .uagb-cta__content'] = array(
+	                'margin-left' => "0",
+	                'margin-right' => "0",
+	            );
+
+            if( $attr->ctaPosition === "right" && ( $attr->ctaType === 'text' || $attr->ctaType === 'button' ) ){		
+				$m_selectors[" .uagb-cta__content-stacked-mobile.uagb-cta__content-right .uagb-cta__left-right-wrap .uagb-cta__content"] = array(
+					"width" => "100%",	
+				);	
+				$m_selectors[" .uagb-cta__content-stacked-mobile.uagb-cta__content-right .uagb-cta__left-right-wrap .uagb-cta__link-wrapper"] = array(
+					"width" => "100%",	
+				);
+			}
+
+			// @codingStandardsIgnoreEnd.
+			$desktop = UAGB_Helper::generate_css( $selectors, '#uagb-cta-block-' . $id );
+			$tablet  = UAGB_Helper::generate_responsive_css( '@media only screen and (max-width: 976px)', $t_selectors, '#uagb-cta-block-' . $id );
+			$mobile  = UAGB_Helper::generate_responsive_css( '@media only screen and (max-width: 767px)', $m_selectors, '#uagb-cta-block-' . $id );
+
+			return $desktop . $tablet . $mobile;
 		}
 
 		/**
@@ -466,7 +624,15 @@ if ( ! class_exists( 'UAGB_Block_Helper' ) ) {
 
 			$attr = (object) array_merge( $defaults, (array) $attr );
 
+			$img_align = 'center';
+			if( 'left' === $attr->headingAlign){
+				$img_align = 'flex-start';
+			}else if( 'right' === $attr->headingAlign){
+				$img_align = 'flex-end';
+			}
+
 			$position = str_replace( '-', ' ', $attr->backgroundPosition );
+
 			$selectors = array(
 				' .uagb-testimonial__wrap' => array(
 					'padding-left'   => ( ($attr->columnGap) /2 ) . 'px',
@@ -520,12 +686,27 @@ if ( ! class_exists( 'UAGB_Block_Helper' ) ) {
 					'border-width'  => $attr->borderWidth . 'px',
 					'border-radius'  => $attr->borderRadius . 'px',
 				),
+				' ul.slick-dots li button:before' => array(
+					'color' => $attr->arrowColor,
+				),
+				' ul.slick-dots li.slick-active button:before' => array(
+					'color' => $attr->arrowColor,
+				),
+				' .uagb-tm__image-position-top .uagb-tm__image-content' => array(
+					'justify-content' => $img_align,
+				),
 			);
+
+			if( '1' === $attr->test_item_count || $attr->test_item_count === $attr->columns ||  'dots' === $attr->arrowDots ){
+				$selectors['.uagb-slick-carousel'] = array(
+						'padding' => '0px',
+					);
+			}
 
 			$r_selectors = array(
 				' .uagb-tm__content' => array(
 					'text-align' => 'center',
-				),
+				)
 			);
 
 			// @codingStandardsIgnoreEnd.
@@ -681,7 +862,13 @@ if ( ! class_exists( 'UAGB_Block_Helper' ) ) {
 			);
 
 			$selectors[" .uagb-ss__wrapper"] = array(
-				"width" => $attr['size'] . "px"
+				"border-radius" => $attr['borderRadius'] . "px"
+			);
+
+			$selectors[" .uagb-ss__source-wrap"] = array(
+				"width" => $attr['size'] . "px",
+				"height" => $attr['size'] . "px",
+				"line-height" => $attr['size'] . "px"
 			);
 
 			$selectors[" .uagb-ss__source-image"] = array(
@@ -691,13 +878,8 @@ if ( ! class_exists( 'UAGB_Block_Helper' ) ) {
 			$selectors[" .uagb-ss__source-icon"] = array(
 				"width" => $attr['size'] . "px",
 				"height" => $attr['size'] . "px",
-				"font-size" => $attr['size'] . "px"
-			);
-
-			$selectors[" .uagb-ss__source-icon:before"] = array(
-				"width" => $attr['size'] . "px",
-				"height" => $attr['size'] . "px",
-				"font-size" => $attr['size'] . "px"
+				"font-size" => $attr['size'] . "px",
+				"line-height" => $attr['size'] . "px"
 			);
 
 			foreach ( $attr['socials'] as $key => $social ) {
@@ -710,11 +892,20 @@ if ( ! class_exists( 'UAGB_Block_Helper' ) ) {
 				}
 
 				$selectors[" .uagb-ss-repeater-" . $key . " a.uagb-ss__link"] = array (
-					"color" => $social['icon_color']
+					"color" => $social['icon_color'],
+					"padding" => $attr['bgSize'] . "px"
 				);
 
 				$selectors[" .uagb-ss-repeater-" . $key . ":hover a.uagb-ss__link"] = array (
 					"color" => $social['icon_hover_color']
+				);
+
+				$selectors[" .uagb-ss-repeater-" . $key] = array (
+					"background" => $social['icon_bg_color']
+				);
+
+				$selectors[" .uagb-ss-repeater-" . $key . ":hover"] = array (
+					"background" => $social['icon_bg_hover_color']
 				);
 			}
 
@@ -723,6 +914,9 @@ if ( ! class_exists( 'UAGB_Block_Helper' ) ) {
 				"-webkit-box-pack" => $alignment,
 				"-ms-flex-pack" => $alignment,
 				"justify-content" => $alignment,
+				"-webkit-box-align" => $alignment,
+				"-ms-flex-align" => $alignment,
+				"align-items" => $alignment,
 			);
 
 			if ( 'horizontal' == $attr['social_layout'] ) {
@@ -869,10 +1063,17 @@ if ( ! class_exists( 'UAGB_Block_Helper' ) ) {
 				);
 			}
 
+			$selectors[" .uagb-icon-list__source-wrap"] = array(
+				"padding" => $attr['bgSize'] . "px",
+				"border-radius" => $attr['borderRadius'] . "px"
+			);
+
 			foreach ( $attr['icons'] as $key => $icon ) {
 
 				$icon['icon_color'] = ( isset( $icon['icon_color'] ) ) ? $icon['icon_color'] : '';
 				$icon['icon_hover_color'] = ( isset( $icon['icon_hover_color'] ) ) ? $icon['icon_hover_color'] : '';
+				$icon['icon_bg_color'] = ( isset( $icon['icon_bg_color'] ) ) ? $icon['icon_bg_color'] : '';
+				$icon['icon_bg_hover_color'] = ( isset( $icon['icon_bg_hover_color'] ) ) ? $icon['icon_bg_hover_color'] : '';
 				$icon['label_color'] = ( isset( $icon['label_color'] ) ) ? $icon['label_color'] : '';
 				$icon['label_hover_color'] = ( isset( $icon['label_hover_color'] ) ) ? $icon['label_hover_color'] : '';
 
@@ -895,6 +1096,14 @@ if ( ! class_exists( 'UAGB_Block_Helper' ) ) {
 
 				$selectors[" .uagb-icon-list-repeater-" . $key . ":hover .uagb-icon-list__label"] = array (
 					"color" => $icon['label_hover_color']
+				);
+
+				$selectors[" .uagb-icon-list-repeater-" . $key . " .uagb-icon-list__source-wrap"] = array(
+					"background" => $icon['icon_bg_color']
+				);
+
+				$selectors[" .uagb-icon-list-repeater-" . $key . ":hover .uagb-icon-list__source-wrap"] = array(
+					"background" => $icon['icon_bg_hover_color']
 				);
 			}
 
@@ -1096,20 +1305,11 @@ if ( ! class_exists( 'UAGB_Block_Helper' ) ) {
                     'font-size' => $attr['iconSize'].'px',
                 );
 
-            $selectors[' .uagb-timeline__field.uagb-timeline__field-wrap:hover .uagb-timeline__marker'] = array(
-                    'background' => $attr['iconBgHover'],
-                    'border-color'=> $attr['borderHover'],
-                );
-
             $selectors[' .uagb-timeline__main .uagb-timeline__marker.uagb-timeline__in-view-icon'] = array(
                     'background' => $attr['iconBgFocus'],
                     'border-color'=> $attr['borderFocus'],
                 );
 
-
-            $selectors[' .uagb-timeline__field.uagb-timeline__field-wrap:hover .uagb-timeline__icon-new'] = array(
-                    'color'=> $attr['iconHover'],
-                );
 
             $selectors[' .uagb-timeline__main .uagb-timeline__marker.uagb-timeline__in-view-icon .uagb-timeline__icon-new'] = array(
                     'color'=> $attr['iconFocus'],
@@ -1213,7 +1413,7 @@ if ( ! class_exists( 'UAGB_Block_Helper' ) ) {
 			);
 			$selectors[" .uagb-timeline__link_parent"] = array(
 				"text-align"  => $attr['align'],
-			);			
+			);
 			$selectors[" .uagb-timeline__image a"] = array(
 				"text-align"  => $attr['align'],
 			);
@@ -1230,7 +1430,7 @@ if ( ! class_exists( 'UAGB_Block_Helper' ) ) {
 			$selectors[" .uagb-timeline__link"] = array(
 				"color"  => $attr['ctaColor'],
 				"font-size"  => $attr['ctaFontSize'] . "px",
-				"background-color"  => $attr['ctaBackground'],				
+				"background-color"  => $attr['ctaBackground'],
 			);
 
 			$selectors[" .uagb-timeline__heading a"] = array(
@@ -1246,10 +1446,10 @@ if ( ! class_exists( 'UAGB_Block_Helper' ) ) {
 			$selectors[" .uagb-timeline-desc-content"] = array(
 				"text-align"  => $attr['align'],
 				"color"  => $attr['subHeadingColor'],
-				"font-size"  => $attr['subHeadFontSize'] . "px",				
+				"font-size"  => $attr['subHeadFontSize'] . "px",
 			);
 			$selectors[" .uagb_timeline__cta-enable .uagb-timeline-desc-content"] = array(
-				"margin-bottom"  => $attr['contentSpace'] . "px",				
+				"margin-bottom"  => $attr['contentSpace'] . "px",
 			);
 
 			$selectors[' .uagb-timeline__events-new'] = array(
@@ -1354,7 +1554,7 @@ if ( ! class_exists( 'UAGB_Block_Helper' ) ) {
                     'border-radius' => $attr['borderRadius'].'px',
                     'padding'=> $attr['bgPadding'].'px',
                 );
-            
+
             $selectors[' .uagb-content'] = array(
                     'padding'=> $attr['contentPadding'].'px',
                 );
@@ -1364,19 +1564,9 @@ if ( ! class_exists( 'UAGB_Block_Helper' ) ) {
                     'font-size' => $attr['iconSize'].'px',
                 );
 
-            $selectors[' .uagb-timeline__field.uagb-timeline__field-wrap:hover .uagb-timeline__marker'] = array(
-                    'background' => $attr['iconBgHover'],
-                    'border-color'=> $attr['borderHover'],
-                );
-
             $selectors[' .uagb-timeline__main .uagb-timeline__marker.uagb-timeline__in-view-icon'] = array(
                     'background' => $attr['iconBgFocus'],
                     'border-color'=> $attr['borderFocus'],
-                );
-
-
-            $selectors[' .uagb-timeline__field.uagb-timeline__field-wrap:hover .uagb-timeline__icon-new'] = array(
-                    'color'=> $attr['iconHover'],
                 );
 
             $selectors[' .uagb-timeline__main .uagb-timeline__marker.uagb-timeline__in-view-icon .uagb-timeline__icon-new'] = array(
@@ -1457,7 +1647,7 @@ if ( ! class_exists( 'UAGB_Block_Helper' ) ) {
 			);
 			$m_selectors[" .uagb-timeline__center-block.uagb-timeline__responsive-tablet .uagb-timeline__link_parent"] = array(
 				"text-align"  => 'left',
-			);			
+			);
 			$m_selectors[" .uagb-timeline__center-block.uagb-timeline__responsive-mobile .uagb-timeline__day-right .uagb-timeline__arrow:after"] = array(
 				"border-right-color"  => $attr['backgroundColor'],
 			);
@@ -1515,12 +1705,23 @@ if ( ! class_exists( 'UAGB_Block_Helper' ) ) {
                     'max-width'=>  $attr['imageWidth'] .'px',
                 );
 
+            $align = $attr['headingAlign'];
+            if( 'left' === $align ){
+            	$align = 'flex-start';
+            }else if( 'right' === $align ){
+            	$align = 'flex-end';
+            }
+
+            $selectors[' .uagb-rm__separator-parent'] = array(
+                'justify-content' => $align,
+            );
+
             $selectors[' .uagb-rm__content'] = array(
                     'text-align' =>  $attr['headingAlign'] ,
                     'padding-left'  => $attr['contentHrPadding'] . 'px',
 					'padding-right' => $attr['contentHrPadding'] . 'px',
 					'padding-top'   => $attr['contentVrPadding'] . 'px',
-					'padding-top'  => $attr['contentVrPadding'] . 'px',
+					'padding-bottom'  => $attr['contentVrPadding'] . 'px',
                 );
 
             $selectors[' .uagb-rm__title'] = array(
@@ -1577,7 +1778,7 @@ if ( ! class_exists( 'UAGB_Block_Helper' ) ) {
 		/**
 		 * Get Toggle Content Block CSS
 		 *
-		 * @since 1.3.1
+		 * @since 1.7.1
 		 * @param array  $attr The block attributes.
 		 * @param string $id The selector ID.
 		 * @return array The Widget List.
@@ -1747,5 +1948,288 @@ if ( ! class_exists( 'UAGB_Block_Helper' ) ) {
 
 			return $desktop . $tablet . $mobile;
 		}
+
+		/**
+		 * Get Post Grid Block CSS
+		 *
+		 * @since 1.4.0
+		 * @param array  $attr The block attributes.
+		 * @param string $id The selector ID.
+		 * @return array The Widget List.
+		 */
+		public static function get_post_grid_css( $attr, $id ) {
+
+			// @codingStandardsIgnoreStart
+
+			$defaults = UAGB_Helper::$block_list['uagb/post-grid']['attributes'];
+
+			$attr = array_merge( $defaults, (array) $attr );
+
+			$selectors = self::get_post_selectors( $attr );
+
+			$m_selectors = self::get_post_mobile_selectors( $attr );
+
+			// @codingStandardsIgnoreEnd
+
+			$desktop = UAGB_Helper::generate_css( $selectors, '#uagb-post__grid-' . $id );
+
+			$mobile = UAGB_Helper::generate_responsive_css( '@media only screen and (max-width: 767px)', $m_selectors, '#uagb-post__grid-' . $id );
+
+			return $desktop . $mobile;
+		}
+
+		/**
+		 * Get Post Carousel Block CSS
+		 *
+		 * @since 1.4.0
+		 * @param array  $attr The block attributes.
+		 * @param string $id The selector ID.
+		 * @return array The Widget List.
+		 */
+		public static function get_post_carousel_css( $attr, $id ) {
+
+			// @codingStandardsIgnoreStart
+
+			$defaults = UAGB_Helper::$block_list['uagb/post-carousel']['attributes'];
+
+			$attr = array_merge( $defaults, (array) $attr );
+
+			$selectors = self::get_post_selectors( $attr );
+
+			$m_selectors = self::get_post_mobile_selectors( $attr );
+
+			$selectors[" .slick-arrow"] = array(
+				"border-color" => $attr['arrowColor']
+			);
+
+			$selectors[" .slick-arrow span"] = array(
+				"color" => $attr['arrowColor'],
+				"font-size" => $attr['arrowSize'] . "px",
+				"width" => $attr['arrowSize'] . "px",
+				"height" => $attr['arrowSize'] . "px"
+			);
+
+			$selectors[" .slick-arrow"] = array(
+				"border-color" => $attr['arrowColor'],
+				"border-width" => $attr['arrowBorderSize'] . "px",
+				"border-radius" => $attr['arrowBorderRadius'] . "px"
+			);
+
+			$selectors[".uagb-post-grid ul.slick-dots li.slick-active button:before"] = array(
+				"color" => $attr['arrowColor']
+			);
+
+			$selectors[".uagb-slick-carousel ul.slick-dots li button:before"] = array(
+				"color" => $attr['arrowColor']
+			);
+
+			if ( isset( $attr['arrowDots'] ) && 'dots' == $attr['arrowDots'] ) {
+
+				$selectors[".uagb-slick-carousel"] = array(
+					"padding" => "0"
+				);
+			}
+
+			// @codingStandardsIgnoreEnd
+
+			$desktop = UAGB_Helper::generate_css( $selectors, '#uagb-post__carousel-' . $id );
+
+			$mobile = UAGB_Helper::generate_responsive_css( '@media only screen and (max-width: 767px)', $m_selectors, '#uagb-post__carousel-' . $id );
+
+			return $desktop . $mobile;
+		}
+
+		/**
+		 * Get Post Masonry Block CSS
+		 *
+		 * @since 1.4.0
+		 * @param array  $attr The block attributes.
+		 * @param string $id The selector ID.
+		 * @return array The Widget List.
+		 */
+		public static function get_post_masonry_css( $attr, $id ) {
+
+			// @codingStandardsIgnoreStart
+
+			$defaults = UAGB_Helper::$block_list['uagb/post-masonry']['attributes'];
+
+			$attr = array_merge( $defaults, (array) $attr );
+
+			$selectors = self::get_post_selectors( $attr );
+
+			$m_selectors = self::get_post_mobile_selectors( $attr );
+
+			// @codingStandardsIgnoreEnd
+
+			$desktop = UAGB_Helper::generate_css( $selectors, '#uagb-post__masonry-' . $id );
+
+			$mobile = UAGB_Helper::generate_responsive_css( '@media only screen and (max-width: 767px)', $m_selectors, '#uagb-post__masonry-' . $id );
+
+			return $desktop . $mobile;
+		}
+
+		/**
+		 * Get Post Block Selectors CSS
+		 *
+		 * @param array $attr The block attributes.
+		 * @since 1.4.0
+		 */
+		public static function get_post_selectors( $attr ) {
+
+			// @codingStandardsIgnoreStart
+			return array(
+				" .uagb-post__items" => array(
+					"margin-right" =>  ( -$attr['rowGap']/2 ) . "px",
+					"margin-left" =>  ( -$attr['rowGap']/2 ) . "px",
+				),
+				" .uagb-post__items article" => array(
+					"padding-right" => ( $attr['rowGap']/2 ) . "px",
+					"padding-left" => ( $attr['rowGap']/2 ) . "px",
+					"margin-bottom" => ( $attr['columnGap'] ) . "px"
+				),
+				" .uagb-post__inner-wrap" => array(
+					"background" => $attr['bgColor']
+				),
+				" .uagb-post__text" => array(
+					"padding" => ( $attr['contentPadding'] ) . "px",
+					"text-align" => $attr['align']
+				),
+				" .uagb-post__text .uagb-post__title" => array(
+					"color"=> $attr['titleColor'],
+					"font-size"=> $attr['titleFontSize']  . "px",
+					"margin-bottom"=> $attr['titleBottomSpace']  . "px"
+				),
+				" .uagb-post__text .uagb-post__title a" => array(
+					"color"=> $attr['titleColor'],
+					"font-size"=> $attr['titleFontSize']  . "px"
+				),
+				" .uagb-post__text .uagb-post-grid-byline" => array(
+					"color"=> $attr['metaColor'],
+					"font-size"=> $attr['metaFontSize']  . "px",
+					"margin-bottom"=> $attr['metaBottomSpace']  . "px"
+				),
+				" .uagb-post__text .uagb-post-grid-byline .uagb-post__author" => array(
+					"color"=> $attr['metaColor'],
+					"font-size"=> $attr['metaFontSize']  . "px",
+				),
+				" .uagb-post__text .uagb-post-grid-byline .uagb-post__author a" => array(
+					"color"=> $attr['metaColor'],
+					"font-size"=> $attr['metaFontSize']  . "px",
+				),
+				" .uagb-post__text .uagb-post__excerpt" => array(
+					"color"=> $attr['excerptColor'],
+					"font-size"=> $attr['excerptFontSize']  . "px",
+					"margin-bottom"=> $attr['excerptBottomSpace']  . "px"
+				),
+				" .uagb-post__text .uagb-post__cta" => array(
+					"color"=> $attr['ctaColor'],
+					"font-size"=> $attr['ctaFontSize']  . "px",
+					"background"=> $attr['ctaBgColor'],
+					"border-color"=> $attr['borderColor'],
+					"border-width"=> $attr['borderWidth']  . "px",
+					"border-radius"=> $attr['borderRadius']  . "px",
+					"border-style"=> $attr['borderStyle'],
+				),
+				" .uagb-post__text .uagb-post__cta:hover" => array(
+					"border-color"=> $attr['borderHColor']
+				),
+				" .uagb-post__text .uagb-post__cta a" => array(
+					"color"=> $attr['ctaColor'],
+					"font-size"=> $attr['ctaFontSize']  . "px",
+					"padding" => ( $attr['btnVPadding'] ) . "px " . ( $attr['btnHPadding'] ) . "px",
+				),
+				" .uagb-post__text .uagb-post__cta:hover" => array(
+					"color"=> $attr['ctaHColor'],
+					"background"=> $attr['ctaBgHColor']
+				),
+				" .uagb-post__text .uagb-post__cta:hover a" => array(
+					"color"=> $attr['ctaHColor']
+				),
+				" .uagb-post__image:before" => array(
+					"background-color" => $attr['bgOverlayColor'],
+					"opacity" => ( $attr['overlayOpacity'] / 100 )
+				),
+			);
+			// @codingStandardsIgnoreEnd
+		}
+
+		/**
+		 * Get Post Block Selectors CSS for Mobile devices
+		 *
+		 * @param array $attr The block attributes.
+		 * @since 1.6.1
+		 */
+		public static function get_post_mobile_selectors( $attr ) {
+
+			// @codingStandardsIgnoreStart
+			return array(
+				" .uagb-post__text" => array(
+					"padding" => ( $attr['contentPaddingMobile'] ) . "px",
+				)
+			);
+			// @codingStandardsIgnoreEnd
+		}
+
+		/**
+		 * Get Testimonial Js
+		 *
+		 * @since 1.6.0
+		 * @param array  $attr The block attributes.
+		 * @param string $id The selector ID.
+		 */
+		public static function get_testimonial_js( $attr, $id ) {
+
+			// @codingStandardsIgnoreStart.
+
+			$defaults = UAGB_Helper::$block_list['uagb/testimonial']['attributes'];
+
+			$attr = array_merge( $defaults, (array) $attr );
+
+			$dots = ( "dots" == $attr['arrowDots'] || "arrowDots" == $attr['arrowDots'] ) ? true : false;
+			$arrows = ( "arrows" == $attr['arrowDots'] || "arrowDots" == $attr['arrowDots'] ) ? true : false;
+
+			$slick_options = [
+				'slidesToShow'   => $attr['columns'],
+				'slidesToScroll' => 1,
+				'autoplaySpeed'  =>  $attr['autoplaySpeed'],
+				'autoplay'       => $attr['autoplay'],
+				'infinite'       => $attr['infiniteLoop'],
+				'pauseOnHover'   => $attr['pauseOnHover'],
+				'speed'          => $attr['transitionSpeed'],
+				'arrows'         => $arrows,
+				'dots'           => $dots,
+				'rtl'            => false,
+				'prevArrow'		 => '<button type="button" data-role="none" class="slick-prev" aria-label="Previous" tabindex="0" role="button" style="border-color: '.$attr["arrowColor"].';border-radius:'.$attr["arrowBorderRadius"].'px;border-width:'.$attr["arrowBorderSize"].'px"><span class="fas fa-angle-left" style= "font-size:'.$attr["arrowSize"].'px;color: '.$attr["arrowColor"].';height:'.$attr["arrowSize"].'px;width:'.$attr["arrowSize"].'px"></span></button>',
+				'nextArrow'		 => '<button type="button" data-role="none" class="slick-next" aria-label="Next" tabindex="0" role="button" style="border-color: '.$attr["arrowColor"].';border-radius:'.$attr["arrowBorderRadius"].'px;border-width:'.$attr["arrowBorderSize"].'px"><span class="fas fa-angle-right" style= "font-size:'.$attr["arrowSize"].'px;color: '.$attr["arrowColor"].';height:'.$attr["arrowSize"].'px;width:'.$attr["arrowSize"].'px"></span></button>',
+				'responsive'		=> [
+					[
+						'breakpoint' => 1024,
+						'settings' => [
+							'slidesToShow'   => $attr['tcolumns'],
+							'slidesToScroll' => 1,
+						],
+					],
+					[
+						'breakpoint' => 767,
+						'settings' => [
+							'slidesToShow'   => $attr['mcolumns'],
+							'slidesToScroll' => 1,
+						],
+					]
+				]
+			];
+
+			$settings = json_encode($slick_options);
+			$selector =	'#uagb-testimonial-'. $id;
+			?>
+			if( jQuery( ".wp-block-uagb-testimonial" ).length > 0 ){
+				return true
+			} else {
+				jQuery( "<?php echo $selector ?>" ).find( ".is-carousel" ).slick( <?php echo $settings ?> );
+			}
+			<?php
+			// @codingStandardsIgnoreEnd.
+		}
+
 	}
 }
