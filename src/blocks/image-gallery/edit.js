@@ -508,16 +508,28 @@ class UAGBImageGallery extends Component {
 				) }
 				id={ `uagb-gallery-${ this.props.clientId }` }>
 					{ images_set.map( ( img, index ) => {
-
-						let img_url = img.url
-						let img_src = img.url
+						
+						let img_url = ""
+						let img_src = ""
 
 						if ( "attachment" == linkTo ) {
 							img_url = img.link
 						}
 
-						if ( imgSize && img.sizes[imgSize] ) {
-							img_src = img.sizes[imgSize].url
+						if( typeof img !== "undefined" && img !== null && img !=="" ){
+							img_url = img.url
+						}
+
+						if( img_url !== "" ){
+							console.log(img)
+							let size = img.sizes
+							let imageSize = attributes.imgSize
+
+							if ( typeof size !== "undefined" && typeof size[imageSize] !== "undefined" ) {
+							  img_src = size[imageSize].url 
+							}else{
+							  img_src = img_url 
+							}
 						}
 
 						const img_html = (

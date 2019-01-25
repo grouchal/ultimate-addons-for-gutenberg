@@ -5,7 +5,6 @@
  * that are used across the project.
 */
 .uagb-inspect-tabs .components-tab-panel__tabs button{
-<<<<<<< HEAD
 	border: 1px solid #a4afb7;
 	padding: 10px;
 }
@@ -24,7 +23,6 @@
 .uagb-inspect-tabs .components-tab-panel__tabs {
 	margin-top: 15px;
 	margin-bottom: 15px;
-=======
 	padding: 10px;
     background: transparent;
     color: #333;
@@ -52,7 +50,6 @@ hr.uagb-editor__separator {
 
 .uagb-inspect-tab-title {
 	margin-top: 20px;
->>>>>>> 65edbcbe20e21f65bffff97741dcf51f6ceb1843
 }
 
 .uagb-inspect-tabs-col-2 .components-tab-panel__tabs button,
