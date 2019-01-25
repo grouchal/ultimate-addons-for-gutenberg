@@ -227,7 +227,7 @@ class UAGBImageGallery extends Component {
 		if ( "random" == order ) {
 			images_set = shuffle( images )
 		}
-
+		//console.log(images_set);
 		const normalSettings = (
 			<Fragment>
 				<RangeControl
@@ -509,26 +509,15 @@ class UAGBImageGallery extends Component {
 				id={ `uagb-gallery-${ this.props.clientId }` }>
 					{ images_set.map( ( img, index ) => {
 						
-						let img_url = ""
-						let img_src = ""
+						let img_url = img.url
+						let img_src = img.url
 
 						if ( "attachment" == linkTo ) {
 							img_url = img.link
 						}
-
-						if( typeof img !== "undefined" && img !== null && img !=="" ){
-							img_url = img.url
-						}
-
-						if( img_url !== "" ){
-							let size = img.sizes
-							let imageSize = attributes.imgSize
-
-							if ( typeof size !== "undefined" && typeof size[imageSize] !== "undefined" ) {
-							  img_src = size[imageSize].url 
-							}else{
-							  img_src = img_url 
-							}
+						
+						if ( imgSize && img.media_details.sizes[imgSize] ) {
+							img_src = img.media_details.sizes[imgSize].source_url
 						}
 
 						const img_html = (
