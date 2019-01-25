@@ -515,11 +515,15 @@ class UAGBImageGallery extends Component {
 						if ( "attachment" == linkTo ) {
 							img_url = img.link
 						}
-						
-						if ( imgSize && img.media_details.sizes[imgSize] ) {
-							img_src = img.media_details.sizes[imgSize].source_url
-						}
 
+						if( img_url !== "" ){
+							let size = img.media_details.sizes
+
+							if ( typeof size !== "undefined" && typeof size[imgSize] !== "undefined" ) {
+							  img_src = size[imgSize].source_url 
+							}
+						}
+						
 						const img_html = (
 							<img
 								src={ img_src }

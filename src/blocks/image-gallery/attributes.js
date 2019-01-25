@@ -50,7 +50,7 @@ const attributes = {
 	},
 	imgSize: {
 		type: "string",
-		default: "full",
+		default: "thumbnail",
 	},
 	layout: {
 		type: "string",
