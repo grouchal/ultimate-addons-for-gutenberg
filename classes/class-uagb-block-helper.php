@@ -12,6 +12,7 @@ if ( ! class_exists( 'UAGB_Block_Helper' ) ) {
 	 */
 	class UAGB_Block_Helper {
 
+
 		/**
 		 * Get Section Block CSS
 		 *
@@ -2348,6 +2349,87 @@ if ( ! class_exists( 'UAGB_Block_Helper' ) ) {
 					window.open( request_url );
 				});
 			<?php
+		}
+
+		/**
+		 * Get Image Gallary Block CSS
+		 *
+		 * @since x.x.x
+		 * @param array  $attr The block attributes.
+		 * @param string $id The selector ID.
+		 * @return array The Widget List.
+		 */
+		public static function get_iamge_gallery_css( $attr, $id ) {
+
+        	// @codingStandardsIgnoreStart
+
+			$defaults = UAGB_Helper::$block_list['uagb/image-gallery']['attributes'];
+
+			$attr = array_merge( $defaults, (array) $attr );
+
+			$selectors = self::get_post_selectors( $attr );
+
+			$m_selectors = self::get_post_mobile_selectors( $attr );
+
+			$selectors[".uagb-gallery__outer-wrap"] = array(
+				"margin-right" => ( - $attr['rowGap']/2 ) . "px",
+				"margin-left" => ( - $attr['rowGap']/2 ) . "px",
+			);
+
+			$selectors[" .uagb-gallery__item"] = array(
+				"padding-right" => ( $attr['rowGap']/2 ) . "px",
+				"padding-left" => ( $attr['rowGap']/2 ) . "px",
+			);
+
+			$selectors[" .uagb-gallery__item img"] = array(
+				"transform"=> "scale(" . ( $attr['scale'] / 100 ) . ")",
+				"opacity" => ( $attr['opacity'] / 100 )
+			);
+
+			$selectors[" .uagb-gallery__img-overlay"] = array(
+				"background" => $attr['overlayColor'],
+				"opacity" => ( $attr['overlayOp'] / 100 )
+			);
+
+			$selectors[" .uagb-gallery__item=>hover img"] = array(
+				"transform"=> "scale(" . ( $attr['hscale'] / 100 ) . ")",
+				"opacity" => ( $attr['hopacity'] / 100 )
+			);
+
+			$selectors[" .uagb-gallery__item=>hover .uagb-gallery__img-overlay"] = array(
+				"background" => $attr['hoverlayColor'],
+				"opacity" => ( $attr['hoverlayOp'] / 100 )
+			);
+
+			$selectors[" .uagb-gallery__content"] = array(
+				"margin-bottom" => $attr['columnGap'] . "px"
+			);
+
+			$selectors[" .uagb-gallery__caption"] = array(
+				"padding" => $attr['captionPadding'] . "px",
+				"background" => $attr['capBgColor'],
+				"opacity" => ( $attr['capBgColorOp'] / 100 )
+			);
+
+			$selectors[" p.uagb-gallery__caption-text"] = array(
+				"color" => $attr['capColor'],
+			);
+
+			$alignment = ( $attr['align'] == "left" ) ? "flex-start" : ( ( $attr['align'] == "right" ) ? "flex-end" : "center" );
+
+			$selectors[" .uagb-buttons__wrap"] = array(
+				"justify-content" => $alignment,
+				"-webkit-box-pack"=> $alignment,
+				"-ms-flex-pack"=> $alignment,
+				"justify-content"=> $alignment,
+			);
+
+			// @codingStandardsIgnoreEnd
+
+			$desktop = UAGB_Helper::generate_css( $selectors, '#uagb-gallery-' . $id );
+
+			// $mobile = UAGB_Helper::generate_responsive_css('@media only screen and (max-width: 767px)', $m_selectors, '#uagb-post__masonry-' . $id);
+			return $desktop;
 		}
 	}
 }

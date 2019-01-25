@@ -12,6 +12,7 @@ if ( ! class_exists( 'UAGB_Config' ) ) {
 	 */
 	class UAGB_Config {
 
+
 		/**
 		 * Block Attributes
 		 *
@@ -225,9 +226,38 @@ if ( ! class_exists( 'UAGB_Config' ) ) {
 					'uagb/image-gallery'    => array(
 						'slug'        => '',
 						'title'       => __( 'Image Gallery', 'ultimate-addons-for-gutenberg' ),
-						'description' => __( 'Lipsum', 'ultimate-addons-for-gutenberg' ),
+						'description' => __( 'This block allows you to place an Image Gallery.', 'ultimate-addons-for-gutenberg' ),
 						'default'     => true,
-						'attributes'  => array(),
+						'attributes'  => array(
+							'columns'        => 4,
+							'tcolumns'       => 3,
+							'mcolumns'       => 2,
+							'rowGap'         => 10,
+							'columnGap'      => 10,
+							'captionPadding' => 10,
+							'imageCrop'      => true,
+							'linkTo'         => 'none',
+							'target'         => false,
+							'imgSize'        => 'thumbnail',
+							'layout'         => 'image',
+							'order'          => 'default',
+							'scale'          => '',
+							'opacity'        => '',
+							'effect'         => 'normal',
+							'overlayColor'   => '',
+							'overlayOp'      => 30,
+							'hscale'         => '',
+							'hopacity'       => '',
+							'heffect'        => 'normal',
+							'hoverlayColor'  => '',
+							'hoverlayOp'     => 30,
+							'showCaption'    => 'image',
+							'captionAlign'   => 'center',
+							'captionVAlign'  => 'bottom',
+							'capColor'       => '#ffffff',
+							'capBgColor'     => '#000000',
+							'capBgColorOp'   => 40,
+						),
 					),
 					'uagb/info-box'         => array(
 						'slug'        => '',

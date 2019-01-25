@@ -500,7 +500,13 @@ class UAGBImageGallery extends Component {
 			}
 
 			if( img_url !== "" ){
-				let size = typeof img.sizes !== "undefined" ? img.sizes : img.media_details.sizes
+
+				let size = typeof img.media_details !== "undefined" ? img.media_details.sizes : 'undefined'
+
+				if( size == 'undefined' ){
+					size = typeof img.sizes !== "undefined" ? img.sizes : 'undefined'
+				}
+				
 				if ( typeof size !== "undefined" && typeof size[imgSize] !== "undefined" ) {
 				  img_src = typeof size[imgSize].url !== "undefined" ? size[imgSize].url : size[imgSize].source_url
 				}
@@ -522,7 +528,7 @@ class UAGBImageGallery extends Component {
 
 			if ( "none" != linkTo ) {
 				image_html = (
-					<a className="uagb-gallery__link" href={ img_url }>{ img_html }</a>
+					<a className="uagb-gallery__link" href={ img_url } rel ="noopener noreferrer">{ img_html }</a>
 				)
 			}
 

@@ -45,20 +45,116 @@ registerBlockType( "uagb/image-gallery", {
 	attributes,
 	edit,
 	save: props => {
-		return null
+		//return null
 
 		const { attributes, className } = props
 
 		const {
-			block_id
+			block_id,
+			images,
+			linkTo,
+			imgSize,
+			layout,
+			columns,
+			tcolumns,
+			mcolumns,
+			showCaption,
+			captionAlign,
+			effect,
+			heffect,
+			order,
+			captionVAlign
 		} = props.attributes
+
+			
+		let images_set = images
+
+		if ( "random" == order ) {
+			images_set = shuffle( images )
+		}
+
+		const image_content =  images_set.map( ( img, index ) => {
+						
+			let img_url = img.url
+			let img_src = img.url
+
+			if ( "attachment" == linkTo ) {							
+				img_url = img.link
+			}
+
+			if( img_url !== "" ){
+				let size = typeof img.media_details !== "undefined" ? img.media_details.sizes : 'undefined'
+
+				if( size == 'undefined' ){
+					size = typeof img.sizes !== "undefined" ? img.sizes : 'undefined'
+				}
+				
+				if ( typeof size !== "undefined" && typeof size[imgSize] !== "undefined" ) {
+				  img_src = typeof size[imgSize].url !== "undefined" ? size[imgSize].url : size[imgSize].source_url
+				}
+			}
+			
+			const img_html = (
+				<img
+					src={ img_src }
+					alt={ img.alt }
+					id={ img.id }
+					caption={ img.caption }
+					aria-label={ img.caption }
+					tabIndex="0"
+					data-id={ img.id }
+				/>
+			)
+
+			let image_html = img_html
+
+			if ( "none" != linkTo ) {
+				image_html = (
+					<a className="uagb-gallery__link" href={ img_url } rel ="noopener noreferrer">{ img_html }</a>
+				)
+			}
+
+			return (
+				<div className={ classnames(
+					"uagb-gallery__item",
+					`uagb-gallery__item-${index}`,
+					"uagb-ins-hover"
+				) }
+				key={ img.id || img.url }>
+					<div className="uagb-gallery__content">
+						<div className="uagb-gallery__thumnail uagb-ins-target">
+							{ image_html }
+						</div>
+						<div className="uagb-gallery__img-overlay"></div>
+						{ "" != img.caption &&
+
+							<figcaption className="uagb-gallery__caption-wrap">
+								<div className="uagb-gallery__caption">
+									<p className="uagb-gallery__caption-text">{ img.caption }</p>
+								</div>
+							</figcaption>
+						}
+					</div>
+				</div>
+			)
+		})
 
 		return (
 			<div className={ classnames(
-				className
-			) }
-			id={ `uagb-img-gallery-${ block_id }` }
-			>
+					className,
+					"uagb-gallery__outer-wrap",
+					`uagb-gallery__layout-${ layout }`,
+					`uagb-gallery__columns-${ columns }`,
+					`uagb-gallery__columns-tablet-${ tcolumns }`,
+					`uagb-gallery__columns-mobile-${ mcolumns }`,
+					`uagb-gallery__caption-show-${ showCaption }`,
+					`uagb-gallery__caption-align-${ captionAlign }`,
+					`uagb-gallery__caption-valign-${ captionVAlign }`,
+					`uagb-ins-${ effect }`,
+					`uagb-ins-hover-${ heffect }`,
+				) }
+				id={ `uagb-gallery-${ block_id }` }>
+					{ image_content }
 			</div>
 		)
 	}

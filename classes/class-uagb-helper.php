@@ -13,6 +13,7 @@ if ( ! class_exists( 'UAGB_Helper' ) ) {
 	final class UAGB_Helper {
 
 
+
 		/**
 		 * Member Variable
 		 *
@@ -213,6 +214,10 @@ if ( ! class_exists( 'UAGB_Helper' ) ) {
 
 				case 'uagb/column':
 					$css .= UAGB_Block_Helper::get_column_css( $blockattr, $block_id );
+					break;
+
+				case 'uagb/image-gallery':
+					$css .= UAGB_Block_Helper::get_iamge_gallery_css( $blockattr, $block_id );
 					break;
 
 				default:
