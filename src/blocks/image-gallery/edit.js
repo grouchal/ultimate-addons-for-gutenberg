@@ -26,7 +26,8 @@ const {
 	MediaPlaceholder,
 	InspectorControls,
 	mediaUpload,
-	PanelColorSettings
+	PanelColorSettings,
+	ColorPalette
 } = wp.editor
 
 const {
@@ -249,17 +250,14 @@ class UAGBImageGallery extends Component {
 					value={ effect }
 					onChange={ ( value ) => setAttributes( { effect: value } ) }
 					options={ effectOptions }
+				/>	
+				<p className="uagb-setting-label">{ __( "Overlay Color" ) }<span className="components-base-control__label">
+				<span className="component-color-indicator" style={{ backgroundColor: overlayColor }} ></span></span></p>
+				<ColorPalette
+					value={ overlayColor }
+					onChange={ ( colorValue ) => setAttributes( { overlayColor: colorValue } ) }
+					allowReset
 				/>
-				<PanelColorSettings
-					title={ __( "Color" ) }
-					colorSettings={[
-						{
-							value: overlayColor,
-							onChange:( value ) => setAttributes( { overlayColor: value } ),
-							label: __( "Overlay Color" ),
-						}
-					]}>
-				</PanelColorSettings>
 				<RangeControl
 					label={ __( "Overlay Opacity" ) }
 					value={ overlayOp }
@@ -291,17 +289,14 @@ class UAGBImageGallery extends Component {
 					value={ heffect }
 					onChange={ ( value ) => setAttributes( { heffect: value } ) }
 					options={ heffectOptions }
+				/>				
+				<p className="uagb-setting-label">{ __( "Overlay Color" ) }<span className="components-base-control__label">
+				<span className="component-color-indicator" style={{ backgroundColor: hoverlayColor }} ></span></span></p>
+				<ColorPalette
+					value={ hoverlayColor }
+					onChange={ ( colorValue ) => setAttributes( { hoverlayColor: colorValue } ) }
+					allowReset
 				/>
-				<PanelColorSettings
-					title={ __( "Color" ) }
-					colorSettings={[
-						{
-							value: hoverlayColor,
-							onChange:( value ) => setAttributes( { hoverlayColor: value } ),
-							label: __( "Overlay Color" ),
-						}
-					]}>
-				</PanelColorSettings>
 				<RangeControl
 					label={ __( "Overlay Opacity" ) }
 					value={ hoverlayOp }
@@ -312,8 +307,7 @@ class UAGBImageGallery extends Component {
 			</Fragment>
 		)
 
-		return (
-			<Fragment>
+		const control_setting = (<Fragment>
 				{ editControl }
 				<InspectorControls>
 					<PanelBody title={ __( "Layout" ) }>
@@ -348,7 +342,7 @@ class UAGBImageGallery extends Component {
 							onChange={ ( value ) => setAttributes( { mcolumns: value } ) }
 							min={ 1 }
 							max={ Math.min( MAX_GALLERY_COLUMNS, images.length ) }
-						/>
+						/>						
 					</PanelBody>
 					<PanelBody title={ __( "Images" ) } initialOpen={ false }>
 						<SelectControl
@@ -493,6 +487,74 @@ class UAGBImageGallery extends Component {
 					</PanelBody>
 				</InspectorControls>
 				{ noticeUI }
+				</Fragment>
+		)
+
+		const image_content =  images_set.map( ( img, index ) => {
+						
+			let img_url = img.url
+			let img_src = img.url
+
+			if ( "attachment" == linkTo ) {							
+				img_url = img.link
+			}
+
+			if( img_url !== "" ){
+				let size = typeof img.sizes !== "undefined" ? img.sizes : img.media_details.sizes
+				if ( typeof size !== "undefined" && typeof size[imgSize] !== "undefined" ) {
+				  img_src = typeof size[imgSize].url !== "undefined" ? size[imgSize].url : size[imgSize].source_url
+				}
+			}
+			
+			const img_html = (
+				<img
+					src={ img_src }
+					alt={ img.alt }
+					id={ img.id }
+					caption={ img.caption }
+					aria-label={ img.caption }
+					tabIndex="0"
+					data-id={ img.id }
+				/>
+			)
+
+			let image_html = img_html
+
+			if ( "none" != linkTo ) {
+				image_html = (
+					<a className="uagb-gallery__link" href={ img_url }>{ img_html }</a>
+				)
+			}
+
+			return (
+				<div className={ classnames(
+					"uagb-gallery__item",
+					`uagb-gallery__item-${index}`,
+					"uagb-ins-hover"
+				) }
+				key={ img.id || img.url }>
+					<div className="uagb-gallery__content">
+						<div className="uagb-gallery__thumnail uagb-ins-target">
+							{ image_html }
+						</div>
+						<div className="uagb-gallery__img-overlay"></div>
+						{ "" != img.caption &&
+
+							<figcaption className="uagb-gallery__caption-wrap">
+								<div className="uagb-gallery__caption">
+									<p className="uagb-gallery__caption-text">{ img.caption }</p>
+								</div>
+							</figcaption>
+						}
+					</div>
+				</div>
+			)
+		})
+
+		return (
+			<Fragment>
+				{ control_setting }				
+
 				<div className={ classnames(
 					className,
 					"uagb-gallery__outer-wrap",
@@ -507,67 +569,7 @@ class UAGBImageGallery extends Component {
 					`uagb-ins-hover-${ heffect }`,
 				) }
 				id={ `uagb-gallery-${ this.props.clientId }` }>
-					{ images_set.map( ( img, index ) => {
-						
-						let img_url = img.url
-						let img_src = img.url
-
-						if ( "attachment" == linkTo ) {
-							img_url = img.link
-						}
-
-						if( img_url !== "" ){
-							let size = img.media_details.sizes
-
-							if ( typeof size !== "undefined" && typeof size[imgSize] !== "undefined" ) {
-							  img_src = size[imgSize].source_url 
-							}
-						}
-						
-						const img_html = (
-							<img
-								src={ img_src }
-								alt={ img.alt }
-								id={ img.id }
-								caption={ img.caption }
-								aria-label={ img.caption }
-								tabIndex="0"
-								data-id={ img.id }
-							/>
-						)
-
-						let image_html = img_html
-
-						if ( "none" != linkTo ) {
-							image_html = (
-								<a className="uagb-gallery__link" href={ img_url }>{ img_html }</a>
-							)
-						}
-
-						return (
-							<div className={ classnames(
-								"uagb-gallery__item",
-								`uagb-gallery__item-${index}`,
-								"uagb-ins-hover"
-							) }
-							key={ img.id || img.url }>
-								<div className="uagb-gallery__content">
-									<div className="uagb-gallery__thumnail uagb-ins-target">
-										{ image_html }
-									</div>
-									<div className="uagb-gallery__img-overlay"></div>
-									{ "" != img.caption &&
-
-										<figcaption className="uagb-gallery__caption-wrap">
-											<div className="uagb-gallery__caption">
-												<p className="uagb-gallery__caption-text">{ img.caption }</p>
-											</div>
-										</figcaption>
-									}
-								</div>
-							</div>
-						)
-					})}
+					{ image_content }
 				</div>
 			</Fragment>
 		)
