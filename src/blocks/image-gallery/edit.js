@@ -396,7 +396,7 @@ class UAGBImageGallery extends Component {
 								{
 									name: "hover",
 									title: __( "Hover" ),
-									className: "uagb-hover-tab",
+									className: "uagb-focus-tab",
 								},
 							] }>
 							{
@@ -521,7 +521,6 @@ class UAGBImageGallery extends Component {
 						}
 
 						if( img_url !== "" ){
-							console.log(img)
 							let size = img.sizes
 							let imageSize = attributes.imgSize
 
