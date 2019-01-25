@@ -26,7 +26,7 @@ const {
 	BlockControls,
 	InspectorControls,
 	RichText,
-	PanelColorSettings,
+	ColorPalette
 } = wp.editor
 
 const {
@@ -108,10 +108,10 @@ export default class UAGBAdvancedHeading extends Component {
 				headFontSize,
 				subHeadFontSize,
 				separatorWidth,
+				seperatorStyle,
 				separatorHeight,
 				headSpace,
-				separatorSpace,
-				subHeadSpace,
+				separatorSpace
 			},
 		} = this.props
 
@@ -131,11 +131,10 @@ export default class UAGBAdvancedHeading extends Component {
 					/>
 				</BlockControls>
 				<InspectorControls>
-					<PanelBody
-						title={ __( "Typography" ) }
-					>
+					<PanelBody title={ __( "Advanced Heading" ) }>
+						<h2>{ __( "Heading" ) }</h2>
 						<SelectControl
-							label={ __( "Tag" ) }
+							label={ __( "Heading Tag" ) }
 							value={ headingTag }
 							onChange={ ( value ) => setAttributes( { headingTag: value } ) }
 							options={ [
@@ -157,6 +156,14 @@ export default class UAGBAdvancedHeading extends Component {
 							allowReset
 							initialPosition={30}
 						/>
+						<p className="uagb-setting-label">{ __( "Heading Color" ) }<span className="components-base-control__label"><span className="component-color-indicator" style={{ backgroundColor: headingColor }} ></span></span></p>
+						<ColorPalette
+							value={ headingColor }
+							onChange={ ( value ) => setAttributes( { headingColor: value } ) }
+							allowReset
+						/>
+						<hr className="uagb-editor__separator" />
+						<h2>{ __( "Sub-Heading" ) }</h2>
 						<RangeControl
 							label={ __( "Sub-Heading Font Size" ) }
 							value={ subHeadFontSize }
@@ -167,83 +174,87 @@ export default class UAGBAdvancedHeading extends Component {
 							allowReset
 							initialPosition={10}
 						/>
+						<p className="uagb-setting-label">{ __( "Sub Heading Color" ) }<span className="components-base-control__label"><span className="component-color-indicator" style={{ backgroundColor: subHeadingColor }} ></span></span></p>
+						<ColorPalette
+							value={ subHeadingColor }
+							onChange={ ( value ) => setAttributes( { subHeadingColor: value } ) }
+							allowReset
+						/>
 					</PanelBody>
-					<PanelColorSettings
-						title={ __( "Color Settings" ) }
-						initialOpen={ true }
-						colorSettings={ [
-							{
-								value: headingColor,
-								onChange: ( colorValue ) => setAttributes( { headingColor: colorValue } ),
-								label: __( "Heading Color" ),
-							},
-							{
-								value: subHeadingColor,
-								onChange: ( colorValue ) => setAttributes( { subHeadingColor: colorValue } ),
-								label: __( "Sub-Heading Color" ),
-							},
-							{
-								value: separatorColor,
-								onChange: ( colorValue ) => setAttributes( { separatorColor: colorValue } ),
-								label: __( "Separator Color" ),
-							},
-						] }
-					>
-					</PanelColorSettings>
 					<PanelBody
-						title={ __( "Additional Options" ) }
+						title={ __( "Separator" ) }
+						initialOpen={ false }
+					>
+						<SelectControl
+							label={ __( "Style" ) }
+							value={ seperatorStyle }
+							onChange={ ( value ) => setAttributes( { seperatorStyle: value } ) }
+							options={ [
+								{ value: "none", label: __( "None" ) },
+								{ value: "solid", label: __( "Solid" ) },
+								{ value: "double", label: __( "Double" ) },
+								{ value: "dashed", label: __( "Dashed" ) },
+								{ value: "dotted", label: __( "Dotted" ) },
+							] }
+						/>
+						{ seperatorStyle !== "none" && <Fragment>
+							<RangeControl
+								label={ __( "Thickness (px)" ) }
+								value={ separatorHeight }
+								onChange={ ( value ) => setAttributes( { separatorHeight: value } ) }
+								min={ 0 }
+								max={ 20 }
+								beforeIcon=""
+								allowReset
+								initialPosition={3}
+							/>
+							<RangeControl
+								label={ __( "Width (%)" ) }
+								value={ separatorWidth }
+								onChange={ ( value ) => setAttributes( { separatorWidth: value } ) }
+								min={ 0 }
+								max={ 100 }
+								beforeIcon=""
+								allowReset
+								initialPosition={20}
+							/>
+							{ seperatorStyle !== "none" && <Fragment>
+								<p className="uagb-setting-label">{ __( "Seperator Color" ) }<span className="components-base-control__label"><span className="component-color-indicator" style={{ backgroundColor: separatorColor }} ></span></span></p>
+								<ColorPalette
+									value={ separatorColor }
+									onChange={ ( colorValue ) => setAttributes( { separatorColor: colorValue } ) }
+									allowReset
+								/>
+							</Fragment>
+							}
+						</Fragment>
+						}
+					</PanelBody>
+					<PanelBody
+						title={ __( "Spacing" ) }
 						initialOpen={ false }
 					>
 						<RangeControl
-							label={ __( "Separator Height" ) }
-							value={ separatorHeight }
-							onChange={ ( value ) => setAttributes( { separatorHeight: value } ) }
-							min={ 0 }
-							max={ 20 }
-							beforeIcon="editor-textcolor"
-							allowReset
-							initialPosition={3}
-						/>
-						<RangeControl
-							label={ __( "Separator Width" ) }
-							value={ separatorWidth }
-							onChange={ ( value ) => setAttributes( { separatorWidth: value } ) }
-							min={ 0 }
-							max={ 100 }
-							beforeIcon="editor-textcolor"
-							allowReset
-							initialPosition={20}
-						/>
-						<RangeControl
-							label={ __( "Heading Spacing" ) }
+							label={ __( "Heading Bottom Spacing" ) }
 							value={ headSpace }
 							onChange={ ( value ) => setAttributes( { headSpace: value } ) }
 							min={ 0 }
 							max={ 50 }
-							beforeIcon="editor-textcolor"
+							beforeIcon=""
 							allowReset
 							initialPosition={0}
 						/>
-						<RangeControl
-							label={ __( "Separator Spacing" ) }
+						{ seperatorStyle !== "none" && <RangeControl
+							label={ __( "Separator Bottom Spacing" ) }
 							value={ separatorSpace }
 							onChange={ ( value ) => setAttributes( { separatorSpace: value } ) }
 							min={ 0 }
 							max={ 50 }
-							beforeIcon="editor-textcolor"
+							beforeIcon=""
 							allowReset
 							initialPosition={0}
 						/>
-						<RangeControl
-							label={ __( "Sub-Heading Spacing" ) }
-							value={ subHeadSpace }
-							onChange={ ( value ) => setAttributes( { subHeadSpace: value } ) }
-							min={ 0 }
-							max={ 50 }
-							beforeIcon="editor-textcolor"
-							allowReset
-							initialPosition={0}
-						/>
+						}
 					</PanelBody>
 				</InspectorControls>
 				<div className={ className } id={ `uagb-adv-heading-${this.props.clientId}` }>
@@ -253,7 +264,9 @@ export default class UAGBAdvancedHeading extends Component {
 						value={ headingTitle }
 						className='uagb-heading-text'
 						multiline={ false }
-						onChange={ ( value ) => setAttributes( { headingTitle: value } ) }
+						onChange={ ( value ) => {
+							setAttributes( { headingTitle: value } ) }
+						}
 						onMerge={ mergeBlocks }
 						unstableOnSplit={
 							insertBlocksAfter ?
@@ -268,7 +281,7 @@ export default class UAGBAdvancedHeading extends Component {
 						}
 						onRemove={ () => onReplace( [] ) }
 					/>
-					<div className="uagb-separator-wrap" ><div className="uagb-separator"></div></div>
+					{ seperatorStyle !== "none" && <div className="uagb-separator-wrap" ><div className="uagb-separator"></div></div> }
 					<RichText
 						tagName="p"
 						placeholder={ __( "Write a Description" ) }
@@ -304,7 +317,8 @@ registerBlockType( "uagb/advanced-heading", {
 	icon: UAGB_Block_Icons.advanced_heading,
 	keywords: [
 		__( "advanced heading" ),
-		__( "uagb" ),
+		__( "uag" ),
+		__( "heading" ),
 	],
 	category: uagb_blocks_info.category,
 	attributes: {
@@ -337,6 +351,10 @@ registerBlockType( "uagb/advanced-heading", {
 			type: "string",
 			default: "h2"
 		},
+		seperatorStyle: {
+			type: "string",
+			default: "solid",
+		},
 		separatorHeight: {
 			type: "number"
 		},
@@ -356,9 +374,6 @@ registerBlockType( "uagb/advanced-heading", {
 		separatorSpace: {
 			type: "number",
 			default: 15
-		},
-		subHeadSpace: {
-			type: "number",
 		},
 	},
 	transforms: {
@@ -416,8 +431,13 @@ registerBlockType( "uagb/advanced-heading", {
 			headingTitle,
 			headingDesc,
 			headingTag,
+			seperatorStyle
 		} = props.attributes
 
+		var seprator_output =  ""
+		if( seperatorStyle !== "none" ){
+			seprator_output = <div className="uagb-separator-wrap" ><div className="uagb-separator"></div></div>
+		}
 		return (
 			<div className={ props.className } id={ `uagb-adv-heading-${block_id}` }>
 				<RichText.Content
@@ -425,7 +445,7 @@ registerBlockType( "uagb/advanced-heading", {
 					value={ headingTitle }
 					className='uagb-heading-text'
 				/>
-				<div className="uagb-separator-wrap" ><div className="uagb-separator"></div></div>
+				{seprator_output}
 				<RichText.Content
 					tagName="p"
 					value={ headingDesc }

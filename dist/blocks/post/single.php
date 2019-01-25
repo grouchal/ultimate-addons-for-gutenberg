@@ -6,24 +6,20 @@
  * @package UAGB
  */
 
-$article_style = array(
-	'padding-right: ' . ( $attributes['rowGap'] / 2 ) . 'px',
-	'padding-left: ' . ( $attributes['rowGap'] / 2 ) . 'px',
-	'margin-bottom: ' . ( $attributes['columnGap'] ) . 'px',
-);
-
-$inner_wrap_style = array(
-	'background: ' . $attributes['bgColor'],
-);
 ?>
-<article style="<?php echo implode( ';', $article_style ); ?>">
-	<div class="uagb-post__inner-wrap" style="<?php echo implode( ';', $inner_wrap_style ); ?>">
+<?php do_action( "uagb_post_before_article_{$attributes['post_type']}", get_the_ID(), $attributes ); ?>
+<article>
+	<?php do_action( "uagb_post_before_inner_wrap_{$attributes['post_type']}", get_the_ID(), $attributes ); ?>
+	<div class="uagb-post__inner-wrap">
+		<?php uagb_render_complete_box_link( $attributes ); ?>
 		<?php uagb_render_image( $attributes ); ?>
-		<div class="uagb-post__text" style="<?php echo 'padding: ' . $attributes['contentPadding'] . 'px'; ?>">
+		<div class="uagb-post__text">
 			<?php uagb_render_title( $attributes ); ?>
 			<?php uagb_render_meta( $attributes ); ?>
 			<?php uagb_render_excerpt( $attributes ); ?>
 			<?php uagb_render_button( $attributes ); ?>
 		</div>
 	</div>
+	<?php do_action( "uagb_post_after_inner_wrap_{$attributes['post_type']}", get_the_ID(), $attributes ); ?>
 </article>
+<?php do_action( "uagb_post_after_article_{$attributes['post_type']}", get_the_ID(), $attributes ); ?>

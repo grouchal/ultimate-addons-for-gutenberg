@@ -4,10 +4,12 @@
 
 const attributes = {
 	prefixTitle: {
+		source: "html",
 		selector: "span.uagb-ifb-title-prefix",
 		default: "Prefix",
 	},
 	infoBoxTitle: {
+		source: "html",
 		selector: "h1,h2,h3,h4,h5,h6",
 		default: "Info Box",
 	},
@@ -108,6 +110,18 @@ const attributes = {
 		type: "boolean",
 		default: false,
 	},
+	ctaIcon : {
+		type : "string",
+		default : ""
+	},
+	ctaIconPosition: {
+		type: "string",
+		default: "after"
+	},
+	ctaIconSpace :{
+		type: "number",
+		default : 5
+	},
 	seperatorStyle: {
 		type: "string",
 		default: "solid",
@@ -147,13 +161,25 @@ const attributes = {
 		type: "string",
 		default: "#333",
 	},
+	ctaLinkHoverColor:{
+		type: "string",
+		default: "",
+	},
 	ctaBgColor :{
+		type: "string",
+		default:"transparent",
+	},
+	ctaBgHoverColor :{
 		type: "string",
 		default:"transparent",
 	},
 	ctaBorderColor: {
 		type: "string",
 		default: "#333",
+	},
+	ctaBorderhoverColor:{
+		type: "string",
+		default: "",
 	},
 	ctaBorderStyle: {
 		type: "string",
@@ -213,7 +239,19 @@ const attributes = {
 	stack: {
 		type: "string",
 		default: "tablet"
-	}
+	},
+	showPrefix: {
+		type: "boolean",
+		default: true,
+	},
+	showTitle: {
+		type: "boolean",
+		default: true,
+	},
+	showDesc: {
+		type: "boolean",
+		default: true,
+	},
 }
 
 export default attributes

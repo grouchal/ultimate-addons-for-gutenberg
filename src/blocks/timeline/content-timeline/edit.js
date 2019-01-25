@@ -4,12 +4,13 @@
 
 import classnames from "classnames"
 import times from "lodash/times"
-import UAGBIcon from "../../../../dist/blocks/uagb-controls/UAGBIcon"
+import UAGBIcon from "../../../../dist/blocks/uagb-controls/UAGBIcon.json"
 import FontIconPicker from "@fonticonpicker/react-fonticonpicker"
 import contentTimelineStyle from ".././inline-styles"
 import ContentTmClasses from ".././classes"
 import AlignClass from ".././align-classes"
 import DayAlignClass from ".././day-align-classes"
+import renderSVG from "../../../../dist/blocks/uagb-controls/renderIcon"
 
 const { dateI18n, __experimentalGetSettings } = wp.date
 
@@ -45,6 +46,8 @@ const {
 	Toolbar,
 	TabPanel,
 } = wp.components
+
+let svg_icons = Object.keys( UAGBIcon )
 
 class UAGBcontentTimeline extends Component {
 
@@ -258,9 +261,6 @@ class UAGBcontentTimeline extends Component {
 				block_id,
 				iconFocus,
 				iconBgFocus,
-				iconHover,
-				iconBgHover,
-				borderHover,
 				t_date,
 				displayPostDate,
 				stack
@@ -269,146 +269,99 @@ class UAGBcontentTimeline extends Component {
 
 		// Parameters for FontIconPicker
 		const icon_props = {
-			icons: UAGBIcon,
-			renderUsing: "class",
-			theme: "default",
+			icons: svg_icons,
 			value: icon,
 			onChange: this.getTimelineicon,
 			isMulti: false,
+			renderFunc: renderSVG,
+			noSelectedPlaceholder: __( "Select Icon" )
 		}
 
-		const iconColorSettings = (
-			<Fragment>
-				<PanelColorSettings
-					title={ __( "Color Settings" ) }
-					initialOpen={ true }
-					colorSettings={ [
-						{
-							value: separatorColor,
-							onChange: ( colorValue ) => setAttributes( { separatorColor: colorValue } ),
-							label: __( "Line Color" ),
-						},
-						{
-							value: iconColor,
-							onChange: ( colorValue ) => setAttributes( { iconColor: colorValue } ),
-							label: __( "Icon Color" ),
-						},
-						{
-							value: separatorBg,
-							onChange: ( colorValue ) => setAttributes( { separatorBg: colorValue } ),
-							label: __( "Background Color" ),
-						},
-						{
-							value: separatorBorder,
-							onChange: ( colorValue ) => setAttributes( { separatorBorder: colorValue } ),
-							label: __( "Border Color" ),
-						},
-					] }
-				>
-				</PanelColorSettings>
-			</Fragment>
+		const iconColorSettings = (			
+			<PanelColorSettings title={ __( "Color Settings" ) } initialOpen={ true } 
+				colorSettings={ [
+					{
+						value: separatorColor,
+						onChange: ( colorValue ) => setAttributes( { separatorColor: colorValue } ),
+						label: __( "Line Color" ),
+					},
+					{
+						value: iconColor,
+						onChange: ( colorValue ) => setAttributes( { iconColor: colorValue } ),
+						label: __( "Icon Color" ),
+					},
+					{
+						value: separatorBg,
+						onChange: ( colorValue ) => setAttributes( { separatorBg: colorValue } ),
+						label: __( "Background Color" ),
+					},
+					{
+						value: separatorBorder,
+						onChange: ( colorValue ) => setAttributes( { separatorBorder: colorValue } ),
+						label: __( "Border Color" ),
+					},
+				] }
+			>
+			</PanelColorSettings>			
 		)
 
-		const iconFocusSettings = (
-			<Fragment>
-				<PanelColorSettings
-					title={ __( "Color Settings" ) }
-					initialOpen={ true }
-					colorSettings={ [
-						{
-							value: separatorFillColor,
-							onChange: ( colorValue ) => setAttributes( { separatorFillColor: colorValue } ),
-							label: __( "Line Color" ),
-						},
-						{
-							value: iconFocus,
-							onChange: ( colorValue ) => setAttributes( { iconFocus: colorValue } ),
-							label: __( "Icon Color" ),
-						},
-						{
-							value: iconBgFocus,
-							onChange: ( colorValue ) => setAttributes( { iconBgFocus: colorValue } ),
-							label: __( "Background Color" ),
-						},
-						{
-							value: borderFocus,
-							onChange: ( colorValue ) => setAttributes( { borderFocus: colorValue } ),
-							label: __( "Border Color" ),
-						},
-					] }
-				>
-				</PanelColorSettings>
-			</Fragment>
+		const iconFocusSettings = (			
+			<PanelColorSettings	title={ __( "Color Settings" ) } initialOpen={ true }
+				colorSettings={ [
+					{
+						value: separatorFillColor,
+						onChange: ( colorValue ) => setAttributes( { separatorFillColor: colorValue } ),
+						label: __( "Line Color" ),
+					},
+					{
+						value: iconFocus,
+						onChange: ( colorValue ) => setAttributes( { iconFocus: colorValue } ),
+						label: __( "Icon Color" ),
+					},
+					{
+						value: iconBgFocus,
+						onChange: ( colorValue ) => setAttributes( { iconBgFocus: colorValue } ),
+						label: __( "Background Color" ),
+					},
+					{
+						value: borderFocus,
+						onChange: ( colorValue ) => setAttributes( { borderFocus: colorValue } ),
+						label: __( "Border Color" ),
+					},
+				] }
+			>
+			</PanelColorSettings>			
 		)
 
-		const iconHoverSettings = (
-			<Fragment>
-				<PanelColorSettings
-					title={ __( "Color Settings" ) }
-					initialOpen={ true }
-					colorSettings={ [
+		const iconControls = (			
+			<PanelBody	title={ __( "Connector Color Settings" ) }	initialOpen={ true }>
+				<TabPanel className="uagb-inspect-tabs uagb-inspect-tabs-col-2"
+					activeClass="active-tab"
+					tabs={ [
 						{
-							value: iconHover,
-							onChange: ( colorValue ) => setAttributes( { iconHover: colorValue } ),
-							label: __( "Icon Color" ),
+							name: "normal",
+							title: __( "Normal" ),
+							className: "uagb-normal-tab",
 						},
 						{
-							value: iconBgHover,
-							onChange: ( colorValue ) => setAttributes( { iconBgHover: colorValue } ),
-							label: __( "Background Color" ),
-						},
-						{
-							value: borderHover,
-							onChange: ( colorValue ) => setAttributes( { borderHover: colorValue } ),
-							label: __( "Border Color" ),
-						},
-					] }
-				>
-				</PanelColorSettings>
-			</Fragment>
-		)
-
-		const iconControls = (
-			<Fragment>
-				<PanelBody
-					title={ __( "Connector Color Settings" ) }
-					initialOpen={ true }
-				>
-					<TabPanel className="uagb-inspect-tabs uagb-inspect-tabs-col-3"
-						activeClass="active-tab"
-						tabs={ [
-							{
-								name: "normal",
-								title: __( "Normal" ),
-								className: "uagb-normal-tab",
-							},
-							{
-								name: "focus",
-								title: __( "Focus" ),
-								className: "uagb-focus-tab",
-							},
-							{
-								name: "hover",
-								title: __( "Hover" ),
-								className: "uagb-hover-tab",
-							},
-						] }>
-						{
-							( tabName ) => {
-								let tabout
-								if( "focus" === tabName.name ) {
-									tabout = iconFocusSettings
-								}else if( "hover" === tabName.name ){
-									tabout = iconHoverSettings
-								}else {
-									tabout = iconColorSettings
-								}
-								return <div>{ tabout }</div>
+							name: "focus",
+							title: __( "Focus" ),
+							className: "uagb-focus-tab",
+						},							
+					] }>
+					{
+						( tabName ) => {
+							let tabout
+							if( "focus" === tabName.name ) {
+								tabout = iconFocusSettings
+							}else {
+								tabout = iconColorSettings
 							}
+							return <div>{ tabout }</div>
 						}
-					</TabPanel>
-				</PanelBody>
-			</Fragment>
+					}
+				</TabPanel>
+			</PanelBody>
 		)
 
 		const renderDateSettings = ( index ) => {
@@ -425,61 +378,53 @@ class UAGBcontentTimeline extends Component {
 			)
 		}
 
-		const renderSettings = (
-			<Fragment>
-				<PanelBody
-					title={ __( "Date Settings" ) }
-					initialOpen={ false }
-				>
-					<ToggleControl
-						label={ __( "Display Post Date" ) }
-						checked={ displayPostDate }
-						onChange={ this.toggleDisplayPostDate }
-					/>
+		const renderSettings = (			
+			<PanelBody	title={ __( "Date Settings" ) }	initialOpen={ false } >
+				<ToggleControl
+					label={ __( "Display Post Date" ) }
+					checked={ displayPostDate }
+					onChange={ this.toggleDisplayPostDate }
+				/>
 
-					{ displayPostDate && times( timelineItem, n => renderDateSettings( n ) ) }
+				{ displayPostDate && times( timelineItem, n => renderDateSettings( n ) ) }
 
-					{ displayPostDate && ( timelinAlignment !=="center" ) && <RangeControl
-						label={ __( "Date Bottom Spacing" ) }
-						value={ dateBottomspace }
-						onChange={ ( value ) => setAttributes( { dateBottomspace: value } ) }
-						min={ 0 }
-						max={ 50 }
-						allowReset
-					/>
-					}
+				{ displayPostDate && ( timelinAlignment !=="center" ) && <RangeControl
+					label={ __( "Date Bottom Spacing" ) }
+					value={ dateBottomspace }
+					onChange={ ( value ) => setAttributes( { dateBottomspace: value } ) }
+					min={ 0 }
+					max={ 50 }
+					allowReset
+				/>
+				}
 
-					{ displayPostDate &&  <Fragment>
-						<Fragment>
-							<p className="uagb-setting-label">{ __( "Date Color" ) }<span className="components-base-control__label"><span className="component-color-indicator" style={{ backgroundColor: dateColor }} ></span></span></p>
-							<ColorPalette
-								value={ dateColor }
-								onChange={ ( colorValue ) => setAttributes( { dateColor: colorValue } ) }
-								allowReset
-							/>
-						</Fragment>
-						<RangeControl
-							label={ __( "Date Font Size" ) }
-							value={ dateFontsize }
-							onChange={ ( value ) => setAttributes( { dateFontsize: value } ) }
-							min={ 1 }
-							max={ 50 }
-							initialPosition={16}
-							beforeIcon="editor-textcolor"
+				{ displayPostDate &&  <Fragment>
+					<Fragment>
+						<p className="uagb-setting-label">{ __( "Date Color" ) }<span className="components-base-control__label"><span className="component-color-indicator" style={{ backgroundColor: dateColor }} ></span></span></p>
+						<ColorPalette
+							value={ dateColor }
+							onChange={ ( colorValue ) => setAttributes( { dateColor: colorValue } ) }
 							allowReset
 						/>
 					</Fragment>
-					}
-				</PanelBody>
-			</Fragment>
+					<RangeControl
+						label={ __( "Date Font Size" ) }
+						value={ dateFontsize }
+						onChange={ ( value ) => setAttributes( { dateFontsize: value } ) }
+						min={ 1 }
+						max={ 50 }
+						initialPosition={16}
+						beforeIcon="editor-textcolor"
+						allowReset
+					/>
+				</Fragment>
+				}
+			</PanelBody>			
 		)
 
 		const content_control = (
 			<InspectorControls>
-				<PanelBody
-					title={ __( "General" ) }
-					initialOpen={ false }
-				>
+				<PanelBody	title={ __( "General" ) }	initialOpen={ true } >
 					<RangeControl
 						label={ __( "Number of Items" ) }
 						value={ timelineItem }
@@ -497,10 +442,7 @@ class UAGBcontentTimeline extends Component {
 
 				{ renderSettings }
 
-				<PanelBody
-					title={ __( "Layout" ) }
-					initialOpen={ false }
-				>
+				<PanelBody	title={ __( "Layout" ) } initialOpen={ false }>
 					<SelectControl
 						label={ __( "Orientation" ) }
 						value={ timelinAlignment }
@@ -533,10 +475,7 @@ class UAGBcontentTimeline extends Component {
 						onChange={ ( value ) => setAttributes( { stack: value } ) }
 					/>
 				</PanelBody>
-				<PanelBody
-					title={ __( "Spacing" ) }
-					initialOpen={ false }
-				>
+				<PanelBody title={ __( "Spacing" ) } initialOpen={ false } >
 					<RangeControl
 						label={ __( "Horizontal Space" ) }
 						value={ horizontalSpace }
@@ -562,10 +501,7 @@ class UAGBcontentTimeline extends Component {
 						allowReset
 					/>
 				</PanelBody>
-				<PanelBody
-					title={ __( "Timeline Item" ) }
-					initialOpen={ false }
-				>
+				<PanelBody title={ __( "Timeline Item" ) } initialOpen={ false } >
 					<SelectControl
 						label={ __( "Heading Tag" ) }
 						value={ headingTag }
@@ -578,29 +514,7 @@ class UAGBcontentTimeline extends Component {
 							{ value: "h5", label: __( "H5" ) },
 							{ value: "h6", label: __( "H6" ) },
 						] }
-					/>
-					<PanelColorSettings
-						title={ __( "Color Settings" ) }
-						initialOpen={ true }
-						colorSettings={ [
-							{
-								value: headingColor,
-								onChange: ( colorValue ) => setAttributes( { headingColor: colorValue } ),
-								label: __( "Heading Color" ),
-							},
-							{
-								value: subHeadingColor,
-								onChange: ( colorValue ) => setAttributes( { subHeadingColor: colorValue } ),
-								label: __( "Content Color" ),
-							},
-							{
-								value: backgroundColor,
-								onChange: ( colorValue ) => setAttributes( { backgroundColor: colorValue } ),
-								label: __( "Background Color" ),
-							},
-						] }
-					>
-					</PanelColorSettings>
+					/>					
 					<RangeControl
 						label={ __( "Rounded Corners" ) }
 						value={ borderRadius }
@@ -640,10 +554,7 @@ class UAGBcontentTimeline extends Component {
 						allowReset
 					/>
 				</PanelBody>
-				<PanelBody
-					title={ __( "Connector" ) }
-					initialOpen={ false }
-				>
+				<PanelBody title={ __( "Connector" ) } initialOpen={ false } >
 					<FontIconPicker {...icon_props} />
 					<RangeControl
 						label={ __( "Icon Size" ) }
@@ -676,9 +587,31 @@ class UAGBcontentTimeline extends Component {
 						min={ 1 }
 						max={ 10 }
 						allowReset
-					/>					
+					/>
 					{ iconControls }
 				</PanelBody>
+				<PanelColorSettings
+					title={ __( "Color Settings" ) }
+					initialOpen={ false }
+					colorSettings={ [
+						{
+							value: headingColor,
+							onChange: ( colorValue ) => setAttributes( { headingColor: colorValue } ),
+							label: __( "Heading Color" ),
+						},
+						{
+							value: subHeadingColor,
+							onChange: ( colorValue ) => setAttributes( { subHeadingColor: colorValue } ),
+							label: __( "Content Color" ),
+						},
+						{
+							value: backgroundColor,
+							onChange: ( colorValue ) => setAttributes( { backgroundColor: colorValue } ),
+							label: __( "Background Color" ),
+						},
+					] }
+				>
+				</PanelColorSettings>
 			</InspectorControls>
 		)
 
@@ -766,7 +699,7 @@ class UAGBcontentTimeline extends Component {
 		var element = document.getElementById( "uagb-content-timeline-style-" + this.props.clientId )
 		if( null != element && "undefined" != typeof element ) {
 			element.innerHTML = contentTimelineStyle( this.props )
-		}   
+		}
 
 		const hasItems = Array.isArray( tm_content ) && tm_content.length
 		const hasDate = Array.isArray( t_date ) && t_date.length
@@ -805,14 +738,17 @@ class UAGBcontentTimeline extends Component {
 								day_align_class = DayAlignClass( this.props.attributes, index )
 							}
 							const Tag = this.props.attributes.headingTag
-							var icon_class = "uagb-timeline__icon-new uagb-timeline__out-view-icon "+icon
-
+							var icon_class = "uagb-timeline__icon-new uagb-timeline__out-view-icon "
+							var post_date = dateI18n( dateFormat, t_date[index].title )
+							if( post_date === "Invalid date" ){
+								post_date = t_date[index].title
+							}
 							return (
 								<article className = "uagb-timeline__field uagb-timeline__field-wrap"  key={index}>
 									<div className = {content_align_class}>
 
 										<div className = "uagb-timeline__marker uagb-timeline__out-view-icon">
-											<span className = {icon_class}></span>
+											<span className = {icon_class}>{ renderSVG(icon) }</span>
 										</div>
 
 										<div className = {day_align_class} >
@@ -821,7 +757,7 @@ class UAGBcontentTimeline extends Component {
 													<div className="uagb-timeline__date-hide uagb-timeline__date-inner">
 														{ displayPostDate && t_date[index].title &&
                                                             <div className={ "uagb-timeline__inner-date-new" }>
-                                                            	{ dateI18n( dateFormat, t_date[index].title ) }
+                                                            	{ post_date }
                                                             </div>
 														}
 													</div>
@@ -832,6 +768,7 @@ class UAGBcontentTimeline extends Component {
 															<RichText
 																tagName={ headingTag }
 																value={ post.time_heading }
+																placeholder={ __( "Write a Heading" ) }
 																className='uagb-timeline__heading'
 																onChange={ ( value ) => {
 																	var p = { "time_heading" : value,"time_desc":data_copy[index]["time_desc"] }
@@ -857,6 +794,7 @@ class UAGBcontentTimeline extends Component {
 														<RichText
 															tagName= "p"
 															value={ post.time_desc }
+															placeholder={ __( "Write a Description" ) }
 															className='uagb-timeline-desc-content'
 															onChange={ ( value ) => {
 																var p = { "time_heading" : data_copy[index]["time_heading"],"time_desc":value }
@@ -879,7 +817,7 @@ class UAGBcontentTimeline extends Component {
 										{ display_inner_date && <div className = "uagb-timeline__date-new">
 											{ displayPostDate && t_date[index].title &&
                                                 <div className={ "uagb-timeline__date-new" }>
-                                                	{ dateI18n( dateFormat, t_date[index].title ) }
+                                                	{ post_date }
                                                 </div>
 											}
 										</div>

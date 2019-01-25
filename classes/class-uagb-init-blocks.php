@@ -19,6 +19,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 class UAGB_Init_Blocks {
 
+
 	/**
 	 * Member Variable
 	 *
@@ -63,7 +64,7 @@ class UAGB_Init_Blocks {
 			array(
 				array(
 					'slug'  => 'uagb',
-					'title' => __( 'UAGB Blocks', 'ultimate-addons-for-gutenberg' ),
+					'title' => __( 'Ultimate Addons Blocks', 'ultimate-addons-for-gutenberg' ),
 				),
 			)
 		);
@@ -91,12 +92,25 @@ class UAGB_Init_Blocks {
 			false // Enqueue the script in the footer.
 		);
 
-		// Font Awsome.
-		wp_enqueue_style(
-			'uagb-fontawesome-css', // Handle.
-			'https://use.fontawesome.com/releases/v5.0.9/css/all.css', // Block style CSS.
-			UAGB_VER
+		wp_enqueue_script(
+			'uagb-imagesloaded', // Handle.
+			UAGB_URL . 'assets/js/imagesloaded.min.js',
+			array( 'jquery' ), // Dependencies, defined above.
+			UAGB_VER,
+			false // Enqueue the script in the footer.
 		);
+
+		$enable_font_awesome = apply_filters( 'uagb_font_awesome_enable', false );
+
+		if ( $enable_font_awesome ) {
+			$font_awesome = apply_filters( 'uagb_font_awesome_url', 'https://use.fontawesome.com/releases/v5.6.0/css/all.css' );
+			// Font Awesome.
+			wp_enqueue_style(
+				'uagb-fontawesome-css', // Handle.
+				$font_awesome, // Block style CSS.
+				UAGB_VER
+			);
+		}
 
 		// Scripts.
 		wp_enqueue_script(
@@ -119,22 +133,13 @@ class UAGB_Init_Blocks {
 		// Styles.
 		wp_enqueue_style(
 			'uagb-slick-css', // Handle.
-			UAGB_URL . 'assets/css/slick.min.css', // Block style CSS.
+			UAGB_URL . 'assets/css/slick.css', // Block style CSS.
 			UAGB_VER
-		);
-
-		// Testimonial Scripts.
-		wp_enqueue_script(
-			'uabg-testimonial-js', // Handle.
-			UAGB_URL . 'assets/js/testimonial.js',
-			array( 'jquery' ),
-			UAGB_VER,
-			true // Enqueue the script in the footer.
 		);
 
 		// Timeline js.
 		wp_enqueue_script(
-			'uabg-timeline-js', // Handle.
+			'uagb-timeline-js', // Handle.
 			UAGB_URL . 'assets/js/timeline.js',
 			array( 'jquery' ),
 			UAGB_VER,
@@ -150,6 +155,9 @@ class UAGB_Init_Blocks {
 			true // Enqueue the script in the footer.
 		);
 
+		if ( ! wp_script_is( 'jquery', 'enqueued' ) ) {
+			wp_enqueue_script( 'jquery' );
+		}
 	} // End function editor_assets().
 
 	/**
@@ -188,13 +196,10 @@ class UAGB_Init_Blocks {
 		$blocks       = array();
 		$saved_blocks = UAGB_Helper::get_admin_settings_option( '_uagb_blocks' );
 		if ( is_array( $saved_blocks ) ) {
-
 			foreach ( $saved_blocks as $slug => $data ) {
-
 				$_slug = 'uagb/' . $slug;
 
 				if ( isset( $saved_blocks[ $slug ] ) ) {
-
 					if ( 'disabled' === $saved_blocks[ $slug ] ) {
 						array_push( $blocks, $_slug );
 					}
@@ -218,9 +223,7 @@ class UAGB_Init_Blocks {
 				'category' => 'uagb',
 			)
 		);
-
 	} // End function editor_assets().
-
 }
 
 /**

@@ -8,7 +8,9 @@
 .gutenberg-editor-page #wpwrap .uagb-testomonial__outer-wrap ul.slick-dots{
     margin: 0 auto;
 }
-
+#wpwrap .edit-post-visual-editor button.slick-arrow{
+    line-height:1em;
+}
 .uagb-tm__desc,
 .editor-block-list__layout .uagb-tm__desc.editor-rich-text__tinymce{
     margin-bottom: 15px;
@@ -19,20 +21,6 @@
     font-size: 30px;
     line-height: 1em;
 }
-
-.uagb-slick-carousel ul.slick-dots li button:before {
-    font-family: dashicons;
-    font-size: 10px;
-    line-height: 20px;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 20px;
-    height: 20px;
-    content: '\f159';
-    text-align: center;
-    opacity: .25;
-    color: black;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
+#wpwrap .edit-post-visual-editor ul.slick-dots {
+    margin: 0;
 }

@@ -47,6 +47,10 @@ function InfoBoxStyle( props ) {
 		iconBottomMargin,
 		imageSize,
 		imageWidth,
+		ctaLinkHoverColor,
+		ctaBgHoverColor,
+		ctaBorderhoverColor,
+		ctaIconSpace
 	} = props.attributes
 
 	if( props.clientId ){
@@ -68,12 +72,21 @@ function InfoBoxStyle( props ) {
 		"font-size" : iconSize+"px",
 		"height": iconSize+"px",
 		"color": iconColor,
+		"fill": iconColor,
 		"width": iconSize+"px",
 		"line-height": iconSize + "px",
 	}
 
+	selectors[".uagb-ifb-icon > svg"] = {
+		"fill": iconColor,
+	}
+
 	selectors[".uagb-ifb-icon:hover > span"] = {
 		"color" : iconHover,
+	}
+
+	selectors[".uagb-ifb-icon:hover > svg"] = {
+		"fill" : iconHover,
 	}
 
 	selectors[".uagb-infobox__content-wrap .uagb-ifb-imgicon-wrap"] = {
@@ -106,14 +119,41 @@ function InfoBoxStyle( props ) {
 		"color": ctaLinkColor,
 	}
 
+	selectors[".uagb-infobox-cta-link a:hover"] = {
+		"color": ctaLinkHoverColor,
+	}
+
+	selectors[".uagb-infobox-cta-link .uagb-ifb-text-icon svg"] = {
+		"fill": ctaLinkColor,
+	}
+
+	selectors[".uagb-infobox-cta-link a:hover svg"] = {
+		"fill": ctaLinkHoverColor,
+	}
+
 	selectors[".uagb-infobox-cta-link span"] = {
 		"font-size" : ctaFontSize+"px",
+		"width" : ctaFontSize+"px",
+		"height" : ctaFontSize+"px",
 		"color": ctaLinkColor,
+	}
+	selectors[".uagb-infobox-cta-link:hover span"] = {
+		"color": ctaLinkHoverColor,
+	}
+
+	selectors[".uagb-infobox-cta-link svg"] = {
+		"fill": ctaBtnLinkColor,
+	}
+	selectors[".uagb-infobox-cta-link:hover svg"] = {
+		"fill": ctaLinkHoverColor,
 	}
 
 	selectors[".uagb-ifb-button-wrapper .uagb-infobox-cta-link span"] = {
 		"font-size" : ctaFontSize+"px",
 		"color": ctaBtnLinkColor,
+	}
+	selectors[".uagb-ifb-button-wrapper:hover .uagb-infobox-cta-link span"] = {
+		"color": ctaLinkHoverColor,
 	}
 
 	selectors[".uagb-ifb-button-wrapper .uagb-infobox-cta-link"] = {
@@ -128,6 +168,12 @@ function InfoBoxStyle( props ) {
 		"padding-bottom": ctaBtnVertPadding + "px",
 		"padding-left": ctaBtnHrPadding + "px",
 		"padding-right": ctaBtnHrPadding + "px",
+	}
+
+	selectors[".uagb-ifb-button-wrapper:hover .uagb-infobox-cta-link"] = {
+		"color": ctaLinkHoverColor,
+		"background-color": ctaBgHoverColor,
+		"border-color": ctaBorderhoverColor,
 	}
 
 	// Prefix Style
@@ -164,6 +210,14 @@ function InfoBoxStyle( props ) {
 
 	selectors[".uagb-ifb-content"] = {
 		"padding": ( typeof blockPadding != "undefined" ) ? blockPadding+"px": "inherit"
+	}
+
+	selectors[".uagb-ifb-align-icon-after"] = {
+		"margin-left" : ctaIconSpace+"px",
+	}
+
+	selectors[".uagb-ifb-align-icon-before"] = {
+		"margin-right" : ctaIconSpace+"px",
 	}
 
 	var styling_css = ""

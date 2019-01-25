@@ -21,14 +21,18 @@ function styling( props ) {
 
 		selectors[" .uagb-buttons-repeater-" + index] = {
 			"font-size" : button.size + "px",
-			"border": button.borderWidth + "px " + button.borderStyle + " " + button.borderColor,
+			"border-width": button.borderWidth + "px",
+			"border-style": button.borderStyle,
+			"border-color": button.borderColor,
 			"border-radius" : button.borderRadius + "px",
 			"background": button.background
 		}
 
 		selectors[" .uagb-buttons-repeater-" + index + ":hover"] = {
 			"background": button.hBackground,
-			"border": button.borderWidth + "px " + button.borderStyle + " " + button.borderHColor,
+			"border-width": button.borderWidth + "px",
+			"border-style": button.borderStyle,
+			"border-color": button.borderHColor,
 		}
 
 		selectors[" .uagb-buttons-repeater-" + index + " a.uagb-button__link"] = {
@@ -37,6 +41,15 @@ function styling( props ) {
 		}
 
 		selectors[" .uagb-buttons-repeater-" + index + ":hover a.uagb-button__link"] = {
+			"color": button.hColor
+		}
+
+		selectors[" .uagb-buttons-repeater-" + index + " .uagb-button__link"] = {
+			"padding" : button.vPadding + "px " + button.hPadding + "px",
+			"color": button.color
+		}
+
+		selectors[" .uagb-buttons-repeater-" + index + ":hover .uagb-button__link"] = {
 			"color": button.hColor
 		}
 

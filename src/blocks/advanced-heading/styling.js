@@ -12,30 +12,23 @@ function styling( props ) {
 		headFontSize,
 		headingColor,
 		headSpace,
+		seperatorStyle,
 		separatorHeight,
 		separatorWidth,
 		separatorColor,
 		separatorSpace,
 		subHeadFontSize,
-		subHeadingColor,
-		subHeadSpace
+		subHeadingColor
 	} = props.attributes
 
 	var selectors = {
 		" .uagb-separator-wrap": {
 			"text-align": headingAlign,
 		},
-		" .uagb-separator": {
-			"border-top-width": separatorHeight + "px",
-			"width": separatorWidth + "%",
-			"border-color": separatorColor,
-			"margin-bottom": separatorSpace + "px",
-		},
 		" .editor-rich-text .uagb-desc-text": {
 			"text-align": headingAlign,
 			"font-size": subHeadFontSize + "px",
 			"color": subHeadingColor,
-			"margin-bottom": subHeadSpace + "px",
 		}
 	}
 
@@ -46,6 +39,15 @@ function styling( props ) {
 		"margin-bottom": headSpace + "px",
 	}
 
+	if( seperatorStyle !== "none" ){
+		selectors[" .uagb-separator"] = {
+			"border-top-style": seperatorStyle,
+			"border-top-width": separatorHeight + "px",
+			"width": separatorWidth + "%",
+			"border-color": separatorColor,
+			"margin-bottom": separatorSpace + "px",
+		}
+	}
 	var styling_css = ""
 
 	for( var i in selectors ) {

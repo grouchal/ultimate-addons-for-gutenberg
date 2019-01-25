@@ -6,6 +6,10 @@ class Excerpt extends React.Component {
 
 		const { post, attributes } = this.props
 
+		if ( post.excerpt == undefined ) {
+			return null
+		}
+
 		const words = post.excerpt.split(" ")
 
 		let excerpt = post.excerpt
@@ -20,17 +24,11 @@ class Excerpt extends React.Component {
 			excerpt += " ..."
 		}
 
-		if (
-			attributes.displayPostExcerpt &&
-			undefined !== post.excerpt
-		) {
+		if ( attributes.displayPostExcerpt ) {
 
 			return (
 
-				<div
-					className='uagb-post__excerpt'
-					style={{ color: attributes.excerptColor, marginBottom: attributes.excerptBottomSpace, fontSize: attributes.excerptFontSize }}
-				>
+				<div className='uagb-post__excerpt'>
 					<div dangerouslySetInnerHTML={ { __html: excerpt } } />
 				</div>
 			)
