@@ -45,8 +45,7 @@ registerBlockType( "uagb/image-gallery", {
 	attributes,
 	edit,
 	save: props => {
-		//return null
-
+		
 		const { attributes, className } = props
 
 		const {
@@ -66,7 +65,8 @@ registerBlockType( "uagb/image-gallery", {
 			captionVAlign
 		} = props.attributes
 
-			
+		console.log(block_id);
+		return null
 		let images_set = images
 
 		if ( "random" == order ) {
