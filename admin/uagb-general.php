@@ -35,6 +35,7 @@ $uagb_support_link_text = apply_filters( 'uagb_support_link_text', __( 'Submit a
 						<a href="https://www.ultimategutenberg.com/getting-started-with-gutenberg-blocks/?utm_source=uag-dashboard&utm_medium=link&utm_campaign=uag-dashboard" target="_blank" rel="noopener"><?php esc_attr_e( 'How to use the Ultimate Addons for Gutenberg Blocks »', 'ultimate-addons-for-gutenberg' ); ?></a>
 						<p><strong><?php esc_html_e( 'Ready-to-use Full Demo Websites - ', 'ultimate-addons-for-gutenberg' ); ?></strong><?php esc_html_e( 'Get professionally designed 20+ pre-built FREE starter sites built using Gutenberg, Ultimate Addons for Gutenberg and the Astra theme. These can be imported in just a few clicks. Tweak them easily and build awesome websites in minutes!', 'ultimate-addons-for-gutenberg' ); ?></p>
 						<a href="https://www.ultimategutenberg.com/ready-websites-for-gutenberg/?utm_source=uag-dashboard&utm_medium=link&utm_campaign=uag-dashboard" target="_blank" rel="noopener"><?php esc_attr_e( 'Know More »', 'ultimate-addons-for-gutenberg' ); ?></a>
+						<a href="<?php echo admin_url( 'post-new.php?uag-demo' ) ?>" target="_blank" rel="noopener"><?php esc_attr_e( 'Take a Tour »', 'ultimate-addons-for-gutenberg' ); ?></a>
 					</div>
 				</div>
 			</div>
