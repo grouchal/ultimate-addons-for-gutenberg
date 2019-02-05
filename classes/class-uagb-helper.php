@@ -227,7 +227,22 @@ if ( ! class_exists( 'UAGB_Helper' ) ) {
 
 			if ( isset( $block['innerBlocks'] ) ) {
 				foreach ( $block['innerBlocks'] as $j => $inner_block ) {
-					$css .= $this->get_block_css( $inner_block );
+
+					if ( 'core/block' == $inner_block['blockName'] ) {
+						$id = ( isset( $inner_block['attrs']['ref'] ) ) ? $inner_block['attrs']['ref'] : 0;
+
+						if ( $id ) {
+							$content = get_post_field( 'post_content', $id );
+
+							$reusable_blocks = $this->parse( $content );
+
+							$this->get_stylesheet( $reusable_blocks );
+						}
+					} else {
+						// Get CSS for the Block.
+						$css .= $this->get_block_css( $inner_block );
+					}
+					//$css .= $this->get_block_css( $inner_block );
 				}
 			}
 
@@ -337,6 +352,8 @@ if ( ! class_exists( 'UAGB_Helper' ) ) {
 				if ( ! is_array( $blocks ) || empty( $blocks ) ) {
 					return;
 				}
+
+				vl(self::$page_blocks);
 
 				ob_start();
 				?>
