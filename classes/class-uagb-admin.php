@@ -79,20 +79,9 @@ if ( ! class_exists( 'UAGB_Admin' ) ) {
 		 * @param string $hook Screen name.
 		 */
 		public static function editor_scripts_and_styles( $hook ) {
+
 			$is_demo = ( isset( $_GET['action'] ) && 'uag-demo' === $_GET['action'] );
 
-			add_filter(
-				'default_content',
-				function() {
-					if ( $is_demo ) {
-						ob_start();
-						include( UAGB_DIR . 'admin/uagb-demo.php' );
-						return ob_get_clean();
-					}
-				}
-			);
-
-			return;
 
 			global $wp_scripts, $wp_meta_boxes;
 
@@ -167,7 +156,7 @@ if ( ! class_exists( 'UAGB_Admin' ) ) {
 
 			$preload_data = array_reduce(
 				$preload_paths,
-				'gutenberg_preload_api_request',
+				'rest_preload_api_request',
 				array()
 			);
 
@@ -188,7 +177,7 @@ if ( ! class_exists( 'UAGB_Admin' ) ) {
 
 			// Assign initial edits, if applicable. These are not initially assigned
 			// to the persisted post, but should be included in its save payload.
-			if ( $is_new_post && $is_demo ) {
+			if ( $is_demo ) {
 				// Prepopulate with some test content in demo.
 				ob_start();
 				include( UAGB_DIR . 'admin/uagb-demo.php' );
@@ -231,10 +220,374 @@ if ( ! class_exists( 'UAGB_Admin' ) ) {
 			wp_localize_script( 'wp-editor', '_wpMetaBoxUrl', $meta_box_url );
 
 			// Initialize the editor.
+			$theme_support 			 = get_theme_support( 'gutenberg' );
+			$align_wide              = get_theme_support( 'align-wide' );
+			$color_palette           = current( (array) get_theme_support( 'editor-color-palette' ) );
+			$font_sizes              = current( (array) get_theme_support( 'editor-font-sizes' ) );
+
+			/**
+			 * Filters the allowed block types for the editor, defaulting to true (all
+			 * block types supported).
+			 *
+			 * @param bool|array $allowed_block_types Array of block type slugs, or
+			 *                                        boolean to enable/disable all.
+			 * @param object $post                    The post resource data.
+			 */
+			$allowed_block_types = apply_filters( 'allowed_block_types', true, $post );
+
+			// Get all available templates for the post/page attributes meta-box.
+			// The "Default template" array element should only be added if the array is
+			// not empty so we do not trigger the template select element without any options
+			// besides the default value.
+			$available_templates = wp_get_theme()->get_page_templates( get_post( $post->ID ) );
+			$available_templates = ! empty( $available_templates ) ? array_merge(
+				array(
+					'' => apply_filters( 'default_page_template_title', __( 'Default template', 'ultimate-addons-for-gutenberg' ), 'rest-api' ),
+				),
+				$available_templates
+			) : $available_templates;
+
+			// Media settings.
+			$max_upload_size = wp_max_upload_size();
+			if ( ! $max_upload_size ) {
+				$max_upload_size = 0;
+			}
+
+			// Editor Styles.
+			global $editor_styles;
+			$styles = array();
+
+			/* Translators: Use this to specify the CSS font family for the default font */
+			$locale_font_family = esc_html_x( 'Noto Serif', 'CSS Font Family for Editor Font', 'ultimate-addons-for-gutenberg' );
+			$styles[]           = array(
+				'css' => "body { font-family: '$locale_font_family' }",
+			);
+
+			if ( $editor_styles && current_theme_supports( 'editor-styles' ) ) {
+				foreach ( $editor_styles as $style ) {
+					if ( filter_var( $style, FILTER_VALIDATE_URL ) ) {
+						$styles[] = array(
+							'css' => file_get_contents( $style ),
+						);
+					} else {
+						$file = get_theme_file_path( $style );
+						if ( file_exists( $file ) ) {
+							$styles[] = array(
+								'css'     => file_get_contents( $file ),
+								'baseURL' => get_theme_file_uri( $style ),
+							);
+						}
+					}
+				}
+			}
+
+			// Lock settings.
+			$user_id = wp_check_post_lock( $post->ID );
+			if ( $user_id ) {
+				/**
+				 * Filters whether to show the post locked dialog.
+				 *
+				 * Returning a falsey value to the filter will short-circuit displaying the dialog.
+				 *
+				 * @since 3.6.0
+				 *
+				 * @param bool         $display Whether to display the dialog. Default true.
+				 * @param WP_Post      $post    Post object.
+				 * @param WP_User|bool $user    The user id currently editing the post.
+				 */
+				if ( apply_filters( 'show_post_locked_dialog', true, $post, $user_id ) ) {
+					$locked = true;
+				}
+
+				$user_details = null;
+				if ( $locked ) {
+					$user         = get_userdata( $user_id );
+					$user_details = array(
+						'name' => $user->display_name,
+					);
+					$avatar       = get_avatar( $user_id, 64 );
+					if ( $avatar ) {
+						if ( preg_match( "|src='([^']+)'|", $avatar, $matches ) ) {
+							$user_details['avatar'] = $matches[1];
+						}
+					}
+				}
+
+				$lock_details = array(
+					'isLocked' => $locked,
+					'user'     => $user_details,
+				);
+			} else {
+
+				// Lock the post.
+				$active_post_lock = wp_set_post_lock( $post->ID );
+				$lock_details     = array(
+					'isLocked'       => false,
+					'activePostLock' => esc_attr( implode( ':', $active_post_lock ) ),
+				);
+			}
+
+			$editor_settings = array(
+				'alignWide'              => $align_wide || ! empty( $theme_support[0]['wide-images'] ), // Backcompat. Use `align-wide` outside of `gutenberg` array.
+				'availableTemplates'     => $available_templates,
+				'allowedBlockTypes'      => $allowed_block_types,
+				'disableCustomColors'    => get_theme_support( 'disable-custom-colors' ),
+				'disableCustomFontSizes' => get_theme_support( 'disable-custom-font-sizes' ),
+				'disablePostFormats'     => ! current_theme_supports( 'post-formats' ),
+				'titlePlaceholder'       => apply_filters( 'enter_title_here', __( 'Add title', 'ultimate-addons-for-gutenberg' ), $post ),
+				'bodyPlaceholder'        => apply_filters( 'write_your_story', __( 'Start writing or type / to choose a block', 'ultimate-addons-for-gutenberg' ), $post ),
+				'isRTL'                  => is_rtl(),
+				'autosaveInterval'       => 10,
+				'maxUploadFileSize'      => $max_upload_size,
+				'allowedMimeTypes'       => get_allowed_mime_types(),
+				'styles'                 => $styles,
+				'imageSizes'             => self::get_available_image_sizes(),
+				'richEditingEnabled'     => $user_can_richedit,
+
+				// Ideally, we'd remove this and rely on a REST API endpoint.
+				'postLock'               => $lock_details,
+				'postLockUtils'          => array(
+					'nonce'       => wp_create_nonce( 'lock-post_' . $post->ID ),
+					'unlockNonce' => wp_create_nonce( 'update-post_' . $post->ID ),
+					'ajaxUrl'     => admin_url( 'admin-ajax.php' ),
+				),
+
+				// Whether or not to load the 'postcustom' meta box is stored as a user meta
+				// field so that we're not always loading its assets.
+				'enableCustomFields'     => (bool) get_user_meta( get_current_user_id(), 'enable_custom_fields', true ),
+			);
+
+			$post_autosave = self::get_autosave_newer_than_post_save( $post );
+			if ( $post_autosave ) {
+				$editor_settings['autosave'] = array(
+					'editLink' => add_query_arg( 'gutenberg', true, get_edit_post_link( $post_autosave->ID ) ),
+				);
+			}
+
+			if ( false !== $color_palette ) {
+				$editor_settings['colors'] = $color_palette;
+			}
+
+			if ( ! empty( $font_sizes ) ) {
+				$editor_settings['fontSizes'] = $font_sizes;
+			}
+
+			if ( ! empty( $post_type_object->template ) ) {
+				$editor_settings['template']     = $post_type_object->template;
+				$editor_settings['templateLock'] = ! empty( $post_type_object->template_lock ) ? $post_type_object->template_lock : false;
+			}
+
+			$current_screen  = get_current_screen();
+			$core_meta_boxes = array();
+
+			// Make sure the current screen is set as well as the normal core metaboxes.
+			if ( isset( $current_screen->id ) && isset( $wp_meta_boxes[ $current_screen->id ]['normal']['core'] ) ) {
+				$core_meta_boxes = $wp_meta_boxes[ $current_screen->id ]['normal']['core'];
+			}
+
+			// Check if the Custom Fields meta box has been removed at some point.
+			if ( ! isset( $core_meta_boxes['postcustom'] ) || ! $core_meta_boxes['postcustom'] ) {
+				unset( $editor_settings['enableCustomFields'] );
+			}
+
+			/**
+			 * Filters the settings to pass to the block editor.
+			 *
+			 * @since 3.7.0
+			 *
+			 * @param array   $editor_settings Default editor settings.
+			 * @param WP_Post $post            Post being edited.
+			 */
+			$editor_settings = apply_filters( 'block_editor_settings', $editor_settings, $post );
+
+			$init_script = <<<JS
+	( function() {
+		window._wpLoadGutenbergEditor = new Promise( function( resolve ) {
+			wp.domReady( function() {
+				resolve( wp.editPost.initializeEditor( 'editor', "%s", %d, %s, %s ) );
+			} );
+		} );
+} )();
+JS;
+
+			$script = sprintf(
+				$init_script,
+				$post->post_type,
+				$post->ID,
+				wp_json_encode( $editor_settings ),
+				wp_json_encode( $initial_edits )
+			);
+			wp_add_inline_script( 'wp-edit-post', $script );
+
+			/**
+			 * Scripts
+			 */
+			wp_enqueue_media(
+				array(
+					'post' => $post->ID,
+				)
+			);
+			wp_enqueue_editor();
+
+			/**
+			 * Styles
+			 */
+			wp_enqueue_style( 'wp-edit-post' );
+
+			/**
+			 * Fires after block assets have been enqueued for the editing interface.
+			 *
+			 * Call `add_action` on any hook before 'admin_enqueue_scripts'.
+			 *
+			 * In the function call you supply, simply use `wp_enqueue_script` and
+			 * `wp_enqueue_style` to add your functionality to the Gutenberg editor.
+			 *
+			 * @since 0.4.0
+			 */
+			do_action( 'enqueue_block_editor_assets' );
+		}
+
+		/**
+		 * Scripts & Styles.
+		 *
+		 * Enqueues the needed scripts and styles when visiting the top-level page of
+		 * the Gutenberg editor.
+		 *
+		 * @since 0.1.0
+		 *
+		 * @param string $hook Screen name.
+		 */
+		public static function editor_scripts_and_styles1( $hook ) {
+
+			$is_demo = ( isset( $_GET['action'] ) && 'uag-demo' === $_GET['action'] );
+
+			global $wp_meta_boxes;
+
+			// Enqueue heartbeat separately as an "optional" dependency of the editor.
+			// Heartbeat is used for automatic nonce refreshing, but some hosts choose
+			// to disable it outright.
+			wp_enqueue_script( 'heartbeat' );
+
+			wp_enqueue_script( 'wp-edit-post' );
+			wp_enqueue_script( 'wp-format-library' );
+			wp_enqueue_style( 'wp-format-library' );
+
+			global $post;
+
+			// Set initial title to empty string for auto draft for duration of edit.
+			// Otherwise, title defaults to and displays as "Auto Draft".
+			$is_new_post = 'auto-draft' === $post->post_status;
+
+			// Set the post type name.
+			$post_type        = get_post_type( $post );
+			$post_type_object = get_post_type_object( $post_type );
+			$rest_base        = ! empty( $post_type_object->rest_base ) ? $post_type_object->rest_base : $post_type_object->name;
+
+			$preload_paths = array(
+				'/',
+				'/wp/v2/types?context=edit',
+				'/wp/v2/taxonomies?per_page=-1&context=edit',
+				'/wp/v2/themes?status=active',
+				sprintf( '/wp/v2/%s/%s?context=edit', $rest_base, $post->ID ),
+				sprintf( '/wp/v2/types/%s?context=edit', $post_type ),
+				sprintf( '/wp/v2/users/me?post_type=%s&context=edit', $post_type ),
+				array( '/wp/v2/media', 'OPTIONS' ),
+				array( '/wp/v2/blocks', 'OPTIONS' ),
+			);
+
+			/**
+			 * Preload common data by specifying an array of REST API paths that will be preloaded.
+			 *
+			 * Filters the array of paths that will be preloaded.
+			 *
+			 * @param array $preload_paths Array of paths to preload
+			 * @param object $post         The post resource data.
+			 */
+			$preload_paths = apply_filters( 'block_editor_preload_paths', $preload_paths, $post );
+
+			// Ensure the global $post remains the same after
+			// API data is preloaded. Because API preloading
+			// can call the_content and other filters, callbacks
+			// can unexpectedly modify $post resulting in issues
+			// like https://github.com/WordPress/gutenberg/issues/7468.
+			$backup_global_post = $post;
+
+			$preload_data = array_reduce(
+				$preload_paths,
+				'rest_preload_api_request',
+				array()
+			);
+
+			// Restore the global $post as it was before API preloading.
+			$post = $backup_global_post;
+
+			wp_add_inline_script(
+				'wp-api-fetch',
+				sprintf( 'wp.apiFetch.use( wp.apiFetch.createPreloadingMiddleware( %s ) );', wp_json_encode( $preload_data ) ),
+				'after'
+			);
+
+			wp_add_inline_script(
+				'wp-blocks',
+				sprintf( 'wp.blocks.setCategories( %s );', wp_json_encode( get_block_categories( $post ) ) ),
+				'after'
+			);
+
+			// Assign initial edits, if applicable. These are not initially assigned
+			// to the persisted post, but should be included in its save payload.
+			if ( $is_demo ) {
+				// Prepopulate with some test content in demo.
+				ob_start();
+				include( UAGB_DIR . 'admin/uagb-demo.php' );
+				$demo_content = ob_get_clean();
+
+				$initial_edits = array(
+					'title'   => __( 'Welcome to the Ultimate Addons for Gutenberg', 'ultimate-addons-for-gutenberg' ),
+					'content' => $demo_content,
+				);
+			} elseif ( $is_new_post ) {
+				// Override "(Auto Draft)" new post default title with empty string,
+				// or filtered value.
+				$initial_edits = array(
+					'title'   => $post->post_title,
+					'content' => $post->post_content,
+					'excerpt' => $post->post_excerpt,
+				);
+			} else {
+				$initial_edits = null;
+			}
+
+			//gutenberg_load_locale_data();
+
+			// Preload server-registered block schemas.
+			wp_add_inline_script(
+				'wp-blocks',
+				'wp.blocks.unstable__bootstrapServerSideBlockDefinitions(' . json_encode( get_block_editor_server_block_settings() ) . ');'
+			);
+
+			// Get admin url for handling meta boxes.
+			$meta_box_url = admin_url( 'post.php' );
+			$meta_box_url = add_query_arg(
+				array(
+					'post'            => $post->ID,
+					'action'          => 'edit',
+					'meta-box-loader' => true,
+					'_wpnonce'        => wp_create_nonce( 'meta-box-loader' ),
+				),
+				$meta_box_url
+			);
+			wp_localize_script( 'wp-editor', '_wpMetaBoxUrl', $meta_box_url );
+
+			// Initialize the editor.
 			$gutenberg_theme_support = get_theme_support( 'gutenberg' );
 			$align_wide              = get_theme_support( 'align-wide' );
 			$color_palette           = current( (array) get_theme_support( 'editor-color-palette' ) );
 			$font_sizes              = current( (array) get_theme_support( 'editor-font-sizes' ) );
+
+			if ( ! empty( $gutenberg_theme_support ) ) {
+				wp_enqueue_script( 'wp-deprecated' );
+				wp_add_inline_script( 'wp-deprecated', 'wp.deprecated( "`gutenberg` theme support", { plugin: "Gutenberg", version: "5.2", alternative: "`align-wide` theme support" } );' );
+			}
 
 			/**
 			 * Filters the allowed block types for the editor, defaulting to true (all
@@ -352,8 +705,8 @@ if ( ! class_exists( 'UAGB_Admin' ) ) {
 				'maxUploadFileSize'      => $max_upload_size,
 				'allowedMimeTypes'       => get_allowed_mime_types(),
 				'styles'                 => $styles,
-				'imageSizes'             => gutenberg_get_available_image_sizes(),
-				'richEditingEnabled'     => $user_can_richedit,
+				'imageSizes'             => self::get_available_image_sizes(),
+				'richEditingEnabled'     => user_can_richedit(),
 
 				// Ideally, we'd remove this and rely on a REST API endpoint.
 				'postLock'               => $lock_details,
@@ -368,7 +721,7 @@ if ( ! class_exists( 'UAGB_Admin' ) ) {
 				'enableCustomFields'     => (bool) get_user_meta( get_current_user_id(), 'enable_custom_fields', true ),
 			);
 
-			$post_autosave = gutenberg_get_autosave_newer_than_post_save( $post );
+			$post_autosave = self::get_autosave_newer_than_post_save( $post );
 			if ( $post_autosave ) {
 				$editor_settings['autosave'] = array(
 					'editLink' => add_query_arg( 'gutenberg', true, get_edit_post_link( $post_autosave->ID ) ),
@@ -413,13 +766,15 @@ if ( ! class_exists( 'UAGB_Admin' ) ) {
 
 			$init_script = <<<JS
 	( function() {
-		window._wpLoadGutenbergEditor = new Promise( function( resolve ) {
+		window._wpLoadBlockEditor = new Promise( function( resolve ) {
 			wp.domReady( function() {
 				resolve( wp.editPost.initializeEditor( 'editor', "%s", %d, %s, %s ) );
 			} );
 		} );
 } )();
 JS;
+
+			vl($initial_edits);
 
 			$script = sprintf(
 				$init_script,
@@ -456,6 +811,62 @@ JS;
 			 * @since 0.4.0
 			 */
 			do_action( 'enqueue_block_editor_assets' );
+		}
+
+		/**
+		 * Retrieve The available image sizes for a post
+		 *
+		 * @return array
+		 */
+		public static function get_available_image_sizes() {
+			$size_names = apply_filters(
+				'image_size_names_choose',
+				array(
+					'thumbnail' => __( 'Thumbnail', 'gutenberg' ),
+					'medium'    => __( 'Medium', 'gutenberg' ),
+					'large'     => __( 'Large', 'gutenberg' ),
+					'full'      => __( 'Full Size', 'gutenberg' ),
+				)
+			);
+
+			$all_sizes = array();
+			foreach ( $size_names as $size_slug => $size_name ) {
+				$all_sizes[] = array(
+					'slug' => $size_slug,
+					'name' => $size_name,
+				);
+			}
+
+			return $all_sizes;
+		}
+
+		/**
+		 * Retrieve a stored autosave that is newer than the post save.
+		 *
+		 * Deletes autosaves that are older than the post save.
+		 *
+		 * @param  WP_Post $post Post object.
+		 * @return WP_Post|boolean The post autosave. False if none found.
+		 */
+		public static function get_autosave_newer_than_post_save( $post ) {
+			// Add autosave data if it is newer and changed.
+			$autosave = wp_get_post_autosave( $post->ID );
+
+			if ( ! $autosave ) {
+				return false;
+			}
+
+			// Check if the autosave is newer than the current post.
+			if (
+				mysql2date( 'U', $autosave->post_modified_gmt, false ) > mysql2date( 'U', $post->post_modified_gmt, false )
+			) {
+				return $autosave;
+			}
+
+			// If the autosave isn't newer, remove it.
+			wp_delete_post_revision( $autosave->ID );
+
+			return false;
 		}
 
 		/**
