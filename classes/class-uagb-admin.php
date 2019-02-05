@@ -81,14 +81,16 @@ if ( ! class_exists( 'UAGB_Admin' ) ) {
 		public static function editor_scripts_and_styles( $hook ) {
 			$is_demo = ( isset( $_GET['action'] ) && 'uag-demo' === $_GET['action'] );
 
-
-			add_filter( 'default_content', function() {
-				if ( $is_demo ) {
-					ob_start();
-					include( UAGB_DIR . 'admin/uagb-demo.php' );
-					return ob_get_clean();
+			add_filter(
+				'default_content',
+				function() {
+					if ( $is_demo ) {
+						ob_start();
+						include( UAGB_DIR . 'admin/uagb-demo.php' );
+						return ob_get_clean();
+					}
 				}
-			} );
+			);
 
 			return;
 
