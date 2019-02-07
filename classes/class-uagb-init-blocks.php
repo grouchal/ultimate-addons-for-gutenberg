@@ -99,6 +99,12 @@ class UAGB_Init_Blocks {
 			false // Enqueue the script in the footer.
 		);
 
+		wp_enqueue_style(
+			'uagb-tour-css', // Handle.
+			UAGB_URL . 'admin/assets/uagb-tour.css', // Block style CSS.
+			UAGB_VER
+		);
+
 		// Tooltipster JS.
 		wp_enqueue_script(
 			'uagb-tooltipster', // Handle.
