@@ -367,8 +367,6 @@ if ( ! class_exists( 'UAGB_Helper' ) ) {
 					return;
 				}
 
-				vl( self::$page_blocks );
-
 				ob_start();
 				?>
 				<style type="text/css" media="all" id="uagb-style-frontend"><?php $this->get_stylesheet( $blocks ); ?></style>
