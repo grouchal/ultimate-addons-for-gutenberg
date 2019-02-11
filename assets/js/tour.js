@@ -13,7 +13,7 @@
 	        	side : 'top',
 	        	trigger : 'hover',
 	        	delay : 300,
-	        	animation : 'fade'
+	        	animation : 'fade',
 	        	zIndex : 99,
 	        	interactive : true,
 	        	animationDuration : 350,

@@ -34,14 +34,46 @@ if ( ! class_exists( 'UAGB_Admin' ) ) {
 		 * Demo Tour HTML in footer
 		 */
 		public static function admin_footer() {
-			echo '<div class="uagb-tour">';
-				echo '<span><span class="trigger-tooltip">1</span><p data-key="1">This is a tooltip 1</p></span>';
-				echo '<span><span class="trigger-tooltip">2</span><p data-key="2">This is a tooltip 2</p></span>';
-				echo '<span><span class="trigger-tooltip">3</span><p data-key="3">This is a tooltip 3</p></span>';
-				echo '<span><span class="trigger-tooltip">4</span><p data-key="4">This is a tooltip 4</p></span>';
-				echo '<span><span class="trigger-tooltip">5</span><p data-key="5">This is a tooltip 5</p></span>';
-				echo '<span><span class="trigger-tooltip">6</span><p data-key="6">This is a tooltip 6</p></span>';
-			echo '</div>';
+			//echo '<div class="uagb-tour">';
+				ob_start();
+				?>
+				<div class="tour-pin-points">
+					<span class="tooltip">
+						<span class="tooltip-pin-content" id="tooltip-id-1" data-tour="1" data-tooltip-content="#tooltip-content-1">
+							<i class="fa fa-dot-circle-o"></i>
+						</span>
+					</span>
+
+					<span class="tooltip">
+						<span class="tooltip-pin-content" id="tooltip-id-2" data-tour="2" data-tooltip-content="#tooltip-content-2">
+							<i class="fa fa-dot-circle-o"></i>
+						</span>
+					</span>
+
+					<span class="tooltip">
+						<span class="tooltip-pin-content" id="tooltip-id-3" data-tour="3" data-tooltip-content="#tooltip-content-3">
+							<i class="fa fa-dot-circle-o"></i>
+						</span>
+					</span>
+				</div>
+				<!-- <span class="trigger-tooltip tooltip" data-tooltip-content="#tooltip_content">This span has a tooltip with HTML when you hover over it!</span>
+
+				<div class="tooltip_templates">
+					<span id="tooltip_content">
+						<img src="http://localhost/projects/local/wp-content/plugins/ultimate-addons-for-gutenberg/admin/assets/images/welcome-screen-astra.jpg" /> <strong>This is the content of my tooltip!</strong>
+					</span>
+				</div> -->
+				<?php
+			// 	echo '<span><span class="trigger-tooltip">1</span><p data-key="1">This is a tooltip 1</p></span>';
+			// 	echo '<span><span class="trigger-tooltip">2</span><p data-key="2">This is a tooltip 2</p></span>';
+			// 	echo '<span><span class="trigger-tooltip">3</span><p data-key="3">This is a tooltip 3</p></span>';
+			// 	echo '<span><span class="trigger-tooltip">4</span><p data-key="4">This is a tooltip 4</p></span>';
+			// 	echo '<span><span class="trigger-tooltip">5</span><p data-key="5">This is a tooltip 5</p></span>';
+			// 	echo '<span><span class="trigger-tooltip">6</span><p data-key="6">This is a tooltip 6</p></span>';
+			// echo '</div>';
+				echo ob_get_clean();
+
+			//echo '<script>jQuery(document).ready(function() { jQuery(\'.trigger-tooltip\').tooltipster(); });</script>';
 		}
 
 		/**
