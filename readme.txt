@@ -162,7 +162,7 @@ When you use the Ultimate Addons for Gutenberg along with the free Astra theme, 
 * Fix: Info Box - CTA type of Complete Box structure change.
 * Fix: Post Carousel - Arrows not visible in front end issue.
 * Fix: Social Share - Email option opens a new browser tab issue.
-* Fix: Testimonial - CSS conflict fixed
+* Fix: Testimonial - CSS conflict fixed.
 * Fix: Testimonial - Arrows not visible in front end issue.
 
 = 1.11.1 =
