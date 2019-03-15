@@ -434,11 +434,6 @@ if ( ! class_exists( 'UAGB_Helper' ) ) {
                     $js .= UAGB_Block_Helper::get_social_share_js( $block_id );
                     break;
 
-                case 'uagb/content-timeline':
-                case 'uagb/post-timeline':
-                    $js .= UAGB_Block_Helper::get_timeline_js( $block_id );
-                    break;
-
                 default:
                     // Nothing to do here.
                     break;
