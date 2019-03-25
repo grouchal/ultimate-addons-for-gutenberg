@@ -3306,3 +3306,35 @@ label.wp-block-uagb-blockquote__via-label svg {
 .edit-post-settings-sidebar__panel-block .components-panel__body.uagb-repeater-panel:last-child{
 	margin-bottom: 1em;
 }
+
+form.uagb-inline-button-link {
+    margin: 10px auto;
+}
+.uagb-marketing-btn__align-left form.uagb-inline-button-link {
+    margin-left: 0;
+}
+.uagb-marketing-btn__align-right form.uagb-inline-button-link {
+    margin-left: auto;
+    margin-right: 0;
+}
+
+.uagb-inline-form {
+    width: 100%;
+    -js-display: flex;
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -moz-box;
+	display: -ms-flexbox;
+	display: flex;
+    align-items: center;
+    -webkit-box-sizing: border-box;
+	box-sizing: border-box
+}
+
+.uagb-inline-form .components-base-control {
+    width: 100%;
+    margin-left: 5px;
+}
+.uagb-inline-form svg {
+    margin-bottom: 5px;
+}

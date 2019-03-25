@@ -42,7 +42,7 @@ const {
 	Button,
 	Dashicon,
 	ToggleControl,
-	TextControl
+	TextControl,
 } = wp.components
 
 
@@ -604,7 +604,21 @@ class UAGBMarketingButtonEdit extends Component {
 							</div>
 						</a>
 					</div>
+				{ isSelected &&	<form
+						className="block-library-button__inline-link uagb-inline-button-link"
+						onSubmit={ ( event ) => event.preventDefault() }>
+						<div class ="uagb-inline-form">
+							<Dashicon icon="admin-links" />
+							<TextControl
+								value={ link }
+								onChange={ ( value ) => setAttributes( { link: value } ) }
+								placeholder={ __( "Enter URL" ) }
+							/>
+						</div>
+					</form>
+				}
 				</div>
+
 				{ loadTitleGoogleFonts }
 				{ loadPrefixGoogleFonts }
 			</Fragment>

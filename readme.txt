@@ -154,6 +154,9 @@ When you use the Ultimate Addons for Gutenberg along with the free Astra theme, 
 
 == Changelog ==
 
+= 1.13.0
+* Improvement: Marketing Button - Added button URL inside the Form HTML.
+
 = 1.12.4 =
 * Fix: CSS not applying to inner blocks on front end in some cases.
 
