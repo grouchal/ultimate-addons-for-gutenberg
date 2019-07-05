@@ -135,7 +135,7 @@ if ( ! class_exists( 'UAGB_Batch_Processing' ) ) :
 		/**
 		 * Get Supporting Post Types..
 		 *
-		 * @since x.x.x		 * @param  integer $feature Feature.
+		 * @since x.x.x      * @param  integer $feature Feature.
 		 * @return array
 		 */
 		public static function get_post_types_supporting( $feature ) {
