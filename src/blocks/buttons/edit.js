@@ -84,7 +84,6 @@ class UAGBMultiButtonEdit extends Component {
 
 			return item
 		} )
-		console.log(newItems)
 		setAttributes( {
 			buttons: newItems,
 		} )
@@ -153,7 +152,7 @@ class UAGBMultiButtonEdit extends Component {
 					/>
 					<TextControl
 						label={ __( 'Link rel' ) }
-						value={ buttons[ index ].rel }
+						value={ buttons[ index ].rel || '' }
 						onChange={ value => {
 							this.saveButton( { rel: value }, index )
 						} }
@@ -629,6 +628,7 @@ class UAGBMultiButtonEdit extends Component {
 											label: "Click Here " + "#" + ( cloneButtons.length + 1 ),
 											link: cloneButtons[ 0 ].link,
 											target: cloneButtons[ 0 ].target,
+											rel: cloneButtons[ 0 ].rel,
 											size: cloneButtons[ 0 ].size,
 											vPadding: cloneButtons[ 0 ].vPadding,
 											hPadding: cloneButtons[ 0 ].hPadding,

@@ -50,6 +50,7 @@ registerBlockType( "uagb/buttons", {
 
 			if ( "undefined" != typeof buttons[index] ) {
 				let relVal = ( undefined == buttons[index].rel ) ? "noopener noreferrer" : buttons[index].rel
+
 				return (
 					<div
 						className={ classnames(
@@ -61,7 +62,7 @@ registerBlockType( "uagb/buttons", {
 						<a className="uagb-button__link-wrap"
 							target={ buttons[index].target }
 							href={ buttons[index].link }
-							rel={ relVal }
+							rel={ buttons[index].rel }
 						>
 							<RichText.Content
 								value={ buttons[index].label }
