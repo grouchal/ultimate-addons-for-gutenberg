@@ -702,6 +702,8 @@ class UAGBMultiButtonEdit extends Component {
 									return
 								}
 
+								let relVal = ( undefined == button.rel ) ? "noopener noreferrer" : button.rel
+
 								return (
 									<div
 										className={ classnames(
@@ -712,8 +714,8 @@ class UAGBMultiButtonEdit extends Component {
 										key={ index }
 									>
 										<a className="uagb-button__link-wrap"
-											target={ buttons[index].target }
-											rel={ buttons[index].rel }>
+											target={ button.target }
+											rel={ relVal }>
 											<RichText
 												placeholder={ __( "Add text…" ) }
 												value={ button.label }
