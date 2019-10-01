@@ -10,6 +10,7 @@ for ( var i = 1; i <= ITEM_COUNT; i++ ) {
 			"label": label,
 			"link": link,
 			"target": "_self",
+			"rel" : "noopener noreferrer",
 			"size": "",
 			"vPadding": 10,
 			"hPadding": 14,

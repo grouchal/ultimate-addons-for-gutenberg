@@ -30,7 +30,7 @@ const {
 	PanelColorSettings,
 	URLInput,
 	ColorPalette
-} = wp.editor
+} = wp.blockEditor
 
 const {
 	PanelBody,
@@ -39,6 +39,7 @@ const {
 	TabPanel,
 	ButtonGroup,
 	Button,
+	TextControl,
 	Dashicon
 } = wp.components
 
@@ -83,6 +84,7 @@ class UAGBMultiButtonEdit extends Component {
 
 			return item
 		} )
+		console.log(newItems)
 		setAttributes( {
 			buttons: newItems,
 		} )
@@ -147,6 +149,13 @@ class UAGBMultiButtonEdit extends Component {
 						] }
 						onChange={ value => {
 							this.saveButton( { target: value }, index )
+						} }
+					/>
+					<TextControl
+						label={ __( 'Link rel' ) }
+						value={ buttons[ index ].rel }
+						onChange={ value => {
+							this.saveButton( { rel: value }, index )
 						} }
 					/>
 					<TabPanel className="uagb-size-type-field-tabs" activeClass="active-tab"
@@ -702,18 +711,21 @@ class UAGBMultiButtonEdit extends Component {
 										) }
 										key={ index }
 									>
-										<RichText
-											placeholder={ __( "Add text…" ) }
-											value={ button.label }
-											tagName='div'
-											onChange={ value => {
-												this.saveButton( { label: value }, index )
-											} }
-											formattingControls={ [ "bold", "italic", "strikethrough" ] }
-											className='uagb-button__link'
-											rel ="noopener noreferrer"
-											keepPlaceholderOnFocus
-										/>
+										<a className="uagb-button__link-wrap"
+											target={ buttons[index].target }
+											rel={ buttons[index].rel }>
+											<RichText
+												placeholder={ __( "Add text…" ) }
+												value={ button.label }
+												tagName='div'
+												onChange={ value => {
+													this.saveButton( { label: value }, index )
+												} }
+												allowedFormats={ [ "bold", "italic", "strikethrough" ] }
+												className='uagb-button__link'
+												keepPlaceholderOnFocus
+											/>
+										</a>
 									</div>
 								)
 							})

@@ -44,7 +44,7 @@ class UAGBSocialShare extends Component {
 
 		// Assigning block_id in the attribute.
 		this.props.setAttributes( { block_id: this.props.clientId } )
-		this.props.setAttributes( { current_url: wp.data.select("core/editor").getPermalink() } )
+		this.props.setAttributes( { current_url: wp.data.select("core/block-editor").getPermalink() } )
 
 		// Pushing Style tag for this block css.
 		const $style = document.createElement( "style" )
