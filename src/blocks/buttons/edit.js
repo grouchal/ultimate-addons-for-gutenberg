@@ -39,7 +39,8 @@ const {
 	TabPanel,
 	ButtonGroup,
 	Button,
-	Dashicon
+	Dashicon,
+	BaseControl
 } = wp.components
 
 
@@ -131,13 +132,6 @@ class UAGBMultiButtonEdit extends Component {
 					title={ __( "Button" ) + " " + ( index + 1 ) + " " + __( "Settings" ) }
 					initialOpen={ false }
 				>
-					<p className="components-base-control__label">{ __( "Link" ) }</p>
-					<URLInput
-						value={ buttons[ index ].link }
-						onChange={ value => {
-							this.saveButton( { link: value }, index )
-						} }
-					/>
 					<SelectControl
 						label={ __( "Link Target" ) }
 						value={ buttons[ index ].target }
@@ -694,26 +688,46 @@ class UAGBMultiButtonEdit extends Component {
 								}
 
 								return (
-									<div
-										className={ classnames(
-											`uagb-buttons-repeater-${index}`,
-											"uagb-button__wrapper",
-											( isSelected && ( ( false !== this.state.isFocused && index === this.state.isFocused ) ) ) ? "uagb-button__active" : ""
-										) }
-										key={ index }
-									>
-										<RichText
-											placeholder={ __( "Add text…" ) }
-											value={ button.label }
-											tagName='div'
-											onChange={ value => {
-												this.saveButton( { label: value }, index )
-											} }
-											allowedFormats={ [ "bold", "italic", "strikethrough" ] }
-											className='uagb-button__link'
-											rel ="noopener noreferrer"
-											keepPlaceholderOnFocus
-										/>
+									<div>
+										<div
+											className={ classnames(
+												`uagb-buttons-repeater-${index}`,
+												"uagb-button__wrapper",
+												( isSelected && ( ( false !== this.state.isFocused && index === this.state.isFocused ) ) ) ? "uagb-button__active" : ""
+											) }
+											key={ index }
+										>
+											<RichText
+												placeholder={ __( "Add text…" ) }
+												value={ button.label }
+												tagName='div'
+												onChange={ value => {
+													this.saveButton( { label: value }, index )
+												} }
+												allowedFormats={ [ "bold", "italic", "strikethrough" ] }
+												className='uagb-button__link'
+												rel ="noopener noreferrer"
+												keepPlaceholderOnFocus
+											/>
+										</div>
+										<BaseControl
+											key={index}
+											label={ __( 'Link' ) }
+											className="wp-block-button__inline-link"
+											id={ `wp-block-button__inline-link-${ index }` }>
+											<URLInput
+												className="wp-block-button__inline-link-input"
+												value={ button.link }
+												autoFocus={ false }
+												onChange={ value => {
+													this.saveButton( { link: value }, index )
+												} }
+												disableSuggestions={ ! isSelected }
+												id={ `wp-block-button__inline-link-${ index }` }
+												isFullWidth
+												hasBorder
+											/>
+										</BaseControl>
 									</div>
 								)
 							})
