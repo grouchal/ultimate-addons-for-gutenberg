@@ -157,17 +157,23 @@ When you use the Ultimate Addons for Gutenberg along with the free Astra theme, 
 
 = 1.13.6.1 =
 * New: Rank Math SEO compatibility.
+* Improvement: A dynamic CSS file will be generated, earlier inline CSS was loading on the page.
 * Improvement: Post - Show/Hide Category option added.
 * Improvement: Post - Show/Hide Title option added.
+* Improvement: Social Share - Removed jQuery dependency for Social Share script.
 * Improvement - Filter added to disable redirect on activation
 * Improvement - Add support for EditorsKit navigator toolbar.
-* Fix: Table of Contents - JS issue with Social Share.
-* Fix: Typography - Decimal values allowed for the Font Sizes.
+* Fix: Advanced Columns - Nested Columns causing an issue for stacking options.
+* Fix: Multi Buttons - Font Size not replicating on front end issue in few themes.
 * Fix: Post - Added {$attributes} parameter to the Query filter.
 * Fix: Post - Border Color not being applied on hover.
 * Fix: Post - Invalid Font Family being applied issue.
 * Fix: Post - Seo analysis tool scan timed out issue.
-* Fix: Advanced Columns - Nested Columns causing an issue for stacking options.
+* Fix: Post Carousel - Console error fixed in editor.
+* Fix: Post Carousel - Carousel arrows issue with OceanWP theme.
+* Fix: Post Masonry - Masonry not working in Safari browser issue.
+* Fix: Table of Contents - JS issue with Social Share.
+* Fix: Typography - Decimal values allowed for the Font Sizes.
 
 = 1.13.6 =
 * Fix: Reusable Block - Dynamic CSS not generated for Reusable Blocks in Advanced Columns.
