@@ -63,6 +63,7 @@ if ( ! class_exists( 'UAGB_Loader' ) ) {
 		public function loader() {
 			require_once UAGB_DIR . 'classes/class-uagb-helper.php';
 			require_once UAGB_DIR . 'classes/class-uagb-update.php';
+			require_once UAGB_DIR . 'classes/class-uagb-batch.php';
 		}
 
 		/**
