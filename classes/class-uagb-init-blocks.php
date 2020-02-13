@@ -57,7 +57,7 @@ class UAGB_Init_Blocks {
 	 * @param object $post Post object.
 	 * @since 1.0.0
 	 */
-	function register_block_category( $categories, $post ) {
+	public function register_block_category( $categories, $post ) {
 		return array_merge(
 			$categories,
 			array(
@@ -131,7 +131,8 @@ class UAGB_Init_Blocks {
 						$val, // Handle.
 						$block_assets[ $val ]['src'],
 						$block_assets[ $val ]['dep'],
-						UAGB_VER
+						UAGB_VER,
+						true
 					);
 
 					if ( is_admin() ) {
@@ -162,7 +163,7 @@ class UAGB_Init_Blocks {
 	 *
 	 * @since 1.0.0
 	 */
-	function editor_assets() {
+	public function editor_assets() {
 		// Scripts.
 		wp_enqueue_script(
 			'uagb-block-editor-js', // Handle.

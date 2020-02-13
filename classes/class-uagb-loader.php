@@ -44,12 +44,6 @@ if ( ! class_exists( 'UAGB_Loader' ) ) {
 			// deActivation hook.
 			register_deactivation_hook( UAGB_FILE, array( $this, 'deactivation_reset' ) );
 
-			if ( ! $this->is_gutenberg_active() ) {
-				/* TO DO */
-				add_action( 'admin_notices', array( $this, 'uagb_fails_to_load' ) );
-				return;
-			}
-
 			$this->define_constants();
 
 			$this->loader();
@@ -93,7 +87,7 @@ if ( ! class_exists( 'UAGB_Loader' ) ) {
 		 *
 		 * @return void
 		 */
-		function load_plugin() {
+		public function load_plugin() {
 
 			$this->load_textdomain();
 
@@ -137,51 +131,16 @@ if ( ! class_exists( 'UAGB_Loader' ) ) {
 		}
 
 		/**
-		 * Fires admin notice when Gutenberg is not installed and activated.
-		 *
-		 * @since 1.0.0
-		 *
-		 * @return void
-		 */
-		public function uagb_fails_to_load() {
-			$class = 'notice notice-error';
-			/* translators: %s: html tags */
-			$message = sprintf( __( 'The %1$sUltimate Addon for Gutenberg%2$s plugin requires %1$sGutenberg%2$s plugin installed & activated.', 'ultimate-addons-for-gutenberg' ), '<strong>', '</strong>' );
-
-			$plugin = 'gutenberg/gutenberg.php';
-
-			if ( _is_gutenberg_installed( $plugin ) ) {
-				if ( ! current_user_can( 'activate_plugins' ) ) {
-					return;
-				}
-
-				$action_url   = wp_nonce_url( 'plugins.php?action=activate&amp;plugin=' . $plugin . '&amp;plugin_status=all&amp;paged=1&amp;s', 'activate-plugin_' . $plugin );
-				$button_label = __( 'Activate Gutenberg', 'ultimate-addons-for-gutenberg' );
-			} else {
-				if ( ! current_user_can( 'install_plugins' ) ) {
-					return;
-				}
-
-				$action_url   = wp_nonce_url( self_admin_url( 'update.php?action=install-plugin&plugin=gutenberg' ), 'install-plugin_gutenberg' );
-				$button_label = __( 'Install Gutenberg', 'ultimate-addons-for-gutenberg' );
-			}
-
-			$button = '<p><a href="' . $action_url . '" class="button-primary">' . $button_label . '</a></p><p></p>';
-
-			printf( '<div class="%1$s"><p>%2$s</p>%3$s</div>', esc_attr( $class ), $message, $button );
-		}
-
-		/**
 		 * Activation Reset
 		 */
-		function activation_reset() {
+		public function activation_reset() {
 			update_option( '__uagb_do_redirect', true );
 		}
 
 		/**
 		 * Deactivation Reset
 		 */
-		function deactivation_reset() {
+		public function deactivation_reset() {
 			update_option( '__uagb_do_redirect', false );
 		}
 	}

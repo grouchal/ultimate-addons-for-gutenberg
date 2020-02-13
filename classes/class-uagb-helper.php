@@ -128,7 +128,7 @@ if ( ! class_exists( 'UAGB_Helper' ) ) {
 			self::$file_generation = self::allow_file_generation();
 
 			add_action( 'wp_enqueue_scripts', array( $this, 'block_assets' ) );
-			add_action( 'wp', array( $this, 'generate_stylesheet' ), 99 );
+			add_action( 'wp', array( $this, 'generate_css_string' ), 99 );
 			add_action( 'wp', array( $this, 'generate_script' ), 100 );
 			add_action( 'wp_head', array( $this, 'frontend_gfonts' ), 120 );
 			add_action( 'wp_head', array( $this, 'print_stylesheet' ), 80 );
@@ -167,7 +167,7 @@ if ( ! class_exists( 'UAGB_Helper' ) ) {
 				$file_handler = self::$css_file_handler;
 
 				if ( isset( $file_handler['css_url'] ) ) {
-					wp_enqueue_style( 'uag-style', $file_handler['css_url'], array(), '', 'all' );
+					wp_enqueue_style( 'uag-style', $file_handler['css_url'], array(), UAGB_VER, false );
 				}
 				if ( isset( $file_handler['js_url'] ) ) {
 					wp_enqueue_script( 'uag-script', $file_handler['js_url'], array(), UAGB_VER, true );
@@ -193,7 +193,7 @@ if ( ! class_exists( 'UAGB_Helper' ) ) {
 
 			ob_start();
 			?>
-			<script type="text/javascript" id="uagb-script-frontend">( function( $ ) { <?php echo self::$script; ?> })(jQuery) </script>
+			<script type="text/javascript" id="uagb-script-frontend">( function( $ ) { <?php echo self::$script; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?> })(jQuery) </script>
 			<?php
 			ob_end_flush();
 		}
@@ -219,7 +219,7 @@ if ( ! class_exists( 'UAGB_Helper' ) ) {
 
 			ob_start();
 			?>
-			<style type="text/css" media="all" id="uagb-style-frontend"><?php echo self::$stylesheet; ?></style>
+			<style type="text/css" media="all" id="uagb-style-frontend"><?php echo self::$stylesheet; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></style>
 			<?php
 			ob_end_flush();
 		}
@@ -257,7 +257,11 @@ if ( ! class_exists( 'UAGB_Helper' ) ) {
 			if ( ! empty( $subsets ) ) {
 				$link .= '&amp;subset=' . implode( ',', $subsets );
 			}
-			echo '<link href="//fonts.googleapis.com/css?family=' . esc_attr( str_replace( '|', '%7C', $link ) ) . '" rel="stylesheet">';
+			ob_start();
+			?>
+			<link href="<?php echo esc_url( '//fonts.googleapis.com/css?family=' . esc_attr( str_replace( '|', '%7C', $link ) ) ); ?>" rel="stylesheet"/>
+			<?php
+			ob_end_clean();
 		}
 
 
@@ -627,7 +631,7 @@ if ( ! class_exists( 'UAGB_Helper' ) ) {
 		 *
 		 * @since 0.0.1
 		 */
-		public function generate_stylesheet() {
+		public function generate_css_string() {
 
 			$this_post = array();
 
@@ -660,7 +664,7 @@ if ( ! class_exists( 'UAGB_Helper' ) ) {
 				}
 
 				if ( is_object( $this_post ) ) {
-					$this->_generate_stylesheet( $this_post );
+					$this->generate_stylesheet( $this_post );
 					return;
 				}
 			}
@@ -674,14 +678,14 @@ if ( ! class_exists( 'UAGB_Helper' ) ) {
 					return;
 				}
 
-				$this->_generate_stylesheet( $this_post );
+				$this->generate_stylesheet( $this_post );
 
 			} elseif ( is_archive() || is_home() || is_search() ) {
 
 				global $wp_query;
 
-				foreach ( $wp_query as $post ) {
-					$this->_generate_stylesheet( $post );
+				foreach ( $wp_query as $post_obj ) {
+					$this->generate_stylesheet( $post_obj );
 				}
 			}
 
@@ -694,7 +698,7 @@ if ( ! class_exists( 'UAGB_Helper' ) ) {
 		 * @param object $this_post Current Post Object.
 		 * @since 1.7.0
 		 */
-		public function _generate_stylesheet( $this_post ) {
+		public function generate_stylesheet( $this_post ) {
 
 			if ( ! is_object( $this_post ) ) {
 				return;
