@@ -38,7 +38,8 @@ if ( ! class_exists( 'UAGB_Admin' ) ) {
 			if ( $do_redirect ) {
 				update_option( '__uagb_do_redirect', false );
 				if ( ! is_multisite() ) {
-					exit( wp_redirect( admin_url( 'options-general.php?page=' . UAGB_SLUG ) ) );
+					wp_safe_redirect( esc_url( admin_url( 'options-general.php?page=' . UAGB_SLUG ) ) );
+					exit();
 				}
 			}
 		}
@@ -269,7 +270,7 @@ if ( ! class_exists( 'UAGB_Admin' ) ) {
 			// Styles.
 			wp_enqueue_style( 'uagb-admin-settings', UAGB_URL . 'admin/assets/admin-menu-settings.css', array(), UAGB_VER );
 			// Script.
-			wp_enqueue_script( 'uagb-admin-settings', UAGB_URL . 'admin/assets/admin-menu-settings.js', array( 'jquery', 'wp-util', 'updates' ), UAGB_VER );
+			wp_enqueue_script( 'uagb-admin-settings', UAGB_URL . 'admin/assets/admin-menu-settings.js', array( 'jquery', 'wp-util', 'updates' ), UAGB_VER, true );
 
 			$localize = array(
 				'ajax_url'        => admin_url( 'admin-ajax.php' ),
@@ -330,7 +331,7 @@ if ( ! class_exists( 'UAGB_Admin' ) ) {
 			UAGB_Helper::update_admin_settings_option( '_uagb_blocks', $blocks );
 			UAGB_Helper::create_specific_stylesheet();
 
-			echo $block_id;
+			echo esc_html( $block_id );
 
 			die();
 		}
@@ -351,7 +352,7 @@ if ( ! class_exists( 'UAGB_Admin' ) ) {
 			UAGB_Helper::update_admin_settings_option( '_uagb_blocks', $blocks );
 			UAGB_Helper::create_specific_stylesheet();
 
-			echo $block_id;
+			echo esc_html( $block_id );
 
 			die();
 		}
@@ -380,7 +381,7 @@ if ( ! class_exists( 'UAGB_Admin' ) ) {
 			UAGB_Helper::update_admin_settings_option( '_uagb_blocks', $new_blocks );
 			UAGB_Helper::create_specific_stylesheet();
 
-			echo 'success';
+			echo esc_html( 'success' );
 
 			die();
 		}
@@ -409,7 +410,7 @@ if ( ! class_exists( 'UAGB_Admin' ) ) {
 			UAGB_Helper::update_admin_settings_option( '_uagb_blocks', $new_blocks );
 			UAGB_Helper::create_specific_stylesheet();
 
-			echo 'success';
+			echo esc_html( 'success' );
 
 			die();
 		}

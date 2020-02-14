@@ -228,6 +228,7 @@ if ( ! class_exists( 'UAGB_Helper' ) ) {
 		 * Load the front end Google Fonts.
 		 */
 		public function frontend_gfonts() {
+
 			if ( empty( self::$gfonts ) ) {
 				return;
 			}
@@ -257,11 +258,13 @@ if ( ! class_exists( 'UAGB_Helper' ) ) {
 			if ( ! empty( $subsets ) ) {
 				$link .= '&amp;subset=' . implode( ',', $subsets );
 			}
+			// @codingStandardsIgnoreStart.
 			ob_start();
 			?>
 			<link href="<?php echo esc_url( '//fonts.googleapis.com/css?family=' . esc_attr( str_replace( '|', '%7C', $link ) ) ); ?>" rel="stylesheet"/>
 			<?php
-			ob_end_clean();
+			echo ob_get_clean();
+			// @codingStandardsIgnoreEnd.
 		}
 
 
